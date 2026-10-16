@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | Smart Placement Tracker AI</title>
+
+    <link rel="stylesheet" href="student-profile.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="logout.js" defer></script>
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <h2>Smart Placement Tracker AI</h2>
+        </div>
+
+        <div class="profile">
+
+            <!-- Notification Bell -->
+            <div class="notification-wrapper" id="notificationBell">
+
+                <i class="fa-solid fa-bell notification-icon"></i>
+
+                <span id="notificationCount" class="notification-count">
+        0
+    </span>
+
+
+                <!-- Notification Panel -->
+                <div class="notification-panel" id="notificationPanel">
+
+                    <div class="notification-panel-header">
+
+                        <div>
+
+                            <h3>Notifications</h3>
+
+                            <span id="notificationSummary">
+                    Your latest updates
+                </span>
+
+                        </div>
+
+                        <button type="button" id="markAllReadBtn" class="mark-all-btn">
+
+                Mark all as read
+
+            </button>
+
+                    </div>
+
+
+                    <div id="notificationList" class="notification-list">
+
+                        <div class="notification-loading">
+                            Loading notifications...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <span id="profileName">Student</span>
+
+            <i class="fa-solid fa-circle-user"></i>
+
+        </div>
+
+    </header>
+    <nav>
+
+        <a href="student-dashboard.html">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+
+        <a href="student-profile.html" class="active">
+            <i class="fa-solid fa-user"></i> My Profile
+        </a>
+
+        <a href="resume.html">
+            <i class="fa-solid fa-file"></i> Resume
+        </a>
+
+        <a href="ats-score.html">
+            <i class="fa-solid fa-chart-column"></i> ATS Score
+        </a>
+        <a href="jobs.html">
+            <i class="fa-solid fa-briefcase"></i> Jobs
+        </a>
+        <a href="student-applications.html">
+            <i class="fa-solid fa-file-circle-check"></i> My Applications
+        </a>
+        <a href="index.html" data-logout>
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+
+    </nav>
+
+    <main>
+
+        <section class="page-title">
+
+            <h1>My Profile</h1>
+
+            <p>
+                Manage your personal and academic information.
+            </p>
+
+        </section>
+
+        <section class="profile-container">
+
+            <div class="profile-card">
+                <div class="profile-image">
+
+                    <div class="avatar" id="avatar">
+                        <i class="fa-solid fa-user" id="defaultIcon"></i>
+                        <img id="profilePhoto" src="" alt="Profile Photo">
+                    </div>
+
+                    <h2 id="studentProfileName">Student</h2>
+
+                    <p>Student</p>
+
+                    <input type="file" id="photoInput" accept="image/*" hidden>
+
+                    <button type="button" class="change-photo" onclick="document.getElementById('photoInput').click()">
+        <i class="fa-solid fa-camera"></i>
+        Change Photo
+    </button>
+
+                </div>
+
+                <div class="profile-status">
+
+                    <h3>Profile Completion</h3>
+
+                    <div class="completion">
+
+                        <div class="completion-bar"></div>
+
+                    </div>
+
+                    <strong id="completionPercentage">0%</strong>
+
+                    <p>Complete your profile to improve job recommendations.</p>
+
+                </div>
+
+            </div>
+
+            <div class="details-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>Personal Information</h2>
+                        <p>Update your basic information.</p>
+                    </div>
+
+                    <button id="editButton" onclick="enableEditing()">
+                        <i class="fa-solid fa-pen"></i>
+                        Edit Profile
+                    </button>
+
+                </div>
+
+                <form id="profileForm">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Full Name</label>
+
+                            <input type="text" id="name" value="" disabled>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Email</label>
+
+                            <input type="email" id="email" value="harani@gmail.com" disabled>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Phone Number</label>
+
+                            <input type="tel" id="phone" placeholder="Enter phone number" disabled>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Location</label>
+
+                            <input type="text" id="location" placeholder="Enter your location" disabled>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>College</label>
+
+                            <input type="text" id="college" value="Vemu Institute Of Technology" disabled>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Branch</label>
+
+                            <select id="branch" disabled>
+
+                                <option>CSE (AI)</option>
+                                <option>CSE (IT)</option>
+                                <option>CSE</option>
+                                <option>ECE</option>
+                                <option>EEE</option>
+                                <option>Mechanical</option>
+                                <option>Civil</option>
+                                <option>CSE (AI&DS)</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Graduation Year</label>
+
+                            <select id="graduation" disabled>
+
+                                <option>2026</option>
+                                <option>2027</option>
+                                <option>2028</option>
+                                <option>2029</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>CGPA</label>
+
+                            <input type="number" id="cgpa" placeholder="Enter CGPA" step="0.01" disabled>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>Skills</label>
+
+                        <input type="text" id="skills" placeholder="Java, Python, React, SQL, Machine Learning" disabled>
+
+                        <small>
+                            Add your technical skills separated by commas.
+                        </small>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>Career Objective</label>
+
+                        <textarea id="objective" rows="4" placeholder="Write a short career objective..." disabled></textarea>
+
+                    </div>
+
+                    <div class="actions" id="actions">
+
+                        <button type="submit" class="save-btn">
+                            <i class="fa-solid fa-check"></i>
+                            Save Changes
+                        </button>
+
+                        <button type="button" class="cancel-btn" onclick="cancelEditing()">
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- CHANGE PASSWORD -->
+
+            <div class="password-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>Change Password</h2>
+                        <p>Update your account password securely.</p>
+                    </div>
+
+                    <i class="fa-solid fa-lock password-header-icon"></i>
+
+                </div>
+
+                <form id="changePasswordForm">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="currentPassword">
+                                Current Password
+                            </label>
+
+                            <input type="password" id="currentPassword" placeholder="Enter current password" autocomplete="current-password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newPassword">
+                                New Password
+                            </label>
+
+                            <input type="password" id="newPassword" placeholder="Enter new password" autocomplete="new-password" required>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="confirmPassword">
+                                Confirm New Password
+                            </label>
+
+                            <input type="password" id="confirmPassword" placeholder="Re-enter new password" autocomplete="new-password" required>
+                        </div>
+
+                        <div class="form-group password-info">
+                            <small>
+                                Password must contain at least 8 characters,
+                                one uppercase letter, one lowercase letter,
+                                one number, and one special character.
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <div class="password-actions">
+
+                        <button type="submit" class="save-btn" id="changePasswordBtn">
+                            <i class="fa-solid fa-key"></i>
+                            Change Password
+                        </button>
+
+                        <button type="button" class="cancel-btn" id="clearPasswordBtn">
+                            <i class="fa-solid fa-xmark"></i>
+                            Clear
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <p>
+            © 2026 Smart Placement Tracker AI | Student Profile
+        </p>
+
+    </footer>
+
+
+    <script>
+        // ==========================================
+        // GET LOGGED-IN USER
+        // ==========================================
+
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        const userId = localStorage.getItem("userId");
+        const userName = localStorage.getItem("userName");
+        const userEmail = localStorage.getItem("userEmail");
+        const userRole = localStorage.getItem("userRole");
+
+        // Make sure a student is logged in
+        if (!userId ||
+            userId === "null" ||
+            userId === "undefined" ||
+            !userName ||
+            userRole !== "STUDENT"
+        ) {
+            alert("Please login first.");
+            window.location.href = "login.html";
+        }
+
+
+        // ==========================================
+        // FORM ELEMENTS
+        // ==========================================
+
+        const inputs = document.querySelectorAll(
+            "#profileForm input, #profileForm select, #profileForm textarea"
+        );
+
+        const actions = document.getElementById("actions");
+
+
+        // ==========================================
+        // ENABLE EDITING
+        // ==========================================
+
+        function enableEditing() {
+
+            inputs.forEach(function(input) {
+
+                input.disabled = false;
+
+            });
+
+            actions.style.display = "flex";
+
+            document.getElementById("editButton").style.display = "none";
+
+        }
+
+
+        // ==========================================
+        // CANCEL EDITING
+        // ==========================================
+
+        function cancelEditing() {
+
+            inputs.forEach(function(input) {
+
+                input.disabled = true;
+
+            });
+
+            actions.style.display = "none";
+
+            document.getElementById("editButton").style.display = "inline-flex";
+
+            loadProfile();
+
+        }
+
+
+        // ==========================================
+        // LOAD PROFILE FROM BACKEND
+        // ==========================================
+
+        async function loadProfile() {
+
+            try {
+                const response = await fetch(
+                    `${API_BASE}/api/student-profile/${userId}`, {
+                        credentials: "include"
+                    }
+                );
+
+
+                if (!response.ok) {
+
+                    alert("Student profile not found.");
+
+                    return;
+
+                }
+
+
+                const profile = await response.json();
+
+
+                // User information
+                document.getElementById("name").value =
+                    profile.user.name || userName;
+
+                document.getElementById("email").value =
+                    profile.user.email || userEmail;
+
+
+                // Student profile information
+                document.getElementById("phone").value =
+                    profile.phone || "";
+
+                document.getElementById("college").value =
+                    profile.college || "";
+
+                document.getElementById("branch").value =
+                    profile.department || "";
+
+                document.getElementById("graduation").value =
+                    profile.graduationYear || "";
+
+                document.getElementById("cgpa").value =
+                    profile.cgpa || "";
+
+                document.getElementById("skills").value =
+                    profile.skills || "";
+
+
+                // Header name
+                document.getElementById("profileName").textContent = profile.user.name;
+
+                document.getElementById("studentProfileName").textContent =
+                    profile.user.name;
+                // Calculate profile completion
+                let completed = 0;
+                let total = 6;
+
+                if (profile.phone && profile.phone.trim() !== "") completed++;
+                if (profile.college && profile.college.trim() !== "") completed++;
+                if (profile.department && profile.department.trim() !== "") completed++;
+                if (profile.graduationYear && profile.graduationYear.trim() !== "") completed++;
+                if (profile.cgpa && profile.cgpa.trim() !== "") completed++;
+                if (profile.skills && profile.skills.trim() !== "") completed++;
+
+                const completion = Math.round((completed / total) * 100);
+
+                document.getElementById("completionPercentage").textContent =
+                    completion + "%";
+
+                document.querySelector(".completion-bar").style.width =
+                    completion + "%";
+
+
+            } catch (error) {
+
+                console.error("Error loading profile:", error);
+
+                alert(
+                    "Unable to connect to the backend. Please make sure Spring Boot is running."
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // SAVE PROFILE TO BACKEND
+        // ==========================================
+
+        document.getElementById("profileForm").addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const updatedProfile = {
+
+                    phone: document.getElementById("phone").value,
+
+                    college: document.getElementById("college").value,
+
+                    department: document.getElementById("branch").value,
+
+                    graduationYear: document.getElementById("graduation").value,
+
+                    cgpa: document.getElementById("cgpa").value,
+
+                    skills: document.getElementById("skills").value
+
+                };
+
+
+                try {
+
+                    const response = await fetch(
+                        `${API_BASE}/api/student-profile/${userId}`, {
+                            method: "PUT",
+
+                            credentials: "include",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify(updatedProfile)
+                        }
+                    );
+
+
+                    if (!response.ok) {
+
+                        const errorMessage = await response.text();
+
+                        alert(
+                            "Unable to update profile: " + errorMessage
+                        );
+
+                        return;
+
+                    }
+
+
+                    const savedProfile = await response.json();
+
+
+                    // Update displayed name
+                    // Update displayed names
+                    document.getElementById("profileName").textContent =
+                        savedProfile.user.name;
+
+                    document.getElementById("studentProfileName").textContent =
+                        savedProfile.user.name;
+
+
+                    alert("Profile updated successfully!");
+
+
+                    cancelEditing();
+
+                } catch (error) {
+
+                    console.error("Error updating profile:", error);
+
+                    alert(
+                        "Unable to connect to the backend. Please make sure Spring Boot is running."
+                    );
+
+                }
+
+            }
+        );
+
+
+        // ==========================================
+        // PROFILE PHOTO
+        // ==========================================
+
+        const photoInput = document.getElementById("photoInput");
+        const profilePhoto = document.getElementById("profilePhoto");
+        const defaultIcon = document.getElementById("defaultIcon");
+
+        // Create a separate photo key for each logged-in student
+        const profilePhotoKey = "profilePhoto_" + userId;
+
+
+        // ==========================================
+        // CHANGE PROFILE PHOTO
+        // ==========================================
+
+        photoInput.addEventListener("change", function() {
+
+            const file = photoInput.files[0];
+
+            if (file) {
+
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+
+                    const photoData = event.target.result;
+
+                    profilePhoto.src = photoData;
+
+                    profilePhoto.style.display = "block";
+
+                    defaultIcon.style.display = "none";
+
+                    // Save photo only for this student
+                    localStorage.setItem(
+                        profilePhotoKey,
+                        photoData
+                    );
+
+                };
+
+                reader.readAsDataURL(file);
+
+            }
+
+        });
+
+
+        // ==========================================
+        // LOAD PROFILE PHOTO
+        // ==========================================
+
+        const savedPhoto =
+            localStorage.getItem(profilePhotoKey);
+
+
+        if (savedPhoto) {
+
+            profilePhoto.src = savedPhoto;
+
+            profilePhoto.style.display = "block";
+
+            defaultIcon.style.display = "none";
+
+        } else {
+
+            // Show default icon if this student
+            // has not uploaded a photo
+            profilePhoto.style.display = "none";
+
+            defaultIcon.style.display = "block";
+
+        }
+
+
+        // ==========================================
+        // LOAD PROFILE WHEN PAGE OPENS
+        // ==========================================
+
+        loadProfile();
+    </script>
+    <script>
+        /* =====================================================
+                                                                   STUDENT NOTIFICATION SYSTEM
+                                                                   ===================================================== */
+
+        const notificationBell =
+            document.getElementById("notificationBell");
+
+        const notificationPanel =
+            document.getElementById("notificationPanel");
+
+        const notificationList =
+            document.getElementById("notificationList");
+
+        const notificationCount =
+            document.getElementById("notificationCount");
+
+        const notificationSummary =
+            document.getElementById("notificationSummary");
+
+        const markAllReadBtn =
+            document.getElementById("markAllReadBtn");
+
+
+        const NOTIFICATION_API =
+            "http://" + window.location.hostname + ":8080/api/notifications";
+
+
+        /* =====================================================
+           LOAD UNREAD COUNT
+           ===================================================== */
+
+        async function loadNotificationCount() {
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API + "/unread-count", {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) return;
+
+                const data = await response.json();
+
+                const count = Number(data.count || 0);
+
+                if (count > 0) {
+
+                    notificationCount.textContent =
+                        count > 99 ? "99+" : count;
+
+                    notificationCount.classList.add("show");
+
+                } else {
+
+                    notificationCount.textContent = "0";
+
+                    notificationCount.classList.remove("show");
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Notification count error:",
+                    error
+                );
+            }
+        }
+
+
+        /* =====================================================
+           LOAD NOTIFICATIONS
+           ===================================================== */
+
+        async function loadNotifications() {
+
+            notificationList.innerHTML = `
+        <div class="notification-loading">
+            Loading notifications...
+        </div>
+    `;
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API, {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) {
+
+                    notificationList.innerHTML = `
+                <div class="notification-empty">
+                    Unable to load notifications.
+                </div>
+            `;
+
+                    return;
+                }
+
+                const notifications =
+                    await response.json();
+
+                renderNotifications(notifications);
+
+            } catch (error) {
+
+                console.error(
+                    "Notification loading error:",
+                    error
+                );
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+                Unable to load notifications.
+            </div>
+        `;
+            }
+        }
+
+
+        /* =====================================================
+           RENDER NOTIFICATIONS
+           ===================================================== */
+
+        function renderNotifications(notifications) {
+
+            if (!notifications ||
+                notifications.length === 0
+            ) {
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+
+                <i class="fa-regular fa-bell-slash"></i>
+
+                No notifications yet.
+
+            </div>
+        `;
+
+                notificationSummary.textContent =
+                    "You're all caught up";
+
+                return;
+            }
+
+
+            notificationList.innerHTML =
+                notifications.map(notification => {
+
+                        const unread =
+                            notification.read === false;
+
+                        const icon =
+                            getNotificationIcon(
+                                notification.type
+                            );
+
+                        const time =
+                            formatNotificationTime(
+                                notification.createdAt
+                            );
+
+                        return `
+                <div
+                    class="notification-item ${unread ? "unread" : ""}"
+                    data-id="${notification.id}"
+                    data-link="${notification.link || ""}"
+                >
+
+                    <div class="notification-item-icon">
+                        <i class="${icon}"></i>
+                    </div>
+
+                    <div class="notification-item-content">
+
+                        <p class="notification-item-message">
+                            ${escapeNotificationText(
+                                notification.message
+                            )}
+                        </p>
+
+                        <span class="notification-item-time">
+                            ${time}
+                        </span>
+
+                    </div>
+
+                    ${
+                        unread
+                        ? `<span class="notification-unread-dot"></span>`
+                        : ""
+                    }
+
+                </div>
+            `;
+
+        }).join("");
+
+
+    notificationSummary.textContent =
+        notifications.length === 1
+            ? "1 notification"
+            : `${notifications.length} notifications`;
+
+
+    document
+        .querySelectorAll(".notification-item")
+        .forEach(item => {
+
+            item.addEventListener(
+                "click",
+                () => handleNotificationClick(item)
+            );
+
+        });
+}
+
+
+/* =====================================================
+   NOTIFICATION ICON
+   ===================================================== */
+
+function getNotificationIcon(type) {
+
+    switch (type) {
+
+        case "APPLICATION":
+            return "fa-solid fa-file-circle-check";
+
+        case "APPLICATION_STATUS":
+            return "fa-solid fa-circle-check";
+
+        default:
+            return "fa-solid fa-bell";
+    }
+}
+
+
+/* =====================================================
+   CLICK NOTIFICATION
+   ===================================================== */
+
+async function handleNotificationClick(item) {
+
+    const id =
+        item.dataset.id;
+
+    const link =
+        item.dataset.link;
+
+
+    try {
+
+        await fetch(
+            NOTIFICATION_API +
+            "/" + id +
+            "/read",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Failed to mark notification as read:",
+            error
+        );
+    }
+
+
+    await loadNotificationCount();
+
+
+    if (link) {
+
+        window.location.href = link;
+
+    } else {
+
+        item.classList.remove("unread");
+
+        const dot =
+            item.querySelector(
+                ".notification-unread-dot"
+            );
+
+        if (dot) {
+            dot.remove();
+        }
+
+    }
+}
+
+
+/* =====================================================
+   MARK ALL AS READ
+   ===================================================== */
+
+async function markAllNotificationsAsRead() {
+
+    try {
+
+        const response = await fetch(
+            NOTIFICATION_API + "/read-all",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) return;
+
+        await loadNotifications();
+
+        await loadNotificationCount();
+
+    } catch (error) {
+
+        console.error(
+            "Mark all as read error:",
+            error
+        );
+    }
+}
+
+
+/* =====================================================
+   BELL CLICK
+   ===================================================== */
+
+if (notificationBell) {
+
+    notificationBell.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            notificationPanel.classList.toggle(
+                "show"
+            );
+
+            if (
+                notificationPanel.classList.contains(
+                    "show"
+                )
+            ) {
+
+                await loadNotifications();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   MARK ALL BUTTON
+   ===================================================== */
+
+if (markAllReadBtn) {
+
+    markAllReadBtn.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            await markAllNotificationsAsRead();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE PANEL OUTSIDE
+   ===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            notificationPanel &&
+            notificationBell &&
+            !notificationBell.contains(
+                event.target
+            )
+        ) {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESCAPE KEY
+   ===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FORMAT TIME
+   ===================================================== */
+
+function formatNotificationTime(dateString) {
+
+    if (!dateString) {
+        return "Just now";
+    }
+
+    const date =
+        new Date(dateString);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "Just now";
+
+    }
+
+    const now =
+        new Date();
+
+    const seconds =
+        Math.floor(
+            (now - date) / 1000
+        );
+
+
+    if (seconds < 60) {
+        return "Just now";
+    }
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+    if (minutes < 60) {
+        return `${minutes} min ago`;
+    }
+
+
+    const hours =
+        Math.floor(
+            minutes / 60
+        );
+
+    if (hours < 24) {
+        return `${hours} hr ago`;
+    }
+
+
+    const days =
+        Math.floor(
+            hours / 24
+        );
+
+    if (days === 1) {
+        return "Yesterday";
+    }
+
+    if (days < 7) {
+        return `${days} days ago`;
+    }
+
+
+    return date.toLocaleDateString();
+}
+
+
+/* =====================================================
+   HTML ESCAPING
+   ===================================================== */
+
+function escapeNotificationText(text) {
+
+    if (
+        text === null ||
+        text === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+   ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadNotificationCount();
+
+    }
+);
+    </script>
+    ```html
+    <script>
+        // CHANGE PASSWORD
+        const changePasswordForm =
+            document.getElementById("changePasswordForm");
+
+        const clearPasswordBtn =
+            document.getElementById("clearPasswordBtn");
+
+        const changePasswordBtn =
+            document.getElementById("changePasswordBtn");
+
+        changePasswordForm.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const currentPassword =
+                document.getElementById("currentPassword").value;
+
+            const newPassword =
+                document.getElementById("newPassword").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+            if (newPassword !== confirmPassword) {
+                alert("New password and confirmation password do not match.");
+                return;
+            }
+
+            changePasswordBtn.disabled = true;
+            changePasswordBtn.innerHTML = "Updating...";
+
+            try {
+                const response = await fetch(
+                    API_BASE + "/api/users/change-password", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            currentPassword: currentPassword,
+                            newPassword: newPassword,
+                            confirmPassword: confirmPassword
+                        })
+                    }
+                );
+
+                const result = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    alert(
+                        result.error ||
+                        result.message ||
+                        "Password change failed. Please try again."
+                    );
+                    return;
+                }
+
+                alert(result.message || "Password changed successfully!");
+                changePasswordForm.reset();
+
+            } catch (error) {
+                console.error("Change password error:", error);
+                alert("Cannot connect to the backend. Check that Spring Boot is running.");
+            } finally {
+                changePasswordBtn.disabled = false;
+                changePasswordBtn.innerHTML =
+                    '<i class="fa-solid fa-key"></i> Change Password';
+            }
+        });
+
+        clearPasswordBtn.addEventListener("click", function() {
+            changePasswordForm.reset();
+        });
+    </script>
+    ```
+
+</body>
+
+</html>

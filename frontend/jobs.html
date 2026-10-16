@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Jobs | Smart Placement Tracker AI</title>
+
+    <link rel="stylesheet" href="jobs.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="logout.js" defer></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+            <h2>
+                Smart Placement Tracker AI
+            </h2>
+
+        </div>
+
+
+        <div class="profile">
+
+            <!-- Notification Bell -->
+            <div class="notification-wrapper" id="notificationBell">
+
+                <i class="fa-solid fa-bell notification-icon"></i>
+
+                <span id="notificationCount" class="notification-count">
+                0
+            </span>
+
+
+                <!-- Notification Panel -->
+                <div class="notification-panel" id="notificationPanel">
+
+                    <div class="notification-panel-header">
+
+                        <div>
+
+                            <h3>
+                                Notifications
+                            </h3>
+
+                            <span id="notificationSummary">
+                            Your latest updates
+                        </span>
+
+                        </div>
+
+
+                        <button type="button" id="markAllReadBtn" class="mark-all-btn">
+
+                        Mark all as read
+
+                    </button>
+
+                    </div>
+
+
+                    <div id="notificationList" class="notification-list">
+
+                        <div class="notification-loading">
+                            Loading notifications...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Student Name -->
+            <span id="profileName">
+            Student
+        </span>
+
+
+            <!-- User Icon -->
+            <i class="fa-solid fa-circle-user"></i>
+
+        </div>
+
+    </header>
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <a href="student-dashboard.html">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+
+        <a href="student-profile.html">
+            <i class="fa-solid fa-user"></i> My Profile
+        </a>
+
+        <a href="resume.html">
+            <i class="fa-solid fa-file"></i> Resume
+        </a>
+
+        <a href="ats-score.html">
+            <i class="fa-solid fa-chart-column"></i> ATS Score
+        </a>
+
+        <a href="jobs.html" class="active">
+            <i class="fa-solid fa-briefcase"></i> Jobs
+        </a>
+        <a href="student-applications.html">
+            <i class="fa-solid fa-file-circle-check"></i> My Applications
+        </a>
+        <a href="index.html" data-logout>
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main>
+
+        <section class="page-title">
+
+            <h1>AI Recommended Jobs</h1>
+
+            <p>
+                Discover job opportunities that match your skills and ATS profile.
+            </p>
+
+        </section>
+
+
+        <!-- JOB TOOLS -->
+
+        <section class="job-tools">
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text" id="searchJob" placeholder="Search job role or company...">
+
+            </div>
+
+
+            <select id="locationFilter">
+
+                <option value="">All Locations</option>
+
+                <option value="Bangalore">Bangalore</option>
+
+                <option value="Hyderabad">Hyderabad</option>
+
+                <option value="Chennai">Chennai</option>
+
+                <option value="Pune">Pune</option>
+
+            </select>
+
+
+            <select id="roleFilter">
+
+                <option value="">All Roles</option>
+
+                <option value="Software Engineer">
+                    Software Engineer
+                </option>
+
+                <option value="Java Developer">
+                    Java Developer
+                </option>
+
+                <option value="AI Engineer">
+                    AI Engineer
+                </option>
+
+                <option value="Web Developer">
+                    Web Developer
+                </option>
+
+            </select>
+
+        </section>
+
+
+        <!-- JOB SUMMARY -->
+
+        <section class="job-summary">
+
+            <div>
+
+                <i class="fa-solid fa-briefcase"></i>
+
+                <span id="jobCount">0</span>
+
+                <p>Available Jobs</p>
+
+            </div>
+
+
+            <div>
+
+                <i class="fa-solid fa-bullseye"></i>
+
+                <span id="averageMatch">0%</span>
+
+                <p>Average Match</p>
+
+            </div>
+
+
+            <div>
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+                <span id="appliedCount">0</span>
+
+                <p>Jobs Applied</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- JOB LIST -->
+
+        <section class="job-list" id="jobList">
+
+            <!-- Jobs will be loaded from backend -->
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Smart Placement Tracker AI | Jobs
+        </p>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+        // ==========================================
+        // GLOBAL VARIABLES
+        // ==========================================
+
+        let allJobs = [];
+        let recommendedJobs = [];
+        let appliedJobIds = new Set();
+        let appliedJobs = 0;
+
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+
+        // ==========================================
+        // LOAD STUDENT NAME
+        // ==========================================
+
+        const userName =
+            localStorage.getItem("userName");
+
+        document.getElementById(
+            "profileName"
+        ).innerText = userName || "Student";
+
+
+        // ==========================================
+        // LOAD ALL JOBS
+        // ==========================================
+
+        async function loadAllJobs() {
+
+            try {
+
+                const response =
+                    await fetch(`${API_BASE}/api/jobs`);
+
+                if (!response.ok) {
+                    throw new Error("Failed to load jobs");
+                }
+
+                const jobs =
+                    await response.json();
+
+                console.log("All Jobs:", jobs);
+
+                allJobs = Array.isArray(jobs) ? jobs : [];
+
+                return allJobs;
+
+            } catch (error) {
+
+                console.error("Job loading error:", error);
+
+                allJobs = [];
+
+                return [];
+
+            }
+        }
+
+
+        // ==========================================
+        // LOAD STUDENT APPLICATIONS
+        // ==========================================
+
+        async function loadAppliedJobs() {
+
+            const studentId =
+                localStorage.getItem("userId");
+
+            if (!studentId) {
+                appliedJobIds = new Set();
+                appliedJobs = 0;
+                return;
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/api/applications/student/${studentId}`, {
+                            credentials: "include"
+                        }
+                    );
+
+                if (!response.ok) {
+
+                    console.warn(
+                        "Could not load applications. Status:",
+                        response.status
+                    );
+
+                    appliedJobIds = new Set();
+                    appliedJobs = 0;
+                    return;
+                }
+
+                const applications =
+                    await response.json();
+
+                console.log(
+                    "Student Applications:",
+                    applications
+                );
+
+                appliedJobIds =
+                    new Set(
+                        applications
+                        .map(application => {
+
+                            if (
+                                application.job &&
+                                application.job.id != null
+                            ) {
+                                return Number(application.job.id);
+                            }
+
+                            return null;
+
+                        })
+                        .filter(id => id !== null)
+                    );
+
+                appliedJobs =
+                    appliedJobIds.size;
+
+                document.getElementById("appliedCount").innerText =
+                    appliedJobs;
+
+            } catch (error) {
+
+                console.error(
+                    "Application loading error:",
+                    error
+                );
+
+                appliedJobIds = new Set();
+                appliedJobs = 0;
+
+                document.getElementById("appliedCount").innerText =
+                    "0";
+            }
+        }
+
+
+        // ==========================================
+        // LOAD AI RECOMMENDATIONS
+        // ==========================================
+
+        async function loadRecommendations() {
+
+            const studentId =
+                localStorage.getItem("userId");
+
+            if (!studentId) {
+                recommendedJobs = [];
+                return;
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/api/recommendations/${studentId}`, {
+                            credentials: "include"
+                        }
+                    );
+
+                if (!response.ok) {
+
+                    console.warn(
+                        "Recommendation API returned:",
+                        response.status
+                    );
+
+                    recommendedJobs = [];
+
+                    return;
+                }
+
+                const data =
+                    await response.json();
+
+                console.log(
+                    "AI Recommendations:",
+                    data
+                );
+
+                if (
+                    data &&
+                    Array.isArray(data.recommendations)
+                ) {
+
+                    recommendedJobs =
+                        data.recommendations;
+
+                } else {
+
+                    recommendedJobs = [];
+
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Recommendation loading failed:",
+                    error
+                );
+
+                recommendedJobs = [];
+            }
+        }
+
+
+        // ==========================================
+        // GET MATCH PERCENTAGE
+        // ==========================================
+
+        function getMatchPercentage(job) {
+
+            if (
+                job.matchPercentage !== undefined &&
+                job.matchPercentage !== null
+            ) {
+                return Number(job.matchPercentage);
+            }
+
+            if (
+                job.match !== undefined &&
+                job.match !== null
+            ) {
+                return Number(job.match);
+            }
+
+            return 0;
+        }
+
+
+        // ==========================================
+        // FIND RECOMMENDATION FOR JOB
+        // ==========================================
+
+        function getRecommendationForJob(job) {
+
+            return recommendedJobs.find(
+                recommendation => {
+
+                    if (
+                        recommendation.id != null &&
+                        job.id != null
+                    ) {
+                        return Number(recommendation.id) ===
+                            Number(job.id);
+                    }
+
+                    if (
+                        recommendation.jobId != null &&
+                        job.id != null
+                    ) {
+                        return Number(recommendation.jobId) ===
+                            Number(job.id);
+                    }
+
+                    return false;
+                }
+            );
+        }
+        // ==========================================
+        // GENERATE LEARNING RECOMMENDATION
+        // ==========================================
+
+        function createLearningRecommendation(recommendation) {
+
+            if (!recommendation ||
+                !recommendation.missingSkills ||
+                recommendation.missingSkills.length === 0
+            ) {
+                return "";
+            }
+
+            const missingSkills =
+                recommendation.missingSkills;
+
+            const learningItems =
+                missingSkills.map(function(skill) {
+
+                    const normalized =
+                        String(skill).toLowerCase().trim();
+
+                    if (
+                        normalized === "react" ||
+                        normalized === "react.js" ||
+                        normalized === "reactjs"
+                    ) {
+                        return "React.js fundamentals";
+                    }
+
+                    if (
+                        normalized === "node.js" ||
+                        normalized === "nodejs"
+                    ) {
+                        return "Node.js and backend development";
+                    }
+
+                    if (
+                        normalized === "javascript"
+                    ) {
+                        return "JavaScript programming";
+                    }
+
+                    if (
+                        normalized === "fsd" ||
+                        normalized === "full stack development"
+                    ) {
+                        return "Full Stack Development";
+                    }
+
+                    if (
+                        normalized === "sql" ||
+                        normalized === "mysql"
+                    ) {
+                        return "SQL and database management";
+                    }
+
+                    if (
+                        normalized === "machine learning"
+                    ) {
+                        return "Machine Learning fundamentals";
+                    }
+
+                    if (
+                        normalized === "deep learning"
+                    ) {
+                        return "Deep Learning fundamentals";
+                    }
+
+                    if (
+                        normalized === "tensorflow"
+                    ) {
+                        return "TensorFlow";
+                    }
+
+                    if (
+                        normalized === "pytorch"
+                    ) {
+                        return "PyTorch";
+                    }
+
+                    if (
+                        normalized === "git" ||
+                        normalized === "github"
+                    ) {
+                        return "Git and GitHub";
+                    }
+
+                    return skill;
+                });
+
+
+            return `
+        <div class="learning-recommendation">
+
+            <strong>
+                <i class="fa-solid fa-graduation-cap"></i>
+                AI Learning Recommendation
+            </strong>
+
+            <p>
+                Learn
+                <b>${learningItems
+                    .map(item => escapeHtml(item))
+                    .join(", ")}</b>
+                to improve your match for this role.
+            </p>
+
+        </div>
+    `;
+        }
+
+        // ==========================================
+        // LOAD JOBS WHEN PAGE OPENS
+        // ==========================================
+
+        async function loadJobs() {
+
+            const jobList =
+                document.getElementById("jobList");
+
+            jobList.innerHTML = `
+            <div style="
+                width:100%;
+                text-align:center;
+                padding:50px;
+            ">
+                <i class="fa-solid fa-spinner fa-spin"
+                   style="font-size:32px;">
+                </i>
+
+                <p style="margin-top:15px;">
+                    Loading jobs...
+                </p>
+            </div>
+        `;
+
+            const studentId =
+                localStorage.getItem("userId");
+
+            if (!studentId) {
+
+                jobList.innerHTML = `
+                <div style="
+                    width:100%;
+                    text-align:center;
+                    padding:50px;
+                ">
+                    <i class="fa-solid fa-user-lock"
+                       style="font-size:35px;">
+                    </i>
+
+                    <h3>
+                        Please Login First
+                    </h3>
+
+                    <p>
+                        Login to view and apply for jobs.
+                    </p>
+                </div>
+            `;
+
+                return;
+            }
+
+
+            try {
+
+                // Load public jobs first.
+                await loadAllJobs();
+
+                // Load existing applications.
+                await loadAppliedJobs();
+
+                // Load AI recommendations separately.
+                await loadRecommendations();
+
+
+                if (allJobs.length === 0) {
+
+                    jobList.innerHTML = `
+                    <div style="
+                        width:100%;
+                        text-align:center;
+                        padding:50px;
+                    ">
+
+                        <i class="fa-solid fa-briefcase"
+                           style="font-size:40px;">
+                        </i>
+
+                        <h3>
+                            No Jobs Available
+                        </h3>
+
+                        <p>
+                            There are currently no job opportunities available.
+                        </p>
+
+                    </div>
+                `;
+
+                    document.getElementById("jobCount").innerText =
+                        "0";
+
+                    document.getElementById("averageMatch").innerText =
+                        "0%";
+
+                    return;
+                }
+
+
+                displayJobs(allJobs);
+
+            } catch (error) {
+
+                console.error(
+                    "Jobs page error:",
+                    error
+                );
+
+                jobList.innerHTML = `
+                <div style="
+                    width:100%;
+                    text-align:center;
+                    padding:50px;
+                ">
+
+                    <i class="fa-solid fa-triangle-exclamation"
+                       style="font-size:40px;">
+                    </i>
+
+                    <h3>
+                        Unable to Load Jobs
+                    </h3>
+
+                    <p>
+                        Please make sure the Spring Boot backend is running.
+                    </p>
+
+                </div>
+            `;
+
+            }
+        }
+
+
+        // ==========================================
+        // DISPLAY JOBS
+        // ==========================================
+
+        function displayJobs(jobs) {
+
+            const jobList =
+                document.getElementById("jobList");
+
+            jobList.innerHTML = "";
+
+
+            if (!jobs || jobs.length === 0) {
+
+                jobList.innerHTML = `
+            <div style="
+                width:100%;
+                text-align:center;
+                padding:50px;
+            ">
+
+                <i class="fa-solid fa-magnifying-glass"
+                   style="font-size:35px;">
+                </i>
+
+                <h3>
+                    No Matching Jobs
+                </h3>
+
+                <p>
+                    Try changing your search or filters.
+                </p>
+
+            </div>
+        `;
+
+                document.getElementById("jobCount").innerText = "0";
+                document.getElementById("averageMatch").innerText = "0%";
+
+                return;
+            }
+
+
+            let totalMatch = 0;
+            let matchCount = 0;
+
+
+            jobs.forEach(function(job) {
+
+                        const recommendation =
+                            getRecommendationForJob(job);
+
+                        let match = 0;
+
+                        if (recommendation) {
+                            match =
+                                getMatchPercentage(recommendation);
+                        }
+
+                        totalMatch += match;
+
+                        if (match > 0) {
+                            matchCount++;
+                        }
+
+
+                        const card =
+                            document.createElement("div");
+
+                        card.className =
+                            "job-card";
+
+
+                        // Check whether student already applied
+                        const alreadyApplied =
+                            appliedJobIds.has(Number(job.id));
+
+
+                        // Check whether deadline has passed
+                        const deadlinePassed =
+                            job.deadline &&
+                            new Date(job.deadline + "T23:59:59") < new Date();
+
+
+                        // Configure Apply button
+                        let buttonClass = "apply-btn";
+                        let buttonText = "Apply";
+                        let buttonDisabled = "";
+
+
+                        if (alreadyApplied) {
+
+                            buttonClass += " applied";
+                            buttonText = "Applied";
+                            buttonDisabled = "disabled";
+
+                        } else if (deadlinePassed) {
+
+                            buttonClass += " closed";
+                            buttonText = "Application Closed";
+                            buttonDisabled = "disabled";
+                        }
+
+
+                        card.innerHTML = `
+
+            <div class="company-icon">
+
+                <i class="fa-solid fa-building"></i>
+
+            </div>
+
+
+            <div class="job-details">
+
+                <h2>
+                    ${escapeHtml(job.title)}
+                </h2>
+
+                <h3>
+                    ${escapeHtml(job.companyName)}
+                </h3>
+
+                <p>
+                    <i class="fa-solid fa-location-dot"></i>
+                    ${escapeHtml(job.location)}
+                </p>
+
+                <p class="job-deadline">
+
+                    <i class="fa-regular fa-calendar"></i>
+
+                    Deadline:
+                    ${escapeHtml(job.deadline || "Not specified")}
+
+                </p>
+
+
+               <div class="skills">
+
+    ${createSkillTags(job.skills)}
+
+</div>
+
+${
+    recommendation
+    ? `
+        <div class="ai-match-details">
+
+            ${
+                recommendation.matchedSkills &&
+                recommendation.matchedSkills.length > 0
+                ? `
+                    <div class="matched-skills">
+                        <strong>
+                            <i class="fa-solid fa-circle-check"></i>
+                            Matched Skills:
+                        </strong>
+
+                        <span>
+                            ${recommendation.matchedSkills
+                                .map(skill => escapeHtml(skill))
+                                .join(", ")}
+                        </span>
+                    </div>
+                `
+                : ""
+            }
+
+            ${
+                recommendation.missingSkills &&
+                recommendation.missingSkills.length > 0
+                ? `
+                    <div class="missing-skills">
+                        <strong>
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            Missing Skills:
+                        </strong>
+
+                        <span>
+                            ${recommendation.missingSkills
+                                .map(skill => escapeHtml(skill))
+                                .join(", ")}
+                        </span>
+                    </div>
+                `
+                : ""
+            }
+                ${createLearningRecommendation(recommendation)}
+
+        </div>
+    `
+    : ""
+}
+
+            </div>
+
+
+<div class="job-match">
+
+                <strong>
+                    ${match}%
+                </strong>
+
+                <span>
+                    Match
+                </span>
+
+            </div>
+
+
+            <button
+                class="${buttonClass}"
+                ${buttonDisabled}
+                ${
+                    deadlinePassed || alreadyApplied
+                        ? ""
+                        : `onclick="applyJob(this, ${Number(job.id)})"`
+                }>
+
+                ${buttonText}
+
+            </button>
+
+        `;
+
+
+        jobList.appendChild(card);
+
+    });
+
+
+    // Update available job count
+    const availableJobs = jobs.filter(function(job) {
+
+    if (!job.deadline) {
+        return true;
+    }
+
+    const deadlinePassed =
+        new Date(job.deadline + "T23:59:59") < new Date();
+
+    return !deadlinePassed;
+});
+
+document.getElementById("jobCount").innerText =
+    availableJobs.length;
+
+
+    // Update average match
+    if (matchCount > 0) {
+
+        const average =
+            Math.round(
+                totalMatch / matchCount
+            );
+
+        document.getElementById("averageMatch").innerText =
+            average + "%";
+
+    } else {
+
+        document.getElementById("averageMatch").innerText =
+            "0%";
+    }
+
+
+    // Update applied jobs count
+    document.getElementById("appliedCount").innerText =
+        appliedJobs;
+}
+
+        // ==========================================
+        // CREATE SKILL TAGS
+        // ==========================================
+
+        function createSkillTags(skills) {
+
+            if (!skills) {
+                return "";
+            }
+
+            const skillArray =
+                String(skills)
+                .split(",")
+                .map(skill => skill.trim())
+                .filter(skill => skill.length > 0);
+
+
+            return skillArray
+                .slice(0, 5)
+                .map(function(skill) {
+
+                    return `
+                    <span>
+                        ${escapeHtml(skill)}
+                    </span>
+                `;
+
+                })
+                .join("");
+        }
+
+
+        // ==========================================
+        // APPLY FOR JOB
+        // ==========================================
+
+        async function applyJob(button, jobId) {
+
+            const studentId =
+                localStorage.getItem("userId");
+
+
+            if (!studentId) {
+
+                alert("Please login first.");
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            if (
+                appliedJobIds.has(Number(jobId)) ||
+                button.innerText.trim() === "Applied"
+            ) {
+                return;
+            }
+
+
+            button.disabled = true;
+            button.innerText = "Applying...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/api/applications`, {
+                            method: "POST",
+
+                            credentials: "include",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                studentId: Number(studentId),
+                                jobId: Number(jobId)
+                            })
+                        }
+                    );
+
+
+                const result =
+                    await response.text();
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Apply failed:",
+                        response.status,
+                        result
+                    );
+
+                    button.disabled = false;
+                    button.innerText = "Apply";
+
+
+                    if (response.status === 403) {
+
+                        alert(
+                            "Your login session has expired.\n\n" +
+                            "Please login again."
+                        );
+
+                        window.location.href =
+                            "login.html";
+
+                        return;
+                    }
+
+
+                    alert(
+                        result ||
+                        "Unable to submit application."
+                    );
+
+                    return;
+                }
+
+
+                // Mark this job as applied.
+                appliedJobIds.add(
+                    Number(jobId)
+                );
+
+
+                appliedJobs =
+                    appliedJobIds.size;
+
+
+                button.innerText =
+                    "Applied";
+
+                button.classList.add(
+                    "applied"
+                );
+
+                button.disabled = true;
+
+
+                document.getElementById("appliedCount").innerText =
+                    appliedJobs;
+
+
+                alert(
+                    "Application submitted successfully! 🎉"
+                );
+
+
+                console.log(
+                    "Application saved:",
+                    result
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Application error:",
+                    error
+                );
+
+
+                button.disabled = false;
+
+                button.innerText =
+                    "Apply";
+
+
+                alert(
+                    "Unable to submit application.\n\n" +
+                    "Please make sure the Spring Boot backend is running."
+                );
+            }
+        }
+
+
+        // ==========================================
+        // FILTER JOBS
+        // ==========================================
+
+        function filterJobs() {
+
+            const search =
+                document
+                .getElementById("searchJob")
+                .value
+                .toLowerCase()
+                .trim();
+
+
+            const location =
+                document
+                .getElementById("locationFilter")
+                .value;
+
+
+            const role =
+                document
+                .getElementById("roleFilter")
+                .value;
+
+
+            const filteredJobs =
+                allJobs.filter(function(job) {
+
+                    const title =
+                        job.title ?
+                        job.title.toLowerCase() :
+                        "";
+
+
+                    const company =
+                        job.companyName ?
+                        job.companyName.toLowerCase() :
+                        "";
+
+
+                    const jobLocation =
+                        job.location ?
+                        job.location :
+                        "";
+
+
+                    const searchMatch =
+                        search === "" ||
+                        title.includes(search) ||
+                        company.includes(search);
+
+
+                    const locationMatch =
+                        location === "" ||
+                        jobLocation === location;
+
+
+                    const roleMatch =
+                        role === "" ||
+                        job.title === role;
+
+
+                    return (
+                        searchMatch &&
+                        locationMatch &&
+                        roleMatch
+                    );
+
+                });
+
+
+            displayJobs(
+                filteredJobs
+            );
+        }
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHtml(value) {
+
+            if (value === null ||
+                value === undefined) {
+
+                return "";
+            }
+
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+
+        // ==========================================
+        // SEARCH EVENTS
+        // ==========================================
+
+        document
+            .getElementById("searchJob")
+            .addEventListener(
+                "input",
+                filterJobs
+            );
+
+
+        document
+            .getElementById("locationFilter")
+            .addEventListener(
+                "change",
+                filterJobs
+            );
+
+
+        document
+            .getElementById("roleFilter")
+            .addEventListener(
+                "change",
+                filterJobs
+            );
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        loadJobs();
+    </script>
+    <script>
+        /* =====================================================
+                                                                                                                                                                           STUDENT NOTIFICATION SYSTEM
+                                                                                                                                                                           ===================================================== */
+
+        const notificationBell =
+            document.getElementById("notificationBell");
+
+        const notificationPanel =
+            document.getElementById("notificationPanel");
+
+        const notificationList =
+            document.getElementById("notificationList");
+
+        const notificationCount =
+            document.getElementById("notificationCount");
+
+        const notificationSummary =
+            document.getElementById("notificationSummary");
+
+        const markAllReadBtn =
+            document.getElementById("markAllReadBtn");
+
+
+        const NOTIFICATION_API =
+            "http://" + window.location.hostname + ":8080/api/notifications";
+
+
+        /* =====================================================
+           LOAD UNREAD COUNT
+           ===================================================== */
+
+        async function loadNotificationCount() {
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API + "/unread-count", {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) return;
+
+                const data = await response.json();
+
+                const count = Number(data.count || 0);
+
+                if (count > 0) {
+
+                    notificationCount.textContent =
+                        count > 99 ? "99+" : count;
+
+                    notificationCount.classList.add("show");
+
+                } else {
+
+                    notificationCount.textContent = "0";
+
+                    notificationCount.classList.remove("show");
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Notification count error:",
+                    error
+                );
+            }
+        }
+
+
+        /* =====================================================
+           LOAD NOTIFICATIONS
+           ===================================================== */
+
+        async function loadNotifications() {
+
+            notificationList.innerHTML = `
+        <div class="notification-loading">
+            Loading notifications...
+        </div>
+    `;
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API, {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) {
+
+                    notificationList.innerHTML = `
+                <div class="notification-empty">
+                    Unable to load notifications.
+                </div>
+            `;
+
+                    return;
+                }
+
+                const notifications =
+                    await response.json();
+
+                renderNotifications(notifications);
+
+            } catch (error) {
+
+                console.error(
+                    "Notification loading error:",
+                    error
+                );
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+                Unable to load notifications.
+            </div>
+        `;
+            }
+        }
+
+
+        /* =====================================================
+           RENDER NOTIFICATIONS
+           ===================================================== */
+
+        function renderNotifications(notifications) {
+
+            if (!notifications ||
+                notifications.length === 0
+            ) {
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+
+                <i class="fa-regular fa-bell-slash"></i>
+
+                No notifications yet.
+
+            </div>
+        `;
+
+                notificationSummary.textContent =
+                    "You're all caught up";
+
+                return;
+            }
+
+
+            notificationList.innerHTML =
+                notifications.map(notification => {
+
+                        const unread =
+                            notification.read === false;
+
+                        const icon =
+                            getNotificationIcon(
+                                notification.type
+                            );
+
+                        const time =
+                            formatNotificationTime(
+                                notification.createdAt
+                            );
+
+                        return `
+                <div
+                    class="notification-item ${unread ? "unread" : ""}"
+                    data-id="${notification.id}"
+                    data-link="${notification.link || ""}"
+                >
+
+                    <div class="notification-item-icon">
+                        <i class="${icon}"></i>
+                    </div>
+
+                    <div class="notification-item-content">
+
+                        <p class="notification-item-message">
+                            ${escapeNotificationText(
+                                notification.message
+                            )}
+                        </p>
+
+                        <span class="notification-item-time">
+                            ${time}
+                        </span>
+
+                    </div>
+
+                    ${
+                        unread
+                        ? `<span class="notification-unread-dot"></span>`
+                        : ""
+                    }
+
+                </div>
+            `;
+
+        }).join("");
+
+
+    notificationSummary.textContent =
+        notifications.length === 1
+            ? "1 notification"
+            : `${notifications.length} notifications`;
+
+
+    document
+        .querySelectorAll(".notification-item")
+        .forEach(item => {
+
+            item.addEventListener(
+                "click",
+                () => handleNotificationClick(item)
+            );
+
+        });
+}
+
+
+/* =====================================================
+   NOTIFICATION ICON
+   ===================================================== */
+
+function getNotificationIcon(type) {
+
+    switch (type) {
+
+        case "APPLICATION":
+            return "fa-solid fa-file-circle-check";
+
+        case "APPLICATION_STATUS":
+            return "fa-solid fa-circle-check";
+
+        default:
+            return "fa-solid fa-bell";
+    }
+}
+
+
+/* =====================================================
+   CLICK NOTIFICATION
+   ===================================================== */
+
+async function handleNotificationClick(item) {
+
+    const id =
+        item.dataset.id;
+
+    const link =
+        item.dataset.link;
+
+
+    try {
+
+        await fetch(
+            NOTIFICATION_API +
+            "/" + id +
+            "/read",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Failed to mark notification as read:",
+            error
+        );
+    }
+
+
+    await loadNotificationCount();
+
+
+    if (link) {
+
+        window.location.href = link;
+
+    } else {
+
+        item.classList.remove("unread");
+
+        const dot =
+            item.querySelector(
+                ".notification-unread-dot"
+            );
+
+        if (dot) {
+            dot.remove();
+        }
+
+    }
+}
+
+
+/* =====================================================
+   MARK ALL AS READ
+   ===================================================== */
+
+async function markAllNotificationsAsRead() {
+
+    try {
+
+        const response = await fetch(
+            NOTIFICATION_API + "/read-all",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) return;
+
+        await loadNotifications();
+
+        await loadNotificationCount();
+
+    } catch (error) {
+
+        console.error(
+            "Mark all as read error:",
+            error
+        );
+    }
+}
+
+
+/* =====================================================
+   BELL CLICK
+   ===================================================== */
+
+if (notificationBell) {
+
+    notificationBell.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            notificationPanel.classList.toggle(
+                "show"
+            );
+
+            if (
+                notificationPanel.classList.contains(
+                    "show"
+                )
+            ) {
+
+                await loadNotifications();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   MARK ALL BUTTON
+   ===================================================== */
+
+if (markAllReadBtn) {
+
+    markAllReadBtn.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            await markAllNotificationsAsRead();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE PANEL OUTSIDE
+   ===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            notificationPanel &&
+            notificationBell &&
+            !notificationBell.contains(
+                event.target
+            )
+        ) {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESCAPE KEY
+   ===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FORMAT TIME
+   ===================================================== */
+
+function formatNotificationTime(dateString) {
+
+    if (!dateString) {
+        return "Just now";
+    }
+
+    const date =
+        new Date(dateString);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "Just now";
+
+    }
+
+    const now =
+        new Date();
+
+    const seconds =
+        Math.floor(
+            (now - date) / 1000
+        );
+
+
+    if (seconds < 60) {
+        return "Just now";
+    }
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+    if (minutes < 60) {
+        return `${minutes} min ago`;
+    }
+
+
+    const hours =
+        Math.floor(
+            minutes / 60
+        );
+
+    if (hours < 24) {
+        return `${hours} hr ago`;
+    }
+
+
+    const days =
+        Math.floor(
+            hours / 24
+        );
+
+    if (days === 1) {
+        return "Yesterday";
+    }
+
+    if (days < 7) {
+        return `${days} days ago`;
+    }
+
+
+    return date.toLocaleDateString();
+}
+
+
+/* =====================================================
+   HTML ESCAPING
+   ===================================================== */
+
+function escapeNotificationText(text) {
+
+    if (
+        text === null ||
+        text === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+   ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadNotificationCount();
+
+    }
+);
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Company Dashboard | SPT AI</title>
+
+    <link rel="stylesheet" href="company-dashboard.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="logout.js" defer></script>
+</head>
+
+
+<body>
+
+
+    <header class="header">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-brain"></i>
+
+            <span>
+                SPT <strong>AI</strong>
+            </span>
+
+        </div>
+
+
+        <div class="company-profile">
+
+            <div class="notification" id="notificationBell">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span id="notificationCount">0</span>
+
+                <div class="notification-panel" id="notificationPanel">
+
+                    <div class="notification-panel-header">
+
+                        <div>
+                            <strong>Notifications</strong>
+                            <small id="notificationSummary">0 unread</small>
+                        </div>
+
+                        <button type="button" id="markAllReadBtn">
+                Mark all as read
+            </button>
+
+                    </div>
+
+                    <div class="notification-list" id="notificationList">
+
+                        <div class="notification-empty">
+                            <i class="fa-regular fa-bell-slash"></i>
+                            <p>No notifications</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-icon">
+
+                <i class="fa-solid fa-building"></i>
+
+            </div>
+
+
+            <div class="profile-text">
+
+                <strong id="companyNameDisplay">
+                    Company
+                </strong>
+
+                <small>
+                    Recruiter
+                </small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav class="navbar">
+
+        <a href="company-dashboard.html" class="active">
+
+            <i class="fa-solid fa-house"></i> Dashboard
+
+        </a>
+
+
+        <a href="post-job.html">
+
+            <i class="fa-solid fa-plus"></i> Post Job
+
+        </a>
+
+
+        <a href="applications.html">
+
+            <i class="fa-solid fa-users"></i> Applications
+
+        </a>
+
+
+        <a href="shortlisted.html">
+
+            <i class="fa-solid fa-user-check"></i> Shortlisted
+
+        </a>
+
+
+        <a href="index.html" data-logout>
+
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+
+        </a>
+
+    </nav>
+
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main>
+
+
+        <!-- ================= WELCOME ================= -->
+
+        <section class="welcome">
+
+            <div>
+
+                <h1 id="welcomeTitle">
+                    Welcome, Company! 🏢
+                </h1>
+
+                <p>
+                    Manage your job postings, applications and shortlisted candidates from one place.
+                </p>
+
+            </div>
+
+
+            <a href="post-job.html" class="primary-btn">
+
+                <i class="fa-solid fa-plus"></i> Post New Job
+
+            </a>
+
+        </section>
+
+
+
+        <!-- ================= STATISTICS ================= -->
+
+        <section class="stats">
+
+
+            <!-- JOBS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-briefcase"></i>
+
+                </div>
+
+                <div>
+
+                    <h2 id="totalJobs">
+                        0
+                    </h2>
+
+                    <p>
+                        Jobs Posted
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- APPLICATIONS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+                <div>
+
+                    <h2 id="totalApplications">
+                        0
+                    </h2>
+
+                    <p>
+                        Applications
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SHORTLISTED -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-user-check"></i>
+
+                </div>
+
+                <div>
+
+                    <h2 id="shortlisted">
+                        0
+                    </h2>
+
+                    <p>
+                        Shortlisted
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NEW APPLICATIONS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-user-plus"></i>
+
+                </div>
+
+                <div>
+
+                    <h2 id="newApplications">
+                        0
+                    </h2>
+
+                    <p>
+                        New Applications
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= DASHBOARD GRID ================= -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- ================= RECENT JOBS ================= -->
+
+            <div class="dashboard-card jobs-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>
+                            Recent Job Openings
+                        </h2>
+
+                        <p>
+                            Your latest job postings
+                        </p>
+
+                    </div>
+
+
+                    <a href="post-job.html">
+                        Post Job
+                    </a>
+
+                </div>
+
+
+                <div id="jobList">
+
+                    <div class="job-item">
+
+                        <div class="job-details">
+
+                            <h3>
+                                Loading jobs...
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= QUICK ACTIONS ================= -->
+
+            <div class="dashboard-card quick-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>
+                            Quick Actions
+                        </h2>
+
+                        <p>
+                            Manage recruitment
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a href="post-job.html" class="action">
+
+                    <div class="action-icon">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Post a New Job
+                        </strong>
+
+                        <span>
+                            Create a new job opening
+                        </span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right"></i>
+
+                </a>
+
+
+
+                <a href="applications.html" class="action">
+
+                    <div class="action-icon">
+
+                        <i class="fa-solid fa-users"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            View Applications
+                        </strong>
+
+                        <span>
+                            Review student applications
+                        </span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right"></i>
+
+                </a>
+
+
+
+                <a href="shortlisted.html" class="action">
+
+                    <div class="action-icon">
+
+                        <i class="fa-solid fa-user-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Shortlisted Students
+                        </strong>
+
+                        <span>
+                            View selected candidates
+                        </span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right"></i>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= APPLICATION OVERVIEW ================= -->
+
+        <section class="overview-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Application Overview
+                    </h2>
+
+                    <p>
+                        Current recruitment activity
+                    </p>
+
+                </div>
+
+
+                <a href="applications.html">
+                    View All
+                </a>
+
+            </div>
+
+
+
+            <div class="overview">
+
+
+                <!-- TOTAL -->
+
+                <div class="overview-item">
+
+                    <span class="number" id="overviewTotal">
+                        0
+                    </span>
+
+                    <span class="label">
+                        Total Applications
+                    </span>
+
+                </div>
+
+
+
+                <!-- SHORTLISTED -->
+
+                <div class="overview-item">
+
+                    <span class="number" id="overviewShortlisted">
+                        0
+                    </span>
+
+                    <span class="label">
+                        Shortlisted
+                    </span>
+
+                </div>
+
+
+
+                <!-- NEW -->
+
+                <div class="overview-item">
+
+                    <span class="number" id="overviewNew">
+                        0
+                    </span>
+
+                    <span class="label">
+                        New Applications
+                    </span>
+
+                </div>
+
+
+
+                <!-- SELECTION RATE -->
+
+                <div class="overview-item">
+
+                    <span class="number" id="selectionRate">
+                        0%
+                    </span>
+
+                    <span class="label">
+                        Selection Rate
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 SPT AI. Smart Placement Tracking System.
+        </p>
+
+
+        <div>
+
+            <a href="#">
+                Privacy
+            </a>
+
+            <a href="#">
+                Help
+            </a>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+        // =====================================================
+        // GET LOGGED-IN COMPANY
+        // =====================================================
+
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        const companyName =
+            localStorage.getItem("companyName") || "Company";
+
+        const userRole =
+            localStorage.getItem("userRole");
+
+        // =====================================================
+        // LOGIN CHECK
+        // =====================================================
+
+        if (userRole !== "COMPANY") {
+
+            alert("Please login as a company first.");
+
+            window.location.href =
+                "login.html";
+
+            throw new Error("Company login required");
+        }
+
+
+        // =====================================================
+        // UPDATE COMPANY NAME
+        // =====================================================
+
+        document.getElementById(
+                "companyNameDisplay"
+            ).innerText =
+            companyName || "Company";
+
+
+        document.getElementById(
+                "welcomeTitle"
+            ).innerText =
+            `Welcome, ${companyName || "Company"}! 🏢`;
+
+
+
+        // =====================================================
+        // LOAD COMPANY DASHBOARD
+        // =====================================================
+
+        async function loadCompanyDashboard() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/api/company/dashboard/${encodeURIComponent(companyName)}`, {
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to load company dashboard"
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Company dashboard data:",
+                    data
+                );
+
+
+                // =================================================
+                // STATISTICS
+                // =================================================
+
+                document.getElementById("totalJobs").innerText =
+                    data.totalJobs || 0;
+
+                document.getElementById("totalApplications").innerText =
+                    data.totalApplications || 0;
+
+                document.getElementById("shortlisted").innerText =
+                    data.shortlisted || 0;
+
+                document.getElementById("newApplications").innerText =
+                    data.newApplications || 0;
+
+
+
+
+                // =================================================
+                // APPLICATION OVERVIEW
+                // =================================================
+
+                document.getElementById("overviewTotal").innerText =
+                    data.totalApplications || 0;
+
+                document.getElementById("overviewShortlisted").innerText =
+                    data.shortlisted || 0;
+
+                document.getElementById("overviewNew").innerText =
+                    data.newApplications || 0;
+
+                document.getElementById("selectionRate").innerText =
+                    (data.selectionRate || 0) + "%";
+
+
+                // =================================================
+                // JOBS
+                // =================================================
+
+                displayJobs(
+                    data.jobs || []
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Dashboard error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "jobList"
+                ).innerHTML = `
+
+                    <div class="job-item">
+
+                        <div class="job-details">
+
+                            <h3>
+                                Unable to load jobs
+                            </h3>
+
+                            <p>
+                                Please make sure the
+                                Spring Boot backend is running.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        // =====================================================
+        // DISPLAY JOBS
+        // =====================================================
+
+        function displayJobs(jobs) {
+
+            const jobList =
+                document.getElementById(
+                    "jobList"
+                );
+
+
+            jobList.innerHTML = "";
+
+
+            if (!jobs ||
+                jobs.length === 0
+            ) {
+
+                jobList.innerHTML = `
+
+                    <div class="job-item">
+
+                        <div class="job-details">
+
+                            <h3>
+                                No jobs posted yet
+                            </h3>
+
+                            <p>
+                                Click "Post Job" to create
+                                your first opening.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+
+            // =================================================
+            // SORT LATEST JOBS FIRST
+            // =================================================
+
+            const sortedJobs =
+                jobs
+                .slice()
+                .sort(
+                    function(a, b) {
+
+                        const dateA =
+                            a.postedAt ?
+                            new Date(a.postedAt) :
+                            new Date(0);
+
+                        const dateB =
+                            b.postedAt ?
+                            new Date(b.postedAt) :
+                            new Date(0);
+
+                        return dateB - dateA;
+
+                    }
+                );
+
+
+
+            // Show latest 5 jobs
+
+            sortedJobs
+                .slice(0, 5)
+                .forEach(
+                    function(job) {
+
+
+                        // =========================================
+                        // JOB STATUS
+                        // =========================================
+
+                        const today =
+                            new Date();
+
+
+                        const deadline =
+                            job.deadline ?
+                            new Date(
+                                job.deadline + "T23:59:59"
+                            ) :
+                            null;
+
+
+                        let status =
+                            "Open";
+
+
+                        let statusClass =
+                            "open";
+
+
+                        if (
+                            deadline &&
+                            deadline < today
+                        ) {
+
+                            status =
+                                "Closed";
+
+                            statusClass =
+                                "closed";
+
+                        }
+
+
+
+                        // =========================================
+                        // JOB ICON
+                        // =========================================
+
+                        let iconClass =
+                            "fa-solid fa-code";
+
+
+                        const title =
+                            (
+                                job.title || ""
+                            ).toLowerCase();
+
+
+                        if (
+                            title.includes("java")
+                        ) {
+
+                            iconClass =
+                                "fa-brands fa-java";
+
+                        } else if (
+                            title.includes("ai") ||
+                            title.includes("machine") ||
+                            title.includes("artificial")
+                        ) {
+
+                            iconClass =
+                                "fa-solid fa-robot";
+
+                        } else if (
+                            title.includes("web") ||
+                            title.includes("frontend") ||
+                            title.includes("developer")
+                        ) {
+
+                            iconClass =
+                                "fa-solid fa-globe";
+
+                        }
+
+
+
+                        // =========================================
+                        // CREATE JOB ITEM
+                        // =========================================
+
+                        const item =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        item.className =
+                            "job-item";
+
+
+                        item.innerHTML = `
+
+                            <div class="job-icon">
+
+                                <i class="${iconClass}"></i>
+
+                            </div>
+
+
+                            <div class="job-details">
+
+                                <h3>
+                                    ${escapeHtml(
+                            job.title ||
+                            "Job"
+                        )}
+                                </h3>
+
+
+                                <p>
+
+                                    <i class="fa-solid fa-location-dot"></i>
+
+                                    ${escapeHtml(
+                            job.location ||
+                            "Location not specified"
+                        )}
+
+                                </p>
+
+                            </div>
+
+
+                            <span class="status ${statusClass}">
+
+                                ${status}
+
+                            </span>
+
+
+                            <div class="job-actions" style="display:flex; gap:6px; align-items:center; margin-left:10px;">
+
+                                <a href="post-job.html?id=${job.id}&mode=edit" style="text-decoration:none;">
+
+                                    <button type="button" title="Edit Job" style="padding:6px 10px; border:none; border-radius:6px; background:#eef2ff; color:#4f46e5; font-family:Poppins,sans-serif; font-size:12px; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:4px;">
+
+                                        <i class="fa-solid fa-pen-to-square"></i> Edit
+
+                                    </button>
+
+                                </a>
+
+                                <button type="button" onclick="confirmDeleteJob(${job.id}, '${escapeHtml(job.title || "Job").replace(/'/g, "\\'")}')" title="Delete Job" style="padding:6px 10px; border:none; border-radius:6px; background:#fee2e2; color:#dc2626; font-family:Poppins,sans-serif; font-size:12px; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:4px;">
+
+                                    <i class="fa-solid fa-trash"></i> Delete
+
+                                </button>
+
+                            </div>
+
+                        `;
+
+
+                        jobList.appendChild(
+                            item
+                        );
+
+                    }
+                );
+
+        }
+
+
+
+        // =====================================================
+        // DELETE JOB
+        // =====================================================
+
+        async function confirmDeleteJob(jobId, jobTitle) {
+
+            if (!confirm(`Are you sure you want to delete "${jobTitle}"?\n\nThis will permanently remove this job posting and any applications submitted for it.`)) {
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+
+                        `${API_BASE}/api/jobs/${jobId}`, {
+                            method: "DELETE",
+                            credentials: "include"
+                        }
+
+                    );
+
+
+                if (!response.ok) {
+
+                    const errText =
+                        await response.text();
+
+                    alert(
+                        "Failed to delete job: " +
+                        (errText || response.statusText)
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Job deleted successfully! 🗑️"
+                );
+
+
+                // Refresh the company dashboard
+                loadCompanyDashboard();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error deleting job:",
+                    error
+                );
+
+                alert(
+                    "Unable to delete job. Please make sure the backend is running."
+                );
+
+            }
+
+        }
+
+
+
+        // =====================================================
+        // HTML ESCAPE
+        // =====================================================
+
+        function escapeHtml(value) {
+
+            return String(value)
+
+            .replaceAll(
+                "&",
+                "&amp;"
+            )
+
+            .replaceAll(
+                "<",
+                "&lt;"
+            )
+
+            .replaceAll(
+                ">",
+                "&gt;"
+            )
+
+            .replaceAll(
+                '"',
+                "&quot;"
+            )
+
+            .replaceAll(
+                "'",
+                "&#039;"
+            );
+
+        }
+        // =====================================================
+        // NOTIFICATION SYSTEM
+        // =====================================================
+
+        const NOTIFICATION_API =
+            API_BASE + "/api/notifications";
+
+
+        // =====================================================
+        // LOAD UNREAD NOTIFICATION COUNT
+        // =====================================================
+
+        async function loadNotificationCount() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${NOTIFICATION_API}/unread-count`, {
+                            credentials: "include"
+                        }
+                    );
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const data =
+                    await response.json();
+
+                const count =
+                    Number(data.count || 0);
+
+                const countElement =
+                    document.getElementById(
+                        "notificationCount"
+                    );
+
+                countElement.innerText =
+                    count > 99 ? "99+" : count;
+
+                countElement.style.display =
+                    count > 0 ? "flex" : "none";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Notification count error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // LOAD NOTIFICATIONS
+        // =====================================================
+
+        async function loadNotifications() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        NOTIFICATION_API, {
+                            credentials: "include"
+                        }
+                    );
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const notifications =
+                    await response.json();
+
+                renderNotifications(
+                    notifications
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Notification loading error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // RENDER NOTIFICATIONS
+        // =====================================================
+
+        function renderNotifications(
+            notifications
+        ) {
+
+            const list =
+                document.getElementById(
+                    "notificationList"
+                );
+
+            const summary =
+                document.getElementById(
+                    "notificationSummary"
+                );
+
+
+            if (!notifications ||
+                notifications.length === 0) {
+
+                summary.innerText =
+                    "0 unread";
+
+                list.innerHTML = `
+
+            <div class="notification-empty">
+
+                <i class="fa-regular fa-bell-slash"></i>
+
+                <p>
+                    No notifications
+                </p>
+
+            </div>
+
+        `;
+
+                return;
+
+            }
+
+
+            const unreadCount =
+                notifications.filter(
+                    notification =>
+                    !notification.read
+                ).length;
+
+
+            summary.innerText =
+                `${unreadCount} unread`;
+
+
+            list.innerHTML =
+                notifications
+                .map(
+                    notification => {
+
+                        const message =
+                            escapeHtml(
+                                notification.message ||
+                                "New notification"
+                            );
+
+
+                        const time =
+                            formatNotificationTime(
+                                notification.createdAt
+                            );
+
+
+                        const icon =
+                            getNotificationIcon(
+                                notification.type
+                            );
+
+
+                        return `
+
+                        <div
+                            class="notification-item ${notification.read ? "" : "unread"}"
+                            data-id="${notification.id}"
+                        >
+
+                            <div class="notification-item-icon">
+
+                                <i class="${icon}"></i>
+
+                            </div>
+
+                            <div class="notification-item-content">
+
+                                <p>
+                                    ${message}
+                                </p>
+
+                                <small>
+                                    ${time}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                    }
+                )
+                .join("");
+
+
+            // =================================================
+            // NOTIFICATION CLICK
+            // =================================================
+
+            document
+                .querySelectorAll(
+                    ".notification-item"
+                )
+                .forEach(
+                    item => {
+
+                        item.addEventListener(
+                            "click",
+                            function() {
+
+                                handleNotificationClick(
+                                    this.dataset.id
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+
+
+        // =====================================================
+        // NOTIFICATION ICON
+        // =====================================================
+
+        function getNotificationIcon(type) {
+
+            if (
+                type === "APPLICATION"
+            ) {
+
+                return "fa-solid fa-user-plus";
+
+            }
+
+            if (
+                type === "APPLICATION_STATUS"
+            ) {
+
+                return "fa-solid fa-circle-check";
+
+            }
+
+            return "fa-solid fa-bell";
+
+        }
+
+
+        // =====================================================
+        // CLICK NOTIFICATION
+        // =====================================================
+
+        async function handleNotificationClick(
+            notificationId
+        ) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${NOTIFICATION_API}/${notificationId}/read`, {
+                            method: "PUT",
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (response.ok) {
+
+                    await loadNotificationCount();
+
+                    await loadNotifications();
+
+                }
+
+
+                // Company notification currently
+                // opens the applications page.
+
+                window.location.href =
+                    "applications.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Notification click error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // MARK ALL AS READ
+        // =====================================================
+
+        async function markAllNotificationsAsRead() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${NOTIFICATION_API}/read-all`, {
+                            method: "PUT",
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (!response.ok) {
+                    return;
+                }
+
+
+                await loadNotificationCount();
+
+                await loadNotifications();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Mark all notifications error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // FORMAT NOTIFICATION TIME
+        // =====================================================
+
+        function formatNotificationTime(
+            createdAt
+        ) {
+
+            if (!createdAt) {
+                return "";
+            }
+
+
+            const notificationDate =
+                new Date(createdAt);
+
+            const now =
+                new Date();
+
+
+            const difference =
+                Math.floor(
+                    (now - notificationDate) / 1000
+                );
+
+
+            if (difference < 60) {
+                return "Just now";
+            }
+
+
+            const minutes =
+                Math.floor(
+                    difference / 60
+                );
+
+
+            if (minutes < 60) {
+
+                return minutes === 1 ?
+                    "1 minute ago" :
+                    `${minutes} minutes ago`;
+
+            }
+
+
+            const hours =
+                Math.floor(
+                    minutes / 60
+                );
+
+
+            if (hours < 24) {
+
+                return hours === 1 ?
+                    "1 hour ago" :
+                    `${hours} hours ago`;
+
+            }
+
+
+            const days =
+                Math.floor(
+                    hours / 24
+                );
+
+
+            if (days < 7) {
+
+                return days === 1 ?
+                    "Yesterday" :
+                    `${days} days ago`;
+
+            }
+
+
+            return notificationDate.toLocaleDateString();
+
+        }
+
+
+        // =====================================================
+        // NOTIFICATION BELL CLICK
+        // =====================================================
+
+        document
+            .getElementById("notificationBell")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+
+                    const panel =
+                        document.getElementById(
+                            "notificationPanel"
+                        );
+
+
+                    const isOpen =
+                        panel.style.display === "block";
+
+
+                    panel.style.display =
+                        isOpen ?
+                        "none" :
+                        "block";
+
+
+                    if (!isOpen) {
+
+                        loadNotifications();
+
+                    }
+
+                }
+            );
+
+
+        // =====================================================
+        // MARK ALL BUTTON
+        // =====================================================
+
+        document
+            .getElementById("markAllReadBtn")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+                    markAllNotificationsAsRead();
+
+                }
+            );
+
+
+        // =====================================================
+        // CLOSE WHEN CLICKING OUTSIDE
+        // =====================================================
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const bell =
+                    document.getElementById(
+                        "notificationBell"
+                    );
+
+                const panel =
+                    document.getElementById(
+                        "notificationPanel"
+                    );
+
+
+                if (!bell.contains(event.target)) {
+
+                    panel.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // ESCAPE KEY
+        // =====================================================
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    document.getElementById(
+                            "notificationPanel"
+                        ).style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // INITIAL NOTIFICATION LOAD
+        // =====================================================
+
+        loadNotificationCount();
+
+        loadNotifications();
+
+        // =====================================================
+        // START DASHBOARD
+        // =====================================================
+
+        loadCompanyDashboard();
+    </script>
+
+
+</body>
+
+</html>

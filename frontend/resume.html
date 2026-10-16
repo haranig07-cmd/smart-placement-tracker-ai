@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resume | Smart Placement Tracker AI</title>
+
+    <link rel="stylesheet" href="resume.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="logout.js" defer></script>
+</head>
+
+<body>
+
+
+    <header>
+
+        <div class="logo">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+            <h2>
+                Smart Placement Tracker AI
+            </h2>
+
+        </div>
+
+
+        <div class="profile">
+
+            <!-- Notification Bell -->
+            <div class="notification-wrapper" id="notificationBell">
+
+                <i class="fa-solid fa-bell notification-icon"></i>
+
+                <span id="notificationCount" class="notification-count">
+                0
+            </span>
+
+
+                <!-- Notification Panel -->
+                <div class="notification-panel" id="notificationPanel">
+
+                    <div class="notification-panel-header">
+
+                        <div>
+
+                            <h3>
+                                Notifications
+                            </h3>
+
+                            <span id="notificationSummary">
+                            Your latest updates
+                        </span>
+
+                        </div>
+
+
+                        <button type="button" id="markAllReadBtn" class="mark-all-btn">
+
+                        Mark all as read
+
+                    </button>
+
+                    </div>
+
+
+                    <div id="notificationList" class="notification-list">
+
+                        <div class="notification-loading">
+                            Loading notifications...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Student Name -->
+            <span id="profileName">
+            Student
+        </span>
+
+
+            <!-- User Icon -->
+            <i class="fa-solid fa-circle-user"></i>
+
+        </div>
+
+    </header>
+    <nav>
+
+        <a href="student-dashboard.html">
+
+            <i class="fa-solid fa-house"></i> Dashboard
+
+        </a>
+
+        <a href="student-profile.html">
+
+            <i class="fa-solid fa-user"></i> My Profile
+
+        </a>
+
+        <a href="resume.html" class="active">
+
+            <i class="fa-solid fa-file"></i> Resume
+
+        </a>
+
+        <a href="ats-score.html">
+
+            <i class="fa-solid fa-chart-column"></i> ATS Score
+
+        </a>
+
+        <a href="jobs.html">
+
+            <i class="fa-solid fa-briefcase"></i> Jobs
+
+        </a>
+        <a href="student-applications.html">
+            <i class="fa-solid fa-file-circle-check"></i> My Applications
+        </a>
+
+        <a href="index.html" data-logout>
+
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+
+        </a>
+
+    </nav>
+
+
+
+    <main>
+
+        <section class="page-title">
+
+            <h1>Resume Analyzer</h1>
+
+            <p>
+                Upload your resume and analyze it using AI-powered tools.
+            </p>
+
+        </section>
+
+
+        <section class="resume-container">
+
+            <div class="upload-card">
+
+                <div class="upload-icon">
+
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                </div>
+
+                <h2>Upload Your Resume</h2>
+
+                <p>
+                    Upload your latest resume to check ATS compatibility, identify skill gaps and receive AI recommendations.
+                </p>
+
+
+                <label for="resumeFile" class="choose-file">
+
+                    <i class="fa-solid fa-folder-open"></i>
+
+                    Choose Resume
+
+                </label>
+
+                <input type="file" id="resumeFile" accept=".pdf,.doc,.docx">
+
+
+                <p class="file-info">
+                    Supported formats: PDF, DOC, DOCX
+                </p>
+
+
+                <div id="fileDetails" class="file-details">
+
+                    No resume selected.
+
+                </div>
+
+
+                <button class="analyze-btn" onclick="analyzeResume()">
+
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                    Analyze Resume
+
+                </button>
+
+
+                <button class="remove-btn" onclick="removeResume()">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                    Remove Resume
+
+                </button>
+
+            </div>
+
+            <div class="analysis-card">
+
+                <div class="analysis-header">
+
+                    <div>
+
+                        <h2>AI Resume Analysis</h2>
+
+                        <p>
+                            Your resume analysis will appear here.
+                        </p>
+
+                    </div>
+
+                    <i class="fa-solid fa-robot"></i>
+
+                </div>
+
+
+                <div id="analysisContent">
+
+                    <div class="empty-analysis">
+
+                        <i class="fa-solid fa-file-circle-question"></i>
+
+                        <h3>No Resume Analyzed</h3>
+
+                        <p>
+                            Upload your resume and click
+                            <strong>Analyze Resume</strong> to get started.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESUME INFORMATION -->
+
+        <section class="resume-info">
+
+            <h2>What will AI analyze?</h2>
+
+            <div class="info-grid">
+
+                <div class="info-card">
+
+                    <i class="fa-solid fa-chart-simple"></i>
+
+                    <h3>ATS Compatibility</h3>
+
+                    <p>
+                        Check how well your resume can pass Applicant Tracking Systems.
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <i class="fa-solid fa-code"></i>
+
+                    <h3>Skills Detection</h3>
+
+                    <p>
+                        Identify technical and professional skills mentioned in your resume.
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <h3>Keyword Analysis</h3>
+
+                    <p>
+                        Find important keywords missing from your resume.
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <i class="fa-solid fa-lightbulb"></i>
+
+                    <h3>AI Suggestions</h3>
+
+                    <p>
+                        Receive recommendations to improve your resume.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 Smart Placement Tracker AI | Resume Analyzer
+        </p>
+
+    </footer>
+
+
+    <script>
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        const resumeFile = document.getElementById("resumeFile");
+        const fileDetails = document.getElementById("fileDetails");
+        const loggedInName =
+            localStorage.getItem("userName");
+
+        if (loggedInName) {
+            document.getElementById("profileName").textContent =
+                loggedInName;
+        }
+        // ===============================
+        // FILE SELECTION
+        // ===============================
+
+        resumeFile.addEventListener("change", function() {
+
+            const file = resumeFile.files[0];
+
+            if (file) {
+
+                const fileSize =
+                    (file.size / 1024).toFixed(2);
+
+                fileDetails.innerHTML =
+
+                    "<i class='fa-solid fa-file-pdf'></i>" +
+
+                    "<strong>" +
+                    file.name +
+                    "</strong>" +
+
+                    "<span>" +
+                    fileSize +
+                    " KB" +
+                    "</span>";
+
+            } else {
+
+                fileDetails.innerHTML =
+                    "No resume selected.";
+
+            }
+
+        });
+
+
+        // ===============================
+        // ANALYZE / UPLOAD RESUME
+        // ===============================
+
+        async function analyzeResume() {
+
+            const file = resumeFile.files[0];
+
+            if (!file) {
+
+                alert("Please upload your resume first.");
+
+                return;
+            }
+
+
+            // Get logged-in student ID
+            const userId =
+                localStorage.getItem("userId");
+
+
+            if (!userId ||
+                userId === "null" ||
+                userId === "undefined"
+            ) {
+
+                alert("Please login first.");
+
+                window.location.href = "login.html";
+
+                return;
+            }
+
+
+            // Show loading
+            const analysisContent =
+                document.getElementById("analysisContent");
+
+            analysisContent.innerHTML = `
+
+        <div class="empty-analysis">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            <h3>Uploading Resume...</h3>
+
+            <p>
+                Please wait while we process your resume.
+            </p>
+
+        </div>
+
+    `;
+
+
+            // Create form data
+            const formData = new FormData();
+
+            formData.append("file", file);
+
+
+            try {
+
+                // Send resume to Spring Boot
+                const response = await fetch(
+
+                    `${API_BASE}/api/resume/${userId}/upload`, {
+                        method: "POST",
+                        credentials: "include",
+                        body: formData
+                    }
+
+                );
+
+
+                // Get response
+                const result =
+                    await response.json();
+
+
+                // Backend error
+                if (!response.ok) {
+
+                    console.error(
+                        "Backend error:",
+                        result
+                    );
+
+                    analysisContent.innerHTML = `
+
+                <div class="empty-analysis">
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                    <h3>Upload Failed</h3>
+
+                    <p>
+                        ${result}
+                    </p>
+
+                </div>
+
+            `;
+
+                    return;
+                }
+
+
+                console.log(
+                    "Resume uploaded successfully:",
+                    result
+                );
+
+
+                // ===============================
+                // DISPLAY REAL BACKEND RESULT
+                // ===============================
+
+                const atsScore =
+                    result.atsScore || 0;
+
+
+                let scoreMessage = "";
+                let scoreDescription = "";
+
+
+                if (atsScore >= 80) {
+
+                    scoreMessage =
+                        "Excellent ATS Score";
+
+                    scoreDescription =
+                        "Your resume has strong ATS compatibility.";
+
+                } else if (atsScore >= 60) {
+
+                    scoreMessage =
+                        "Good ATS Score";
+
+                    scoreDescription =
+                        "Your resume has a reasonable chance of passing ATS screening.";
+
+                } else {
+
+                    scoreMessage =
+                        "Needs Improvement";
+
+                    scoreDescription =
+                        "Your resume needs improvement for better ATS compatibility.";
+
+                }
+
+
+                analysisContent.innerHTML = `
+
+            <div class="score-section">
+
+                <div class="score-circle">
+
+                    <span>${atsScore}%</span>
+
+                </div>
+
+                <div>
+
+                    <h3>${scoreMessage}</h3>
+
+                    <p>
+                        ${scoreDescription}
+                    </p>
+
+                    <p>
+                        <strong>Resume:</strong>
+                        ${result.fileName}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-grid">
+
+                <div>
+
+                    <h3>
+
+                        <i class="fa-solid fa-check"></i>
+
+                        Resume Status
+
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            Resume uploaded successfully
+                        </li>
+
+                        <li>
+                            Resume linked to your student account
+                        </li>
+
+                        <li>
+                            File stored securely in the backend
+                        </li>
+
+                        <li>
+                            Resume record saved in database
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+
+                        <i class="fa-solid fa-lightbulb"></i>
+
+                        AI Analysis
+
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            ATS compatibility checked
+                        </li>
+
+                        <li>
+                            Resume structure can be analyzed
+                        </li>
+
+                        <li>
+                            Skills detection will be added
+                        </li>
+
+                        <li>
+                            Job-specific recommendations coming next
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="view-score-btn"
+                onclick="window.location.href='ats-score.html'"
+            >
+
+                View Detailed ATS Score
+
+            </button>
+
+        `;
+
+
+                alert("Resume uploaded successfully!");
+
+
+            } catch (error) {
+
+                console.error(
+                    "Resume upload error:",
+                    error
+                );
+
+
+                analysisContent.innerHTML = `
+
+            <div class="empty-analysis">
+
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                <h3>Connection Error</h3>
+
+                <p>
+                    Unable to connect to the backend.
+                    Make sure Spring Boot is running on port 8080.
+                </p>
+
+            </div>
+
+        `;
+
+            }
+
+        }
+
+
+        // ===============================
+        // REMOVE RESUME
+        // ===============================
+
+        async function removeResume() {
+
+            const userId =
+                localStorage.getItem("userId");
+
+
+            if (!userId ||
+                userId === "null" ||
+                userId === "undefined"
+            ) {
+
+                alert("Please login first.");
+
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+
+                    `${API_BASE}/api/resume/${userId}`, {
+                        credentials: "include",
+                        method: "DELETE"
+                    }
+
+                );
+
+
+                if (response.ok) {
+
+                    resumeFile.value = "";
+
+                    fileDetails.innerHTML =
+                        "No resume selected.";
+
+
+                    document.getElementById(
+                        "analysisContent"
+                    ).innerHTML = `
+
+                <div class="empty-analysis">
+
+                    <i class="fa-solid fa-file-circle-question"></i>
+
+                    <h3>No Resume Analyzed</h3>
+
+                    <p>
+                        Upload your resume and click
+                        <strong>Analyze Resume</strong>
+                        to get started.
+                    </p>
+
+                </div>
+
+            `;
+
+
+                    alert("Resume removed successfully.");
+
+                } else {
+
+                    alert("No resume found to remove.");
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Delete error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to backend."
+                );
+
+            }
+
+        }
+
+
+        // ===============================
+        // LOAD EXISTING RESUME
+        // ===============================
+
+        async function loadExistingResume() {
+
+            const userId =
+                localStorage.getItem("userId");
+
+
+            if (!userId ||
+                userId === "null" ||
+                userId === "undefined"
+            ) {
+
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+
+                    `${API_BASE}/api/resume/${userId}`,
+
+                    {
+                        credentials: "include"
+                    }
+
+                );
+
+
+                if (!response.ok) {
+
+                    return;
+                }
+
+
+                const result =
+                    await response.json();
+
+
+                console.log(
+                    "Existing resume:",
+                    result
+                );
+
+
+                fileDetails.innerHTML = `
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            <strong>
+                ${result.fileName}
+            </strong>
+
+            <span>
+                Uploaded
+            </span>
+
+        `;
+
+
+                const atsScore =
+                    result.atsScore || 0;
+
+
+                analysisContent.innerHTML = `
+
+            <div class="score-section">
+
+                <div class="score-circle">
+
+                    <span>
+                        ${atsScore}%
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Resume Available
+                    </h3>
+
+                    <p>
+                        Your resume is already uploaded.
+                    </p>
+
+                    <p>
+                        <strong>
+                            ${result.fileName}
+                        </strong>
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button
+                class="view-score-btn"
+                onclick="window.location.href='ats-score.html'"
+            >
+                View Detailed ATS Score
+            </button>
+
+        `;
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading resume:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // Load existing resume when page opens
+        loadExistingResume();
+    </script>
+    <script>
+        /* =====================================================
+                           STUDENT NOTIFICATION SYSTEM
+                           ===================================================== */
+
+        const notificationBell =
+            document.getElementById("notificationBell");
+
+        const notificationPanel =
+            document.getElementById("notificationPanel");
+
+        const notificationList =
+            document.getElementById("notificationList");
+
+        const notificationCount =
+            document.getElementById("notificationCount");
+
+        const notificationSummary =
+            document.getElementById("notificationSummary");
+
+        const markAllReadBtn =
+            document.getElementById("markAllReadBtn");
+
+
+        const NOTIFICATION_API =
+            "http://" + window.location.hostname + ":8080/api/notifications";
+
+
+        /* =====================================================
+           LOAD UNREAD COUNT
+           ===================================================== */
+
+        async function loadNotificationCount() {
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API + "/unread-count", {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) return;
+
+                const data = await response.json();
+
+                const count = Number(data.count || 0);
+
+                if (count > 0) {
+
+                    notificationCount.textContent =
+                        count > 99 ? "99+" : count;
+
+                    notificationCount.classList.add("show");
+
+                } else {
+
+                    notificationCount.textContent = "0";
+
+                    notificationCount.classList.remove("show");
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Notification count error:",
+                    error
+                );
+            }
+        }
+
+
+        /* =====================================================
+           LOAD NOTIFICATIONS
+           ===================================================== */
+
+        async function loadNotifications() {
+
+            notificationList.innerHTML = `
+        <div class="notification-loading">
+            Loading notifications...
+        </div>
+    `;
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API, {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) {
+
+                    notificationList.innerHTML = `
+                <div class="notification-empty">
+                    Unable to load notifications.
+                </div>
+            `;
+
+                    return;
+                }
+
+                const notifications =
+                    await response.json();
+
+                renderNotifications(notifications);
+
+            } catch (error) {
+
+                console.error(
+                    "Notification loading error:",
+                    error
+                );
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+                Unable to load notifications.
+            </div>
+        `;
+            }
+        }
+
+
+        /* =====================================================
+           RENDER NOTIFICATIONS
+           ===================================================== */
+
+        function renderNotifications(notifications) {
+
+            if (!notifications ||
+                notifications.length === 0
+            ) {
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+
+                <i class="fa-regular fa-bell-slash"></i>
+
+                No notifications yet.
+
+            </div>
+        `;
+
+                notificationSummary.textContent =
+                    "You're all caught up";
+
+                return;
+            }
+
+
+            notificationList.innerHTML =
+                notifications.map(notification => {
+
+                        const unread =
+                            notification.read === false;
+
+                        const icon =
+                            getNotificationIcon(
+                                notification.type
+                            );
+
+                        const time =
+                            formatNotificationTime(
+                                notification.createdAt
+                            );
+
+                        return `
+                <div
+                    class="notification-item ${unread ? "unread" : ""}"
+                    data-id="${notification.id}"
+                    data-link="${notification.link || ""}"
+                >
+
+                    <div class="notification-item-icon">
+                        <i class="${icon}"></i>
+                    </div>
+
+                    <div class="notification-item-content">
+
+                        <p class="notification-item-message">
+                            ${escapeNotificationText(
+                                notification.message
+                            )}
+                        </p>
+
+                        <span class="notification-item-time">
+                            ${time}
+                        </span>
+
+                    </div>
+
+                    ${
+                        unread
+                        ? `<span class="notification-unread-dot"></span>`
+                        : ""
+                    }
+
+                </div>
+            `;
+
+        }).join("");
+
+
+    notificationSummary.textContent =
+        notifications.length === 1
+            ? "1 notification"
+            : `${notifications.length} notifications`;
+
+
+    document
+        .querySelectorAll(".notification-item")
+        .forEach(item => {
+
+            item.addEventListener(
+                "click",
+                () => handleNotificationClick(item)
+            );
+
+        });
+}
+
+
+/* =====================================================
+   NOTIFICATION ICON
+   ===================================================== */
+
+function getNotificationIcon(type) {
+
+    switch (type) {
+
+        case "APPLICATION":
+            return "fa-solid fa-file-circle-check";
+
+        case "APPLICATION_STATUS":
+            return "fa-solid fa-circle-check";
+
+        default:
+            return "fa-solid fa-bell";
+    }
+}
+
+
+/* =====================================================
+   CLICK NOTIFICATION
+   ===================================================== */
+
+async function handleNotificationClick(item) {
+
+    const id =
+        item.dataset.id;
+
+    const link =
+        item.dataset.link;
+
+
+    try {
+
+        await fetch(
+            NOTIFICATION_API +
+            "/" + id +
+            "/read",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Failed to mark notification as read:",
+            error
+        );
+    }
+
+
+    await loadNotificationCount();
+
+
+    if (link) {
+
+        window.location.href = link;
+
+    } else {
+
+        item.classList.remove("unread");
+
+        const dot =
+            item.querySelector(
+                ".notification-unread-dot"
+            );
+
+        if (dot) {
+            dot.remove();
+        }
+
+    }
+}
+
+
+/* =====================================================
+   MARK ALL AS READ
+   ===================================================== */
+
+async function markAllNotificationsAsRead() {
+
+    try {
+
+        const response = await fetch(
+            NOTIFICATION_API + "/read-all",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) return;
+
+        await loadNotifications();
+
+        await loadNotificationCount();
+
+    } catch (error) {
+
+        console.error(
+            "Mark all as read error:",
+            error
+        );
+    }
+}
+
+
+/* =====================================================
+   BELL CLICK
+   ===================================================== */
+
+if (notificationBell) {
+
+    notificationBell.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            notificationPanel.classList.toggle(
+                "show"
+            );
+
+            if (
+                notificationPanel.classList.contains(
+                    "show"
+                )
+            ) {
+
+                await loadNotifications();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   MARK ALL BUTTON
+   ===================================================== */
+
+if (markAllReadBtn) {
+
+    markAllReadBtn.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            await markAllNotificationsAsRead();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE PANEL OUTSIDE
+   ===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            notificationPanel &&
+            notificationBell &&
+            !notificationBell.contains(
+                event.target
+            )
+        ) {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESCAPE KEY
+   ===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FORMAT TIME
+   ===================================================== */
+
+function formatNotificationTime(dateString) {
+
+    if (!dateString) {
+        return "Just now";
+    }
+
+    const date =
+        new Date(dateString);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "Just now";
+
+    }
+
+    const now =
+        new Date();
+
+    const seconds =
+        Math.floor(
+            (now - date) / 1000
+        );
+
+
+    if (seconds < 60) {
+        return "Just now";
+    }
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+    if (minutes < 60) {
+        return `${minutes} min ago`;
+    }
+
+
+    const hours =
+        Math.floor(
+            minutes / 60
+        );
+
+    if (hours < 24) {
+        return `${hours} hr ago`;
+    }
+
+
+    const days =
+        Math.floor(
+            hours / 24
+        );
+
+    if (days === 1) {
+        return "Yesterday";
+    }
+
+    if (days < 7) {
+        return `${days} days ago`;
+    }
+
+
+    return date.toLocaleDateString();
+}
+
+
+/* =====================================================
+   HTML ESCAPING
+   ===================================================== */
+
+function escapeNotificationText(text) {
+
+    if (
+        text === null ||
+        text === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+   ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadNotificationCount();
+
+    }
+);
+    </script>
+</body>
+
+</html>

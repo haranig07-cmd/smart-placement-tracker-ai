@@ -1,0 +1,18 @@
+# Java / Maven
+backend/target/
+
+# Uploaded resumes / private files
+backend/uploads/
+
+# IDE settings
+.vscode/
+.idea/
+*.iml
+
+# Environment / secrets
+.env
+*.env
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Officer Dashboard</title>
+
+    <link rel="stylesheet" href="officer-dashboard.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="logout.js" defer></script>
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <h2>SPT AI</h2>
+
+        <a href="officer-dashboard.html">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+
+        <a href="officer-student.html">
+            <i class="fa-solid fa-users"></i> Students
+        </a>
+
+        <a href="officer-companies.html">
+            <i class="fa-solid fa-building"></i> Companies
+        </a>
+
+        <a href="officer-drives.html">
+            <i class="fa-solid fa-calendar"></i> Drives
+        </a>
+
+        <a href="officer-reports.html">
+            <i class="fa-solid fa-chart-line"></i> Reports
+        </a>
+
+        <a href="index.html" data-logout>
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+
+    </div>
+
+    <div class="main">
+
+        <h1>Welcome, Placement Officer 👨‍💼</h1>
+        <p>Manage campus placements efficiently.</p>
+
+        <div class="cards">
+
+            <div class="card">
+                <i class="fa-solid fa-user-graduate"></i>
+                <h2 id="totalStudents">0</h2>
+                <p>Total Students</p>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-building"></i>
+                <h2 id="totalCompanies">0</h2>
+                <p>Companies</p>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-briefcase"></i>
+                <h2 id="totalDrives">0</h2>
+                <p>Placement Drives</p>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-award"></i>
+                <h2 id="placedStudents">0</h2>
+                <p>Students Placed</p>
+            </div>
+
+        </div>
+
+        <div class="table-box">
+
+            <h2>Upcoming Placement Drives</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Date</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+
+                <tbody id="drivesTableBody">
+
+                    <tr>
+                        <td colspan="3">Loading placement drives...</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script src="officer-auth.js"></script>
+    <script>
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        // Load dashboard statistics
+        async function loadDashboard() {
+
+            try {
+
+                const response = await officerFetch(`${API_BASE}/api/officer/dashboard`);
+
+                if (!response.ok) {
+                    throw new Error("Failed to load dashboard data");
+                }
+
+                const data = await response.json();
+
+                document.getElementById("totalStudents").textContent =
+                    data.totalStudents || 0;
+
+                document.getElementById("totalCompanies").textContent =
+                    data.totalCompanies || 0;
+
+                document.getElementById("totalDrives").textContent =
+                    data.totalJobs || 0;
+
+                document.getElementById("placedStudents").textContent =
+                    data.placedStudents || 0;
+
+            } catch (error) {
+
+                console.error("Dashboard error:", error);
+
+            }
+
+        }
+
+
+        // Load upcoming placement drives
+        async function loadUpcomingDrives() {
+
+            const tableBody = document.getElementById("drivesTableBody");
+
+            try {
+
+                const response = await officerFetch(`${API_BASE}/api/officer/drives`);
+
+                if (!response.ok) {
+                    throw new Error("Failed to load drives");
+                }
+
+                const drives = await response.json();
+
+                tableBody.innerHTML = "";
+
+                const upcomingDrives = drives.filter(
+                    drive => drive.status === "Upcoming"
+                );
+
+                if (upcomingDrives.length === 0) {
+
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="3">No upcoming placement drives.</td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+
+                upcomingDrives.forEach(drive => {
+
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${drive.companyName || "N/A"}</td>
+                        <td>${formatDate(drive.deadline)}</td>
+                        <td>${drive.jobTitle || "N/A"}</td>
+                    `;
+
+                    tableBody.appendChild(row);
+
+                });
+
+            } catch (error) {
+
+                console.error("Drives error:", error);
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3">Unable to load placement drives.</td>
+                    </tr>
+                `;
+
+            }
+
+        }
+
+
+        // Format date
+        function formatDate(dateString) {
+
+            if (!dateString) {
+                return "N/A";
+            }
+
+            const date = new Date(dateString);
+
+            return date.toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            });
+
+        }
+
+
+        // Load everything when page opens
+        loadDashboard();
+        loadUpcomingDrives();
+    </script>
+
+</body>
+
+</html>

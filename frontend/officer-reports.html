@@ -1,0 +1,696 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Placement Reports</title>
+
+    <link rel="stylesheet" href="officer-reports.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="logout.js" defer></script>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>SPT AI</h2>
+
+        <a href="officer-dashboard.html">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+
+        <a href="officer-student.html">
+            <i class="fa-solid fa-users"></i> Students
+        </a>
+
+        <a href="officer-companies.html">
+            <i class="fa-solid fa-building"></i> Companies
+        </a>
+
+        <a href="officer-drives.html">
+            <i class="fa-solid fa-calendar"></i> Drives
+        </a>
+
+        <a href="officer-reports.html" class="active">
+            <i class="fa-solid fa-chart-line"></i> Reports
+        </a>
+
+        <a href="index.html" data-logout>
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main">
+
+        <h1>Placement Reports</h1>
+
+        <p class="subtitle">
+            Analyze placement performance and campus recruitment statistics.
+        </p>
+
+
+        <!-- STAT CARDS -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <i class="fa-solid fa-user-graduate"></i>
+
+                <h2 id="totalStudents">0</h2>
+
+                <p>Total Students</p>
+
+            </div>
+
+
+            <div class="card">
+
+                <i class="fa-solid fa-award"></i>
+
+                <h2 id="placedStudents">0</h2>
+
+                <p>Students Placed</p>
+
+            </div>
+
+
+            <div class="card">
+
+                <i class="fa-solid fa-building"></i>
+
+                <h2 id="recruitingCompanies">0</h2>
+
+                <p>Recruiting Companies</p>
+
+            </div>
+
+
+            <div class="card">
+
+                <i class="fa-solid fa-chart-pie"></i>
+
+                <h2 id="placementRate">0%</h2>
+
+                <p>Placement Rate</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- REPORT SECTION -->
+
+        <div class="report-grid">
+
+
+            <!-- PLACEMENT SUMMARY -->
+
+            <div class="report-box">
+
+                <h2>
+                    <i class="fa-solid fa-chart-column"></i> Placement Summary
+                </h2>
+
+
+                <div class="summary-row">
+
+                    <span>Students Registered</span>
+
+                    <strong id="registeredStudents">0</strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Students Eligible</span>
+
+                    <strong id="eligibleStudents">0</strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Total Applications</span>
+
+                    <strong id="totalApplications">0</strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Students Shortlisted</span>
+
+                    <strong id="shortlistedStudents">0</strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Students Placed</span>
+
+                    <strong id="summaryPlacedStudents">0</strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPANY REPORT -->
+
+            <div class="report-box">
+
+                <h2>
+                    <i class="fa-solid fa-building"></i> Company Recruitment
+                </h2>
+
+
+                <div class="summary-row">
+
+                    <span>Total Companies</span>
+
+                    <strong id="totalCompanies">0</strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Active Recruiters</span>
+
+                    <strong id="activeRecruiters">—</strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>New Recruiters</span>
+
+                    <strong id="newRecruiters">—</strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Placement Drives</span>
+
+                    <strong id="totalDrives">0</strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>Completed Drives</span>
+
+                    <strong id="completedDrives">—</strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOP RECRUITERS -->
+
+        <div class="table-box">
+
+            <h2>Top Recruiting Companies</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Company</th>
+
+                        <th>Job Role</th>
+
+                        <th>Students Hired</th>
+
+                        <th>Placement Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="recruiterTable">
+
+                    <tr>
+
+                        <td colspan="4" style="text-align:center;">
+
+                            Loading company data...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- DEPARTMENT REPORT -->
+
+        <div class="table-box">
+
+            <h2>Department-wise Placement</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Department</th>
+
+                        <th>Total Students</th>
+
+                        <th>Placed</th>
+
+                        <th>Placement Rate</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="departmentTable">
+
+                    <tr>
+
+                        <td colspan="4" style="text-align:center;">
+
+                            Loading department data...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="officer-auth.js"></script>
+    <script>
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+        // =====================================================
+        // LOAD REPORTS
+        // =====================================================
+
+        async function loadReports() {
+
+            try {
+
+                const response =
+                    await officerFetch(API_BASE + "/api/officer/reports");
+
+                if (!response.ok) {
+                    throw new Error("Failed to load report data");
+                }
+
+                const data = await response.json();
+
+                console.log("Officer Reports:", data);
+
+
+                // =================================================
+                // TOP STAT CARDS
+                // =================================================
+
+                document.getElementById("totalStudents").textContent =
+                    data.totalStudents || 0;
+
+                document.getElementById("placedStudents").textContent =
+                    data.placedStudents || 0;
+
+                document.getElementById("recruitingCompanies").textContent =
+                    data.recruitingCompanies || 0;
+
+                document.getElementById("placementRate").textContent =
+                    formatPercentage(data.placementRate);
+
+
+                // =================================================
+                // PLACEMENT SUMMARY
+                // =================================================
+
+                document.getElementById("registeredStudents").textContent =
+                    data.totalStudents || 0;
+
+                document.getElementById("eligibleStudents").textContent =
+                    data.eligibleStudents || 0;
+
+                document.getElementById("totalApplications").textContent =
+                    data.totalApplications || 0;
+
+                document.getElementById("shortlistedStudents").textContent =
+                    data.shortlistedStudents || 0;
+
+                document.getElementById("summaryPlacedStudents").textContent =
+                    data.placedStudents || 0;
+
+
+                // =================================================
+                // COMPANY RECRUITMENT
+                // =================================================
+
+                document.getElementById("totalCompanies").textContent =
+                    data.recruitingCompanies || 0;
+
+                document.getElementById("activeRecruiters").textContent =
+                    data.activeRecruiters || 0;
+
+                document.getElementById("newRecruiters").textContent =
+                    data.newRecruiters || 0;
+
+                document.getElementById("totalDrives").textContent =
+                    data.totalDrives || 0;
+
+                document.getElementById("completedDrives").textContent =
+                    data.completedDrives || 0;
+
+
+                // =================================================
+                // TOP RECRUITERS
+                // =================================================
+
+                displayRecruiters(
+                    data.topRecruiters || []
+                );
+
+
+                // =================================================
+                // DEPARTMENT REPORT
+                // =================================================
+
+                displayDepartments(
+                    data.departmentReports || []
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading reports:",
+                    error
+                );
+
+                showError();
+
+            }
+
+        }
+
+
+        // =====================================================
+        // DISPLAY TOP RECRUITERS
+        // =====================================================
+
+        function displayRecruiters(recruiters) {
+
+            const table =
+                document.getElementById("recruiterTable");
+
+            table.innerHTML = "";
+
+
+            if (!recruiters || recruiters.length === 0) {
+
+                table.innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align:center;">
+                        No recruiting company data available.
+                    </td>
+                </tr>
+            `;
+
+                return;
+
+            }
+
+
+            recruiters.forEach(function(company) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                const status =
+                    company.placementStatus || "—";
+
+
+                const statusClass =
+                    status.toLowerCase()
+                    .replace(/\s+/g, "-");
+
+
+                row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(company.company || "—")}
+                </td>
+
+                <td>
+                    ${escapeHtml(company.jobRole || "—")}
+                </td>
+
+                <td>
+                    ${company.studentsHired || 0}
+                </td>
+
+                <td>
+                    <span class="status ${statusClass}">
+                        ${escapeHtml(status)}
+                    </span>
+                </td>
+
+            `;
+
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+        // =====================================================
+        // DISPLAY DEPARTMENTS
+        // =====================================================
+
+        function displayDepartments(departments) {
+
+            const table =
+                document.getElementById("departmentTable");
+
+            table.innerHTML = "";
+
+
+            if (!departments || departments.length === 0) {
+
+                table.innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align:center;">
+                        No department data available.
+                    </td>
+                </tr>
+            `;
+
+                return;
+
+            }
+
+
+            departments.forEach(function(department) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(
+                        department.department || "Not Specified"
+                    )}
+                </td>
+
+                <td>
+                    ${department.totalStudents || 0}
+                </td>
+
+                <td>
+                    ${department.placed || 0}
+                </td>
+
+                <td>
+                    ${formatPercentage(
+                        department.placementRate
+                    )}
+                </td>
+
+            `;
+
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+        // =====================================================
+        // FORMAT PERCENTAGE
+        // =====================================================
+
+        function formatPercentage(value) {
+
+            if (
+                value === null ||
+                value === undefined ||
+                value === ""
+            ) {
+
+                return "0%";
+
+            }
+
+
+            const number =
+                Number(value);
+
+
+            if (isNaN(number)) {
+
+                return "0%";
+
+            }
+
+
+            return number.toFixed(1) + "%";
+
+        }
+
+
+        // =====================================================
+        // ESCAPE HTML
+        // =====================================================
+
+        function escapeHtml(value) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent =
+                value;
+
+            return div.innerHTML;
+
+        }
+
+
+        // =====================================================
+        // ERROR DISPLAY
+        // =====================================================
+
+        function showError() {
+
+            document.getElementById("totalStudents").textContent = "—";
+
+            document.getElementById("placedStudents").textContent = "—";
+
+            document.getElementById("recruitingCompanies").textContent = "—";
+
+            document.getElementById("placementRate").textContent = "—";
+
+
+            document.getElementById("registeredStudents").textContent = "—";
+
+            document.getElementById("eligibleStudents").textContent = "—";
+
+            document.getElementById("totalApplications").textContent = "—";
+
+            document.getElementById("shortlistedStudents").textContent = "—";
+
+            document.getElementById("summaryPlacedStudents").textContent = "—";
+
+
+            document.getElementById("totalCompanies").textContent = "—";
+
+            document.getElementById("activeRecruiters").textContent = "—";
+
+            document.getElementById("newRecruiters").textContent = "—";
+
+            document.getElementById("totalDrives").textContent = "—";
+
+            document.getElementById("completedDrives").textContent = "—";
+
+
+            document.getElementById("recruiterTable").innerHTML = `
+            <tr>
+                <td colspan="4"
+                    style="text-align:center; color:red;">
+                    Unable to load company data.
+                </td>
+            </tr>
+        `;
+
+
+            document.getElementById("departmentTable").innerHTML = `
+            <tr>
+                <td colspan="4"
+                    style="text-align:center; color:red;">
+                    Unable to load department data.
+                </td>
+            </tr>
+        `;
+
+        }
+
+
+        // =====================================================
+        // LOAD REPORTS WHEN PAGE OPENS
+        // =====================================================
+
+        loadReports();
+    </script>
+
+</body>
+
+</html>
+```

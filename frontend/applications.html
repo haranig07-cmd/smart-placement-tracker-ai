@@ -1,0 +1,3187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Applications | SPT AI</title>
+
+    <link rel="stylesheet" href="applications.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="logout.js" defer></script>
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="header">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-brain"></i>
+
+            <span>
+                SPT <strong>AI</strong>
+            </span>
+
+        </div>
+
+        <div class="company-profile">
+
+            <div class="notification" id="notificationBell">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span id="notificationCount">0</span>
+
+                <div class="notification-panel" id="notificationPanel">
+
+                    <div class="notification-panel-header">
+
+                        <div>
+
+                            <strong>Notifications</strong>
+
+                            <small id="notificationSummary">
+                                0 unread
+                            </small>
+
+                        </div>
+
+                        <button type="button" id="markAllReadBtn">
+                            Mark all as read
+                        </button>
+
+                    </div>
+
+                    <div class="notification-list" id="notificationList">
+
+                        <div class="notification-empty">
+
+                            <i class="fa-regular fa-bell-slash"></i>
+
+                            <p>
+                                No notifications
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="profile-icon">
+
+                <i class="fa-solid fa-building"></i>
+
+            </div>
+
+            <div class="profile-text">
+
+                <strong id="companyNameDisplay">
+                    Company
+                </strong>
+
+                <small>
+                    Recruiter
+                </small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <a href="company-dashboard.html">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+
+        <a href="post-job.html">
+            <i class="fa-solid fa-plus"></i> Post Job
+        </a>
+
+        <a href="applications.html" class="active">
+            <i class="fa-solid fa-users"></i> Applications
+        </a>
+
+        <a href="shortlisted.html">
+            <i class="fa-solid fa-user-check"></i> Shortlisted
+        </a>
+
+        <a href="index.html" data-logout>
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main>
+
+        <!-- PAGE TITLE -->
+
+        <section class="page-title">
+
+            <div>
+
+                <h1>
+                    Student Applications
+                </h1>
+
+                <p>
+                    Review and manage students who applied for your job openings.
+                </p>
+
+            </div>
+
+            <div class="application-count">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span id="applicationCount">
+                    0
+                </span> Applications
+
+            </div>
+
+        </section>
+
+
+        <!-- FILTERS -->
+
+        <section class="filter-card">
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text" id="searchInput" placeholder="Search student name or job role..." onkeyup="filterApplications()">
+
+            </div>
+
+
+            <select id="jobFilter" onchange="filterApplications()">
+
+                <option value="all">
+                    All Jobs
+                </option>
+
+            </select>
+
+
+            <select id="statusFilter" onchange="filterApplications()">
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="Applied">
+                    Applied
+                </option>
+
+                <option value="Under Review">
+                    Under Review
+                </option>
+
+                <option value="Shortlisted">
+                    Shortlisted
+                </option>
+
+                <option value="Interview">
+                    Interview
+                </option>
+
+                <option value="Selected">
+                    Selected
+                </option>
+
+                <option value="Rejected">
+                    Rejected
+                </option>
+
+            </select>
+
+        </section>
+
+
+        <!-- APPLICATION TABLE -->
+
+        <section class="applications-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Recent Applications
+                    </h2>
+
+                    <p>
+                        Students who recently applied for your jobs
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Student</th>
+
+                            <th>Department</th>
+
+                            <th>CGPA</th>
+
+                            <th>Job Role</th>
+
+                            <th>Applied On</th>
+
+                            <th>ATS Score</th>
+
+                            <th>AI Match</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="applicationTable">
+
+                        <tr>
+
+                            <td colspan="9" style="text-align:center; padding:30px;">
+                                Loading applications...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 SPT AI. Smart Placement Tracking System.
+        </p>
+
+        <div>
+
+            <a href="#">
+                Privacy
+            </a>
+
+            <a href="#">
+                Help
+            </a>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+        // =====================================================
+        // GLOBAL VARIABLES
+        // =====================================================
+
+        let allApplications = [];
+
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        const companyName =
+            localStorage.getItem("companyName");
+
+        const companyId =
+            localStorage.getItem("userId");
+
+        const userRole =
+            localStorage.getItem("userRole");
+
+
+        // =====================================================
+        // DISPLAY COMPANY NAME
+        // =====================================================
+
+        document.getElementById("companyNameDisplay").innerText =
+            companyName || "Company";
+
+
+        // =====================================================
+        // LOAD COMPANY APPLICATIONS
+        // =====================================================
+
+        async function loadApplications() {
+
+            try {
+
+                if (!companyName ||
+                    !companyId ||
+                    userRole !== "COMPANY"
+                ) {
+
+                    alert("Please login as a company first.");
+
+                    window.location.href = "login.html";
+
+                    return;
+
+                }
+
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/api/company/dashboard/` +
+                        encodeURIComponent(companyName) +
+                        `/applications/detail`, {
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    const errorText =
+                        await response.text();
+
+                    console.error(
+                        "Applications API error:",
+                        response.status,
+                        errorText
+                    );
+
+                    throw new Error(
+                        "Failed to load applications"
+                    );
+
+                }
+
+
+                allApplications =
+                    await response.json();
+
+
+                console.log(
+                    "Company applications:",
+                    allApplications
+                );
+
+
+                populateJobFilter(
+                    allApplications
+                );
+
+
+                displayApplications(
+                    allApplications
+                );
+
+
+                document.getElementById(
+                        "applicationCount"
+                    ).innerText =
+                    allApplications.length;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading applications:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "applicationTable"
+                ).innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="9"
+                            style="text-align:center; padding:30px;"
+                        >
+
+                            Unable to load applications.
+
+                            <br><br>
+
+                            Please make sure the
+                            Spring Boot backend is running.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+        }
+
+
+        // =====================================================
+        // DISPLAY APPLICATIONS
+        // =====================================================
+
+        function displayApplications(applications) {
+
+            const table =
+                document.getElementById(
+                    "applicationTable"
+                );
+
+
+            table.innerHTML = "";
+
+
+            if (!applications ||
+                applications.length === 0
+            ) {
+
+                table.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="9"
+                            style="text-align:center; padding:30px;"
+                        >
+
+                            <i
+                                class="fa-solid fa-users"
+                                style="font-size:40px;"
+                            ></i>
+
+                            <br><br>
+
+                            No applications found.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            applications.forEach(
+                    function(application) {
+
+                        const student =
+                            application.student || {};
+
+                        const job =
+                            application.job || {};
+
+
+                        const studentName =
+                            student.name ?
+                            student.name :
+                            "Student";
+
+
+                        const studentEmail =
+                            student.email ?
+                            student.email :
+                            "No email";
+
+
+                        const department =
+                            student.department ?
+                            student.department :
+                            "—";
+
+
+                        const cgpa =
+                            student.cgpa ?
+                            student.cgpa :
+                            "—";
+
+
+                        const jobTitle =
+                            job.title ?
+                            job.title :
+                            "Job";
+
+
+                        const atsScore =
+                            application.atsScore !== null &&
+                            application.atsScore !== undefined ?
+                            application.atsScore :
+                            "N/A";
+
+
+                        // =================================================
+                        // AI MATCH
+                        // =================================================
+
+                        const aiMatch =
+                            application.aiMatchPercentage !== null &&
+                            application.aiMatchPercentage !== undefined ?
+                            Number(application.aiMatchPercentage) :
+                            null;
+
+
+                        const matchedSkills =
+                            Array.isArray(application.matchedSkills) ?
+                            application.matchedSkills :
+                            [];
+
+
+                        const missingSkills =
+                            Array.isArray(application.missingSkills) ?
+                            application.missingSkills :
+                            [];
+
+
+                        const status =
+                            application.status ?
+                            application.status :
+                            "Applied";
+
+
+                        // =================================================
+                        // APPLIED DATE
+                        // =================================================
+
+                        let appliedDate = "—";
+
+
+                        if (application.appliedAt) {
+
+                            const d =
+                                new Date(
+                                    application.appliedAt
+                                );
+
+
+                            appliedDate =
+                                d.toLocaleDateString(
+                                    "en-IN", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric"
+                                    }
+                                );
+
+                        }
+
+
+                        // =================================================
+                        // INITIALS
+                        // =================================================
+
+                        const initials =
+                            studentName
+                            .split(" ")
+                            .map(
+                                function(name) {
+                                    return name.charAt(0);
+                                }
+                            )
+                            .join("")
+                            .substring(0, 2)
+                            .toUpperCase();
+
+
+                        // =================================================
+                        // ATS SCORE CLASS
+                        // =================================================
+
+                        let scoreClass = "medium";
+
+
+                        if (atsScore !== "N/A") {
+
+                            if (Number(atsScore) >= 85) {
+
+                                scoreClass = "high";
+
+                            } else if (Number(atsScore) < 70) {
+
+                                scoreClass = "low";
+
+                            }
+
+                        }
+
+
+                        // =================================================
+                        // STATUS CLASS
+                        // =================================================
+
+                        const statusClass =
+                            status
+                            .toLowerCase()
+                            .replaceAll(" ", "-");
+
+
+                        // =================================================
+                        // TABLE ROW
+                        // =================================================
+
+                        const row =
+                            document.createElement("tr");
+
+
+                        row.innerHTML = `
+
+                        <td>
+
+                            <div class="student">
+
+                                <div class="avatar">
+                                    ${escapeHtml(initials)}
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        ${escapeHtml(studentName)}
+                                    </strong>
+
+                                    <small>
+                                        ${escapeHtml(studentEmail)}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(department)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(cgpa)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(jobTitle)}
+                        </td>
+
+
+                        <td style="color:#64748b;">
+                            ${escapeHtml(appliedDate)}
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="score ${scoreClass}"
+                            >
+
+                                ${
+                                    atsScore === "N/A"
+                                        ? "N/A"
+                                        : atsScore + "%"
+                                }
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            ${
+                                aiMatch !== null
+
+                                    ? `
+
+                                        <div style="
+                                            display:flex;
+                                            flex-direction:column;
+                                            gap:4px;
+                                            min-width:100px;
+                                        ">
+
+                                            <span
+                                                style="
+                                                    display:inline-block;
+                                                    width:max-content;
+                                                    padding:5px 9px;
+                                                    border-radius:8px;
+                                                    background:${
+                                                        aiMatch >= 80
+                                                            ? "#dcfce7"
+                                                            : aiMatch >= 60
+                                                                ? "#fef3c7"
+                                                                : "#fee2e2"
+                                                    };
+                                                    color:${
+                                                        aiMatch >= 80
+                                                            ? "#15803d"
+                                                            : aiMatch >= 60
+                                                                ? "#b45309"
+                                                                : "#dc2626"
+                                                    };
+                                                    font-weight:700;
+                                                    font-size:12px;
+                                                "
+                                            >
+
+                                                <i class="fa-solid fa-robot"></i>
+
+                                                ${aiMatch}%
+
+                                            </span>
+
+                                            <small style="
+                                                color:#64748b;
+                                                font-size:10px;
+                                            ">
+
+                                                AI Match
+
+                                            </small>
+
+                                        </div>
+
+                                    `
+
+                                    : `
+
+                                        <span style="color:#94a3b8;">
+                                            N/A
+                                        </span>
+
+                                    `
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="status ${statusClass}"
+                            >
+                                ${escapeHtml(status)}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <button
+                                onclick="viewApplicant(${application.id})"
+                                style="
+                                    padding:8px 12px;
+                                    border:none;
+                                    border-radius:8px;
+                                    background:#eef2ff;
+                                    color:#4f46e5;
+                                    font-family:Poppins,sans-serif;
+                                    font-size:13px;
+                                    cursor:pointer;
+                                    margin-right:6px;
+                                "
+                            >
+
+                                <i class="fa-solid fa-eye"></i>
+
+                                View
+
+                            </button>
+
+
+                            <button
+                                onclick="viewApplicantResume(${student.id || 0})"
+                                title="View student resume PDF"
+                                style="
+                                    padding:8px 12px;
+                                    border:none;
+                                    border-radius:8px;
+                                    background:#fdf4ff;
+                                    color:#7c3aed;
+                                    font-family:Poppins,sans-serif;
+                                    font-size:13px;
+                                    cursor:pointer;
+                                    margin-right:6px;
+                                "
+                            >
+
+                                <i class="fa-solid fa-file-pdf"></i>
+
+                                Resume
+
+                            </button>
+
+
+                            <select
+                                class="status-select"
+                                onchange="
+                                    updateApplicationStatus(
+                                        ${application.id},
+                                        this.value
+                                    )
+                                "
+                                style="
+                                    padding:8px 10px;
+                                    border:1px solid #d9dff0;
+                                    border-radius:8px;
+                                    font-family:Poppins,sans-serif;
+                                    font-size:13px;
+                                    background:white;
+                                    cursor:pointer;
+                                "
+                            >
+
+                                <option
+                                    value="Applied"
+                                    ${status === "Applied" ? "selected" : ""}
+                                >
+                                    Applied
+                                </option>
+
+                                <option
+                                    value="Shortlisted"
+                                    ${status === "Shortlisted" ? "selected" : ""}
+                                >
+                                    Shortlisted
+                                </option>
+
+                                <option
+                                    value="Selected"
+                                    ${status === "Selected" ? "selected" : ""}
+                                >
+                                    Selected
+                                </option>
+
+                                <option
+                                    value="Rejected"
+                                    ${status === "Rejected" ? "selected" : ""}
+                                >
+                                    Rejected
+                                </option>
+
+                            </select>
+
+                        </td>
+
+                    `;
+
+
+                    table.appendChild(row);
+
+                }
+            );
+
+        }
+
+
+        // =====================================================
+        // UPDATE APPLICATION STATUS
+        // =====================================================
+
+        async function updateApplicationStatus(
+            applicationId,
+            newStatus
+        ) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/api/applications/` +
+                        applicationId +
+                        `/status`,
+                        {
+
+                            credentials: "include",
+
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                status: newStatus
+                            })
+
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    const errText =
+                        await response.text();
+
+                    let errorMsg =
+                        errText;
+
+
+                    try {
+
+                        const jsonErr =
+                            JSON.parse(errText);
+
+
+                        if (
+                            jsonErr &&
+                            jsonErr.message
+                        ) {
+
+                            errorMsg =
+                                jsonErr.message;
+
+                        }
+
+
+                        if (
+                            jsonErr &&
+                            jsonErr.error
+                        ) {
+
+                            errorMsg =
+                                jsonErr.error;
+
+                        }
+
+                    } catch (e) {
+                        // Non JSON response
+                    }
+
+
+                    if (response.status === 403) {
+
+                        alert(
+                            "Unauthorized: " +
+                            (
+                                errorMsg ||
+                                "Sign in as the company that posted this job."
+                            )
+                        );
+
+                    } else if (response.status === 400) {
+
+                        alert(
+                            "Invalid request: " +
+                            (
+                                errorMsg ||
+                                "Invalid application status."
+                            )
+                        );
+
+                    } else {
+
+                        alert(
+                            "Failed to update status (" +
+                            response.status +
+                            "): " +
+                            (
+                                errorMsg ||
+                                response.statusText
+                            )
+                        );
+
+                    }
+
+
+                    await loadApplications();
+
+                    return;
+
+                }
+
+
+                await loadApplications();
+
+
+                alert(
+                    "Application status updated to: " +
+                    newStatus
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Status update error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to connect to server. Please make sure the Spring Boot backend is running."
+                );
+
+
+                await loadApplications();
+
+            }
+
+        }
+
+
+        // =====================================================
+        // VIEW APPLICANT MODAL
+        // =====================================================
+
+        function viewApplicant(applicationId) {
+
+            const application =
+                allApplications.find(
+                    function(app) {
+                        return app.id === applicationId;
+                    }
+                );
+
+
+            if (!application) {
+
+                alert(
+                    "Applicant details not found. Please refresh the page and try again."
+                );
+
+                return;
+
+            }
+
+
+            closeApplicantModal();
+
+
+            const student =
+                application.student || {};
+
+            const job =
+                application.job || {};
+
+
+            const studentName =
+                student.name &&
+                String(student.name).trim()
+                    ? String(student.name).trim()
+                    : "N/A";
+
+
+            const studentEmail =
+                student.email &&
+                String(student.email).trim()
+                    ? String(student.email).trim()
+                    : "N/A";
+
+
+            const studentPhone =
+                student.phone &&
+                String(student.phone).trim()
+                    ? String(student.phone).trim()
+                    : "N/A";
+
+
+            const college =
+                student.college &&
+                String(student.college).trim()
+                    ? String(student.college).trim()
+                    : "N/A";
+
+
+            const department =
+                student.department &&
+                String(student.department).trim()
+                    ? String(student.department).trim()
+                    : "N/A";
+
+
+            const cgpa =
+                student.cgpa &&
+                String(student.cgpa).trim()
+                    ? String(student.cgpa).trim()
+                    : "N/A";
+
+
+            const graduationYear =
+                student.graduationYear &&
+                String(student.graduationYear).trim()
+                    ? String(student.graduationYear).trim()
+                    : "N/A";
+
+
+            // =================================================
+            // STUDENT SKILLS
+            // =================================================
+
+            const rawSkills =
+                student.skills || "";
+
+
+            const skillsArray =
+                rawSkills
+                    ? String(rawSkills)
+                        .split(/[,;]/)
+                        .map(
+                            function(skill) {
+                                return skill.trim();
+                            }
+                        )
+                        .filter(Boolean)
+                    : [];
+
+
+            // =================================================
+            // ATS SCORE
+            // =================================================
+
+            const atsScore =
+                application.atsScore !== null &&
+                application.atsScore !== undefined
+                    ? application.atsScore
+                    : null;
+
+
+            const atsScoreDisplay =
+                atsScore !== null
+                    ? atsScore + "%"
+                    : "Not Available";
+
+
+            // =================================================
+            // AI CANDIDATE EVALUATION
+            // =================================================
+
+            const aiMatch =
+                application.aiMatchPercentage !== null &&
+                application.aiMatchPercentage !== undefined
+                    ? Number(application.aiMatchPercentage)
+                    : null;
+
+
+            const matchedSkills =
+                Array.isArray(application.matchedSkills)
+                    ? application.matchedSkills
+                    : [];
+
+
+            const missingSkills =
+                Array.isArray(application.missingSkills)
+                    ? application.missingSkills
+                    : [];
+
+
+            // =================================================
+            // STATUS
+            // =================================================
+
+            const status =
+                application.status &&
+                String(application.status).trim()
+                    ? String(application.status).trim()
+                    : "Applied";
+
+
+            const currentStatusLower =
+                status.toLowerCase();
+
+
+            // =================================================
+            // JOB INFORMATION
+            // =================================================
+
+            const jobTitle =
+                job.title &&
+                String(job.title).trim()
+                    ? String(job.title).trim()
+                    : "N/A";
+
+
+            const applicationCompanyName =
+                job.companyName &&
+                String(job.companyName).trim()
+                    ? String(job.companyName).trim()
+                    : "N/A";
+
+
+            // =================================================
+            // APPLICATION DATE
+            // =================================================
+
+            let appliedDate = "N/A";
+
+
+            if (application.appliedAt) {
+
+                try {
+
+                    appliedDate =
+                        new Date(
+                            application.appliedAt
+                        ).toLocaleDateString(
+                            "en-US",
+                            {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric"
+                            }
+                        );
+
+                } catch (e) {
+
+                    appliedDate = "N/A";
+
+                }
+
+            }
+
+
+            // =================================================
+            // INITIALS
+            // =================================================
+
+            const initials =
+                getApplicantInitials(
+                    studentName !== "N/A"
+                        ? studentName
+                        : "ST"
+                );
+
+
+            // =================================================
+            // ATS COLORS
+            // =================================================
+
+            let scoreColor = "#64748b";
+            let scoreBg = "#f1f5f9";
+
+
+            if (atsScore !== null) {
+
+                if (atsScore >= 80) {
+
+                    scoreColor = "#16a34a";
+                    scoreBg = "#dcfce7";
+
+                } else if (atsScore >= 60) {
+
+                    scoreColor = "#2563eb";
+                    scoreBg = "#dbeafe";
+
+                } else {
+
+                    scoreColor = "#dc2626";
+                    scoreBg = "#fee2e2";
+
+                }
+
+            }
+
+
+            const studentId =
+                student.id || 0;
+
+
+            // =================================================
+            // CREATE MODAL
+            // =================================================
+
+            const modal =
+                document.createElement("div");
+
+
+            modal.id =
+                "applicantDetailsModal";
+
+
+            modal.className =
+                "applicant-modal-overlay";
+
+
+            modal.setAttribute(
+                "role",
+                "dialog"
+            );
+
+
+            modal.setAttribute(
+                "aria-modal",
+                "true"
+            );
+
+
+            modal.setAttribute(
+                "aria-labelledby",
+                "applicantModalTitle"
+            );
+
+
+            // =================================================
+            // MODAL HTML
+            // =================================================
+
+            modal.innerHTML = `
+
+                <div class="applicant-modal-container">
+
+
+                    <!-- =================================================
+                         MODAL HEADER
+                    ================================================== -->
+
+                    <div class="applicant-modal-header">
+
+                        <div class="applicant-modal-user">
+
+                            <div class="applicant-modal-avatar">
+
+                                ${escapeHtml(initials)}
+
+                            </div>
+
+                            <div>
+
+                                <h3 id="applicantModalTitle">
+
+                                    ${escapeHtml(studentName)}
+
+                                </h3>
+
+                                <p>
+
+                                    <i class="fa-solid fa-envelope"></i>
+
+                                    ${escapeHtml(studentEmail)}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="applicant-modal-close"
+                            onclick="closeApplicantModal()"
+                            aria-label="Close modal"
+                        >
+
+                            <i class="fa-solid fa-xmark"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         MODAL BODY
+                    ================================================== -->
+
+                    <div class="applicant-modal-body">
+
+
+                        <!-- =================================================
+                             1. STUDENT INFORMATION
+                        ================================================== -->
+
+                        <div class="applicant-modal-section">
+
+                            <h4 class="applicant-section-title">
+
+                                <i class="fa-solid fa-user-graduate"></i>
+
+                                Student Information
+
+                            </h4>
+
+
+                            <div class="applicant-info-grid">
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-user"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Name
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(studentName)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-envelope"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Email
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(studentEmail)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-phone"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Phone
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(studentPhone)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-building-columns"></i>
+
+                                    <div>
+
+                                        <small>
+                                            College
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(college)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-graduation-cap"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Department
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(department)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-chart-line"></i>
+
+                                    <div>
+
+                                        <small>
+                                            CGPA
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(cgpa)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-calendar"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Graduation Year
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(graduationYear)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             2. AI CANDIDATE EVALUATION
+                        ================================================== -->
+
+                        <div class="applicant-modal-section">
+
+                            <h4 class="applicant-section-title">
+
+                                <i class="fa-solid fa-robot"></i>
+
+                                AI Candidate Evaluation
+
+                            </h4>
+
+
+                            <!-- AI SCORE CARDS -->
+
+                            <div style="
+                                display:grid;
+                                grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+                                gap:15px;
+                                margin-bottom:15px;
+                            ">
+
+
+                                <!-- AI MATCH -->
+
+                                <div style="
+                                    padding:18px;
+                                    border-radius:14px;
+                                    background:linear-gradient(135deg,#eef2ff,#f5f3ff);
+                                    border:1px solid #ddd6fe;
+                                ">
+
+                                    <small style="
+                                        display:block;
+                                        color:#64748b;
+                                        font-size:11px;
+                                        text-transform:uppercase;
+                                        font-weight:600;
+                                        margin-bottom:8px;
+                                    ">
+
+                                        AI Job Match
+
+                                    </small>
+
+                                    <strong style="
+                                        font-size:28px;
+                                        color:${
+                                            aiMatch === null
+                                                ? "#64748b"
+                                                : aiMatch >= 80
+                                                    ? "#16a34a"
+                                                    : aiMatch >= 60
+                                                        ? "#d97706"
+                                                        : "#dc2626"
+                                        };
+                                    ">
+
+                                        ${
+                                            aiMatch !== null
+                                                ? aiMatch + "%"
+                                                : "N/A"
+                                        }
+
+                                    </strong>
+
+                                </div>
+
+
+                                <!-- ATS SCORE -->
+
+                                <div style="
+                                    padding:18px;
+                                    border-radius:14px;
+                                    background:#f8fafc;
+                                    border:1px solid #e2e8f0;
+                                ">
+
+                                    <small style="
+                                        display:block;
+                                        color:#64748b;
+                                        font-size:11px;
+                                        text-transform:uppercase;
+                                        font-weight:600;
+                                        margin-bottom:8px;
+                                    ">
+
+                                        ATS Score
+
+                                    </small>
+
+                                    <strong style="
+                                        font-size:28px;
+                                        color:${scoreColor};
+                                    ">
+
+                                        ${escapeHtml(atsScoreDisplay)}
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- MATCHED SKILLS -->
+
+                            <div style="
+                                padding:15px;
+                                border-radius:12px;
+                                background:#f0fdf4;
+                                border:1px solid #bbf7d0;
+                                margin-bottom:12px;
+                            ">
+
+                                <strong style="
+                                    display:block;
+                                    color:#15803d;
+                                    margin-bottom:8px;
+                                ">
+
+                                    <i class="fa-solid fa-circle-check"></i>
+
+                                    Matched Skills
+
+                                </strong>
+
+
+                                <div style="
+                                    display:flex;
+                                    flex-wrap:wrap;
+                                    gap:7px;
+                                ">
+
+                                    ${
+                                        matchedSkills.length > 0
+
+                                            ? matchedSkills
+                                                .map(
+                                                    function(skill) {
+
+                                                        return `
+
+                                                            <span style="
+                                                                padding:5px 10px;
+                                                                border-radius:20px;
+                                                                background:#dcfce7;
+                                                                color:#166534;
+                                                                font-size:12px;
+                                                                font-weight:600;
+                                                            ">
+
+                                                                ${escapeHtml(skill)}
+
+                                                            </span>
+
+                                                        `;
+
+                                                    }
+                                                )
+                                                .join("")
+
+                                            : `
+
+                                                <span style="
+                                                    color:#94a3b8;
+                                                    font-size:12px;
+                                                ">
+
+                                                    No matching skills detected
+
+                                                </span>
+
+                                            `
+                                    }
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- MISSING SKILLS -->
+
+                            <div style="
+                                padding:15px;
+                                border-radius:12px;
+                                background:#fffbeb;
+                                border:1px solid #fde68a;
+                            ">
+
+                                <strong style="
+                                    display:block;
+                                    color:#b45309;
+                                    margin-bottom:8px;
+                                ">
+
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                                    Missing Skills
+
+                                </strong>
+
+
+                                <div style="
+                                    display:flex;
+                                    flex-wrap:wrap;
+                                    gap:7px;
+                                ">
+
+                                    ${
+                                        missingSkills.length > 0
+
+                                            ? missingSkills
+                                                .map(
+                                                    function(skill) {
+
+                                                        return `
+
+                                                            <span style="
+                                                                padding:5px 10px;
+                                                                border-radius:20px;
+                                                                background:#fef3c7;
+                                                                color:#92400e;
+                                                                font-size:12px;
+                                                                font-weight:600;
+                                                            ">
+
+                                                                ${escapeHtml(skill)}
+
+                                                            </span>
+
+                                                        `;
+
+                                                    }
+                                                )
+                                                .join("")
+
+                                            : `
+
+                                                <span style="
+                                                    color:#15803d;
+                                                    font-size:12px;
+                                                ">
+
+                                                    Excellent! No major missing skills detected.
+
+                                                </span>
+
+                                            `
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             3. RESUME & SKILLS
+                        ================================================== -->
+
+                        <div class="applicant-modal-section">
+
+                            <h4 class="applicant-section-title">
+
+                                <i class="fa-solid fa-file-lines"></i>
+
+                                Resume &amp; Skills
+
+                            </h4>
+
+
+                            <div class="applicant-resume-card">
+
+                                <div class="applicant-resume-stats">
+
+                                    <div class="applicant-stat-chip">
+
+                                        <small>
+                                            ATS Score
+                                        </small>
+
+                                        <strong
+                                            style="
+                                                color:${scoreColor};
+                                                background:${scoreBg};
+                                                padding:3px 10px;
+                                                border-radius:6px;
+                                                display:inline-block;
+                                            "
+                                        >
+
+                                            ${escapeHtml(atsScoreDisplay)}
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="applicant-resume-btn-wrap">
+
+                                        <button
+                                            type="button"
+                                            class="applicant-modal-btn primary"
+                                            onclick="viewApplicantResume(${studentId})"
+                                        >
+
+                                            <i class="fa-solid fa-file-pdf"></i>
+
+                                            View Resume
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-skills-box">
+
+                                    <small style="
+                                        display:block;
+                                        color:#64748b;
+                                        font-size:11px;
+                                        font-weight:600;
+                                        text-transform:uppercase;
+                                        margin-bottom:8px;
+                                    ">
+
+                                        Skills
+
+                                    </small>
+
+
+                                    <div class="applicant-skills-tags">
+
+                                        ${
+                                            skillsArray.length > 0
+
+                                                ? skillsArray
+                                                    .map(
+                                                        function(skill) {
+
+                                                            return `
+
+                                                                <span class="applicant-skill-tag">
+
+                                                                    ${escapeHtml(skill)}
+
+                                                                </span>
+
+                                                            `;
+
+                                                        }
+                                                    )
+                                                    .join("")
+
+                                                : `
+
+                                                    <span style="
+                                                        color:#94a3b8;
+                                                        font-size:12px;
+                                                    ">
+
+                                                        N/A
+
+                                                    </span>
+
+                                                `
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             4. APPLICATION INFORMATION
+                        ================================================== -->
+
+                        <div class="applicant-modal-section">
+
+                            <h4 class="applicant-section-title">
+
+                                <i class="fa-solid fa-briefcase"></i>
+
+                                Application Information
+
+                            </h4>
+
+
+                            <div class="applicant-info-grid">
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-briefcase"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Job
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(jobTitle)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-building"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Company
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(applicationCompanyName)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-calendar-days"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Applied Date
+                                        </small>
+
+                                        <span>
+                                            ${escapeHtml(appliedDate)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="applicant-info-item">
+
+                                    <i class="fa-solid fa-circle-info"></i>
+
+                                    <div>
+
+                                        <small>
+                                            Current Status
+                                        </small>
+
+                                        <span class="status ${escapeHtml(currentStatusLower)}">
+
+                                            ${escapeHtml(status)}
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         MODAL ACTIONS
+                    ================================================== -->
+
+                    <div class="applicant-modal-footer">
+
+                        <div class="applicant-modal-actions">
+
+
+                            <!-- SHORTLIST -->
+
+                            <button
+                                type="button"
+                                class="applicant-action-btn shortlist ${
+                                    currentStatusLower === "shortlisted"
+                                        ? "active"
+                                        : ""
+                                }"
+                                onclick="
+                                    handleModalStatusUpdate(
+                                        ${application.id},
+                                        'Shortlisted'
+                                    )
+                                "
+                                ${
+                                    currentStatusLower === "shortlisted"
+                                        ? "disabled"
+                                        : ""
+                                }
+                                title="Shortlist Candidate"
+                            >
+
+                                <i class="fa-solid fa-user-check"></i>
+
+                                ${
+                                    currentStatusLower === "shortlisted"
+                                        ? "Shortlisted"
+                                        : "Shortlist"
+                                }
+
+                            </button>
+
+
+                            <!-- SELECT -->
+
+                            <button
+                                type="button"
+                                class="applicant-action-btn select ${
+                                    currentStatusLower === "selected"
+                                        ? "active"
+                                        : ""
+                                }"
+                                onclick="
+                                    handleModalStatusUpdate(
+                                        ${application.id},
+                                        'Selected'
+                                    )
+                                "
+                                ${
+                                    currentStatusLower === "selected"
+                                        ? "disabled"
+                                        : ""
+                                }
+                                title="Select Candidate for Placement"
+                            >
+
+                                <i class="fa-solid fa-circle-check"></i>
+
+                                ${
+                                    currentStatusLower === "selected"
+                                        ? "Selected"
+                                        : "Select"
+                                }
+
+                            </button>
+
+
+                            <!-- REJECT -->
+
+                            <button
+                                type="button"
+                                class="applicant-action-btn reject ${
+                                    currentStatusLower === "rejected"
+                                        ? "active"
+                                        : ""
+                                }"
+                                onclick="
+                                    handleModalStatusUpdate(
+                                        ${application.id},
+                                        'Rejected'
+                                    )
+                                "
+                                ${
+                                    currentStatusLower === "rejected"
+                                        ? "disabled"
+                                        : ""
+                                }
+                                title="Reject Application"
+                            >
+
+                                <i class="fa-solid fa-circle-xmark"></i>
+
+                                ${
+                                    currentStatusLower === "rejected"
+                                        ? "Rejected"
+                                        : "Reject"
+                                }
+
+                            </button>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="applicant-modal-btn secondary"
+                            onclick="closeApplicantModal()"
+                        >
+
+                            Close
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            // =================================================
+            // CLICK OUTSIDE TO CLOSE
+            // =================================================
+
+            modal.addEventListener(
+                "click",
+                function(event) {
+
+                    if (event.target === modal) {
+
+                        closeApplicantModal();
+
+                    }
+
+                }
+            );
+
+
+            document.body.appendChild(modal);
+
+        }
+
+
+        // =====================================================
+        // VIEW APPLICANT RESUME
+        // =====================================================
+
+        function viewApplicantResume(studentId) {
+
+            if (
+                !studentId ||
+                studentId === 0
+            ) {
+
+                alert(
+                    "Student information is not available to view resume."
+                );
+
+                return;
+
+            }
+
+
+            window.open(
+                `${API_BASE}/api/resume/${studentId}/file`,
+                "_blank"
+            );
+
+        }
+
+
+        // =====================================================
+        // MODAL STATUS UPDATE
+        // =====================================================
+
+        async function handleModalStatusUpdate(
+            applicationId,
+            newStatus
+        ) {
+
+            closeApplicantModal();
+
+
+            await updateApplicationStatus(
+                applicationId,
+                newStatus
+            );
+
+        }
+
+
+        // =====================================================
+        // CLOSE MODAL
+        // =====================================================
+
+        function closeApplicantModal() {
+
+            const modal =
+                document.getElementById(
+                    "applicantDetailsModal"
+                );
+
+
+            if (modal) {
+
+                modal.remove();
+
+            }
+
+        }
+
+
+        // =====================================================
+        // ESCAPE KEY
+        // =====================================================
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Escape") {
+
+                    closeApplicantModal();
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // APPLICANT INITIALS
+        // =====================================================
+
+        function getApplicantInitials(name) {
+
+            if (!name) {
+
+                return "ST";
+
+            }
+
+
+            const parts =
+                name
+                    .trim()
+                    .split(/\s+/);
+
+
+            if (parts.length === 1) {
+
+                return parts[0]
+                    .substring(0, 2)
+                    .toUpperCase();
+
+            }
+
+
+            return (
+                parts[0][0] +
+                parts[parts.length - 1][0]
+            ).toUpperCase();
+
+        }
+
+
+        // =====================================================
+        // FILTER APPLICATIONS
+        // =====================================================
+
+        function filterApplications() {
+
+            const search =
+                document
+                    .getElementById("searchInput")
+                    .value
+                    .toLowerCase();
+
+
+            const job =
+                document
+                    .getElementById("jobFilter")
+                    .value
+                    .toLowerCase();
+
+
+            const status =
+                document
+                    .getElementById("statusFilter")
+                    .value
+                    .toLowerCase();
+
+
+            const filtered =
+                allApplications.filter(
+                    function(application) {
+
+                        const student =
+                            application.student || {};
+
+                        const jobData =
+                            application.job || {};
+
+
+                        const studentName =
+                            student.name
+                                ? student.name.toLowerCase()
+                                : "";
+
+
+                        const jobTitle =
+                            jobData.title
+                                ? jobData.title.toLowerCase()
+                                : "";
+
+
+                        const applicationStatus =
+                            application.status
+                                ? application.status.toLowerCase()
+                                : "applied";
+
+
+                        const matchesSearch =
+                            studentName.includes(search) ||
+                            jobTitle.includes(search);
+
+
+                        const matchesJob =
+                            job === "all" ||
+                            jobTitle === job;
+
+
+                        const matchesStatus =
+                            status === "all" ||
+                            applicationStatus === status;
+
+
+                        return (
+                            matchesSearch &&
+                            matchesJob &&
+                            matchesStatus
+                        );
+
+                    }
+                );
+
+
+            displayApplications(
+                filtered
+            );
+
+        }
+
+
+        // =====================================================
+        // POPULATE JOB FILTER
+        // =====================================================
+
+        function populateJobFilter(applications) {
+
+            const jobFilter =
+                document.getElementById(
+                    "jobFilter"
+                );
+
+
+            jobFilter.innerHTML = `
+
+                <option value="all">
+                    All Jobs
+                </option>
+
+            `;
+
+
+            const jobTitles = [];
+
+
+            applications.forEach(
+                function(application) {
+
+                    if (
+                        application.job &&
+                        application.job.title
+                    ) {
+
+                        const title =
+                            application.job.title;
+
+
+                        if (
+                            !jobTitles.includes(title)
+                        ) {
+
+                            jobTitles.push(title);
+
+                        }
+
+                    }
+
+                }
+            );
+
+
+            jobTitles.forEach(
+                function(title) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value =
+                        title;
+
+
+                    option.textContent =
+                        title;
+
+
+                    jobFilter.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+
+
+        // =====================================================
+        // HTML ESCAPE
+        // =====================================================
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+
+
+        // =====================================================
+        // NOTIFICATION SYSTEM
+        // =====================================================
+
+        const NOTIFICATION_API =
+            API_BASE + "/api/notifications";
+
+
+        // =====================================================
+        // LOAD UNREAD COUNT
+        // =====================================================
+
+        async function loadNotificationCount() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${NOTIFICATION_API}/unread-count`,
+                        {
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                const count =
+                    Number(data.count || 0);
+
+
+                const countElement =
+                    document.getElementById(
+                        "notificationCount"
+                    );
+
+
+                countElement.innerText =
+                    count > 0
+                        ? count
+                        : "";
+
+
+                if (count > 0) {
+
+                    countElement.removeAttribute(
+                        "data-hidden"
+                    );
+
+                } else {
+
+                    countElement.setAttribute(
+                        "data-hidden",
+                        "true"
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Notification count error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // LOAD NOTIFICATIONS
+        // =====================================================
+
+        async function loadNotifications() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        NOTIFICATION_API,
+                        {
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Notification API error:",
+                        response.status
+                    );
+
+                    return;
+
+                }
+
+
+                const notifications =
+                    await response.json();
+
+
+                renderNotifications(
+                    notifications
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Notification loading error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // RENDER NOTIFICATIONS
+        // =====================================================
+
+        function renderNotifications(notifications) {
+
+            const list =
+                document.getElementById(
+                    "notificationList"
+                );
+
+
+            const summary =
+                document.getElementById(
+                    "notificationSummary"
+                );
+
+
+            if (
+                !notifications ||
+                notifications.length === 0
+            ) {
+
+                summary.innerText =
+                    "0 unread";
+
+
+                list.innerHTML = `
+
+                    <div class="notification-empty">
+
+                        <i class="fa-regular fa-bell-slash"></i>
+
+                        <p>
+                            No notifications
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            const unreadCount =
+                notifications.filter(
+                    function(notification) {
+
+                        return !notification.read;
+
+                    }
+                ).length;
+
+
+            summary.innerText =
+                unreadCount + " unread";
+
+
+            list.innerHTML =
+                notifications.map(
+                    function(notification) {
+
+                        const message =
+                            notification.message ||
+                            "New notification";
+
+
+                        const type =
+                            notification.type ||
+                            "";
+
+
+                        const icon =
+                            getNotificationIcon(
+                                type
+                            );
+
+
+                        return `
+
+                            <div
+                                class="notification-item ${
+                                    notification.read
+                                        ? ""
+                                        : "unread"
+                                }"
+                                data-notification-id="${
+                                    notification.id
+                                }"
+                            >
+
+                                <div class="notification-item-icon">
+
+                                    <i class="${icon}"></i>
+
+                                </div>
+
+
+                                <div class="notification-item-content">
+
+                                    <p>
+                                        ${escapeHtml(message)}
+                                    </p>
+
+                                    <small>
+                                        ${formatNotificationTime(
+                                            notification.createdAt
+                                        )}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                ).join("");
+
+
+            document
+                .querySelectorAll(
+                    ".notification-item"
+                )
+                .forEach(
+                    function(item) {
+
+                        item.addEventListener(
+                            "click",
+                            function(event) {
+
+                                event.stopPropagation();
+
+
+                                const notificationId =
+                                    this.dataset.notificationId;
+
+
+                                handleNotificationClick(
+                                    notificationId
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+
+
+        // =====================================================
+        // NOTIFICATION ICON
+        // =====================================================
+
+        function getNotificationIcon(type) {
+
+            if (
+                type === "APPLICATION"
+            ) {
+
+                return "fa-solid fa-user-plus";
+
+            }
+
+
+            if (
+                type === "APPLICATION_STATUS"
+            ) {
+
+                return "fa-solid fa-circle-check";
+
+            }
+
+
+            return "fa-regular fa-bell";
+
+        }
+
+
+        // =====================================================
+        // HANDLE NOTIFICATION CLICK
+        // =====================================================
+
+        async function handleNotificationClick(
+            notificationId
+        ) {
+
+            try {
+
+                await fetch(
+                    `${NOTIFICATION_API}/${notificationId}/read`,
+                    {
+                        method: "PUT",
+                        credentials: "include"
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Mark notification read error:",
+                    error
+                );
+
+            }
+
+
+            await loadNotificationCount();
+
+            await loadNotifications();
+
+        }
+
+
+        // =====================================================
+        // MARK ALL AS READ
+        // =====================================================
+
+        async function markAllNotificationsAsRead() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${NOTIFICATION_API}/read-all`,
+                        {
+                            method: "PUT",
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Mark all notifications error:",
+                        response.status
+                    );
+
+                    return;
+
+                }
+
+
+                await loadNotificationCount();
+
+                await loadNotifications();
+
+            } catch (error) {
+
+                console.error(
+                    "Mark all notifications error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // FORMAT NOTIFICATION TIME
+        // =====================================================
+
+        function formatNotificationTime(createdAt) {
+
+            if (!createdAt) {
+
+                return "";
+
+            }
+
+
+            const date =
+                new Date(createdAt);
+
+
+            if (isNaN(date.getTime())) {
+
+                return "";
+
+            }
+
+
+            const diff =
+                Date.now() -
+                date.getTime();
+
+
+            const seconds =
+                Math.floor(diff / 1000);
+
+
+            if (seconds < 60) {
+
+                return "Just now";
+
+            }
+
+
+            const minutes =
+                Math.floor(seconds / 60);
+
+
+            if (minutes < 60) {
+
+                return minutes +
+                    (
+                        minutes === 1
+                            ? " minute ago"
+                            : " minutes ago"
+                    );
+
+            }
+
+
+            const hours =
+                Math.floor(minutes / 60);
+
+
+            if (hours < 24) {
+
+                return hours +
+                    (
+                        hours === 1
+                            ? " hour ago"
+                            : " hours ago"
+                    );
+
+            }
+
+
+            const days =
+                Math.floor(hours / 24);
+
+
+            if (days < 7) {
+
+                return days +
+                    (
+                        days === 1
+                            ? " day ago"
+                            : " days ago"
+                    );
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        // =====================================================
+        // BELL CLICK
+        // =====================================================
+
+        document
+            .getElementById(
+                "notificationBell"
+            )
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+
+                    const panel =
+                        document.getElementById(
+                            "notificationPanel"
+                        );
+
+
+                    const isOpen =
+                        panel.classList.contains(
+                            "show"
+                        );
+
+
+                    panel.classList.toggle(
+                        "show"
+                    );
+
+
+                    if (!isOpen) {
+
+                        loadNotifications();
+
+                    }
+
+                }
+            );
+
+
+        // =====================================================
+        // MARK ALL BUTTON
+        // =====================================================
+
+        document
+            .getElementById(
+                "markAllReadBtn"
+            )
+            .addEventListener(
+                "click",
+                async function(event) {
+
+                    event.stopPropagation();
+
+
+                    await markAllNotificationsAsRead();
+
+                }
+            );
+
+
+        // =====================================================
+        // CLOSE NOTIFICATION PANEL
+        // =====================================================
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const bell =
+                    document.getElementById(
+                        "notificationBell"
+                    );
+
+
+                const panel =
+                    document.getElementById(
+                        "notificationPanel"
+                    );
+
+
+                if (
+                    !bell.contains(event.target)
+                ) {
+
+                    panel.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // ESCAPE NOTIFICATION PANEL
+        // =====================================================
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Escape") {
+
+                    document
+                        .getElementById(
+                            "notificationPanel"
+                        )
+                        .classList.remove(
+                            "show"
+                        );
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // INITIAL LOAD
+        // =====================================================
+
+        loadNotificationCount();
+
+        loadNotifications();
+
+        loadApplications();
+    </script>
+
+</body>
+
+</html>

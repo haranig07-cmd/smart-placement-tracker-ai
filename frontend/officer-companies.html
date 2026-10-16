@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Companies Management - SPT AI</title>
+
+    <link rel="stylesheet" href="officer-companies.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="logout.js" defer></script>
+</head>
+
+
+<body>
+
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>SPT AI</h2>
+
+
+        <a href="officer-dashboard.html">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+
+        <a href="officer-student.html">
+            <i class="fa-solid fa-users"></i> Students
+        </a>
+
+        <a href="officer-companies.html" class="active">
+            <i class="fa-solid fa-building"></i> Companies
+        </a>
+
+        <a href="officer-drives.html">
+            <i class="fa-solid fa-calendar"></i> Drives
+        </a>
+
+        <a href="officer-reports.html">
+            <i class="fa-solid fa-chart-line"></i> Reports
+        </a>
+
+
+        <a href="index.html" data-logout>
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+
+    </div>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Companies Management</h1>
+
+                <p>
+                    View and manage companies participating in campus placements.
+                </p>
+
+            </div>
+
+
+            <div class="header-icon">
+
+                <i class="fa-solid fa-building"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- STATISTICS -->
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <div class="card-icon blue">
+
+                    <i class="fa-solid fa-building"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2 id="totalCompanies">0</h2>
+
+                    <p>Total Companies</p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="card-icon green">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2 id="activeCompanies">0</h2>
+
+                    <p>Active Companies</p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="card-icon orange">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2 id="totalDrives">0</h2>
+
+                    <p>Recruitment Drives</p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="card-icon purple">
+
+                    <i class="fa-solid fa-user-check"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2 id="studentsPlaced">0</h2>
+
+                    <p>Students Placed</p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- PENDING COMPANY VERIFICATION -->
+        <div class="company-section" id="pendingCompanySection">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>
+                        <i class="fa-solid fa-user-clock"></i> Pending Company Verification
+                    </h2>
+
+                    <p>
+                        Review and approve companies waiting for verification.
+                    </p>
+                </div>
+
+                <div>
+                    <span id="pendingCompanyCount" class="pending-count">
+                0 Pending
+            </span>
+                </div>
+
+            </div>
+
+            <div class="table-container">
+
+                <table id="pendingCompanyTable">
+
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="pendingCompanyTableBody">
+
+                        <tr>
+                            <td colspan="4" style="text-align:center;">
+                                Loading verification requests...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+        <!-- COMPANY SECTION -->
+
+        <div class="company-section">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>Company Records</h2>
+
+                    <p>
+                        Companies registered for campus recruitment
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FILTERS -->
+
+            <div class="filters">
+
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input type="text" id="searchInput" placeholder="Search company...">
+
+                </div>
+
+
+
+                <select id="industryFilter">
+
+                    <option value="all">
+                        All Industries
+                    </option>
+
+                    <option value="IT">
+                        IT & Software
+                    </option>
+
+                    <option value="Consulting">
+                        Consulting
+                    </option>
+
+                    <option value="Finance">
+                        Finance
+                    </option>
+
+                    <option value="Engineering">
+                        Engineering
+                    </option>
+
+                </select>
+
+
+
+                <select id="statusFilter">
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- COMPANY TABLE -->
+
+            <div class="table-container">
+
+
+                <table id="companyTable">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Company</th>
+
+                            <th>Industry</th>
+
+                            <th>Location</th>
+
+                            <th>Open Jobs</th>
+
+                            <th>Students Placed</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody id="companyTableBody">
+
+                        <tr>
+
+                            <td colspan="7" style="text-align:center;">
+                                Loading companies...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="officer-auth.js"></script>
+    <script>
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        let companies = [];
+        let pendingCompanies = [];
+
+
+        // ==========================================
+        // LOAD COMPANIES
+        // ==========================================
+
+        async function loadCompanies() {
+
+            const tableBody =
+                document.getElementById("companyTableBody");
+
+            try {
+
+                const response =
+                    await officerFetch(`${API_BASE}/api/officer/companies`);
+
+                if (!response.ok) {
+                    throw new Error("Failed to load companies");
+                }
+
+                companies =
+                    await response.json();
+
+                updateCompanyStatistics();
+
+                displayCompanies(companies);
+
+            } catch (error) {
+
+                console.error("Companies error:", error);
+
+                tableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align:center;">
+                        Unable to load company data.
+                    </td>
+                </tr>
+            `;
+
+            }
+
+        }
+        // ==========================================
+        // LOAD PENDING COMPANY REQUESTS
+        // ==========================================
+
+        async function loadPendingCompanies() {
+
+            const tableBody =
+                document.getElementById("pendingCompanyTableBody");
+
+            const countElement =
+                document.getElementById("pendingCompanyCount");
+
+            try {
+
+                const response =
+                    await officerFetch(
+                        `${API_BASE}/api/officer/companies/pending`
+                    );
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Failed to load pending companies"
+                    );
+                }
+
+                pendingCompanies =
+                    await response.json();
+
+                countElement.textContent =
+                    `${pendingCompanies.length} Pending`;
+
+                displayPendingCompanies(pendingCompanies);
+
+            } catch (error) {
+
+                console.error(
+                    "Pending companies error:",
+                    error
+                );
+
+                countElement.textContent =
+                    "0 Pending";
+
+                tableBody.innerHTML = `
+            <tr>
+                <td colspan="4"
+                    style="text-align:center;">
+                    Unable to load verification requests.
+                </td>
+            </tr>
+        `;
+            }
+        }
+        // ==========================================
+        // DISPLAY PENDING COMPANY REQUESTS
+        // ==========================================
+
+        function displayPendingCompanies(companyList) {
+
+            const tableBody =
+                document.getElementById(
+                    "pendingCompanyTableBody"
+                );
+
+            tableBody.innerHTML = "";
+
+            if (companyList.length === 0) {
+
+                tableBody.innerHTML = `
+            <tr>
+                <td colspan="4"
+                    style="text-align:center;">
+                    No pending company verification requests.
+                </td>
+            </tr>
+        `;
+
+                return;
+            }
+
+            companyList.forEach(company => {
+
+                const row =
+                    document.createElement("tr");
+
+                const companyName =
+                    company.companyName ||
+                    company.name ||
+                    "Unknown Company";
+
+                const email =
+                    company.email ||
+                    "—";
+
+                const status =
+                    company.accountStatus ||
+                    "PENDING_VERIFICATION";
+
+                row.innerHTML = `
+
+            <td>
+                <strong>${companyName}</strong>
+            </td>
+
+            <td>
+                ${email}
+            </td>
+
+            <td>
+                <span class="status inactive-status">
+                    ${status}
+                </span>
+            </td>
+
+            <td>
+
+                <button
+                    class="view-btn"
+                    onclick="approveCompany(${company.id})">
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Approve
+
+                </button>
+
+            </td>
+
+        `;
+
+                tableBody.appendChild(row);
+
+            });
+        }
+        // ==========================================
+        // APPROVE COMPANY
+        // ==========================================
+
+        async function approveCompany(companyId) {
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to approve this company?"
+                );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+
+                const response =
+                    await officerFetch(
+                        `${API_BASE}/api/officer/companies/${companyId}/approve`, {
+                            method: "PUT"
+                        }
+                    );
+
+                const responseText =
+                    await response.text();
+
+                let data;
+
+                try {
+                    data = JSON.parse(responseText);
+                } catch {
+                    data = {
+                        message: responseText
+                    };
+                }
+
+                if (!response.ok) {
+
+                    alert(
+                        data.error ||
+                        data.message ||
+                        "Unable to approve company."
+                    );
+
+                    return;
+                }
+
+                alert(
+                    data.message ||
+                    "Company approved successfully."
+                );
+
+                // Reload both sections
+                await loadPendingCompanies();
+                await loadCompanies();
+
+            } catch (error) {
+
+                console.error(
+                    "Approve company error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server. " +
+                    "Please make sure the backend is running."
+                );
+            }
+        }
+        // ==========================================
+        // UPDATE STATISTICS
+        // ==========================================
+
+        function updateCompanyStatistics() {
+
+            const totalCompanies =
+                companies.length;
+
+
+            const activeCompanies =
+                companies.filter(
+                    company => company.activeJobs > 0
+                ).length;
+
+
+            const totalDrives =
+                companies.reduce(
+                    (sum, company) =>
+                    sum + (company.totalJobs || 0),
+                    0
+                );
+
+
+            // Calculate total placed students
+            const studentsPlaced =
+                companies.reduce(
+                    (sum, company) =>
+                    sum + (company.studentsPlaced || 0),
+                    0
+                );
+
+
+            document.getElementById("totalCompanies").textContent =
+                totalCompanies;
+
+            document.getElementById("activeCompanies").textContent =
+                activeCompanies;
+
+            document.getElementById("totalDrives").textContent =
+                totalDrives;
+
+            document.getElementById("studentsPlaced").textContent =
+                studentsPlaced;
+
+        }
+
+
+        // ==========================================
+        // DISPLAY COMPANIES
+        // ==========================================
+
+        function displayCompanies(companyList) {
+
+            const tableBody =
+                document.getElementById("companyTableBody");
+
+            tableBody.innerHTML = "";
+
+
+            if (companyList.length === 0) {
+
+                tableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align:center;">
+                        No companies found.
+                    </td>
+                </tr>
+            `;
+
+                return;
+
+            }
+
+
+            companyList.forEach(company => {
+
+                const row =
+                    document.createElement("tr");
+
+
+                const companyName =
+                    company.companyName || "Unknown Company";
+
+
+                const openJobs =
+                    company.activeJobs || 0;
+
+
+                const studentsPlaced =
+                    company.studentsPlaced || 0;
+
+
+                const location =
+                    company.location || "—";
+
+
+                const industry =
+                    company.industry || "—";
+
+
+                const status =
+                    openJobs > 0 ?
+                    "Active" :
+                    "Inactive";
+
+
+                const statusClass =
+                    status === "Active" ?
+                    "active-status" :
+                    "inactive-status";
+
+
+                const initial =
+                    companyName
+                    .charAt(0)
+                    .toUpperCase();
+
+
+                row.innerHTML = `
+
+                <td>
+
+                    <div class="company-info">
+
+                        <div class="company-avatar">
+                            ${initial}
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ${companyName}
+                            </strong>
+
+                            <small>
+                                ${company.totalApplications || 0}
+                                Applications
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+                    ${industry}
+                </td>
+
+
+                <td>
+                    ${location}
+                </td>
+
+
+                <td>
+                    ${openJobs}
+                </td>
+
+
+                <td>
+                    ${studentsPlaced}
+                </td>
+
+
+                <td>
+
+                    <span class="status ${statusClass}">
+                        ${status}
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <button
+                        class="view-btn"
+                        onclick="viewCompany('${companyName.replace(/'/g, "\\'")}')">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                        View
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+
+        // ==========================================
+        // FILTER COMPANIES
+        // ==========================================
+
+        function filterCompanies() {
+
+            const searchValue =
+                document
+                .getElementById("searchInput")
+                .value
+                .toLowerCase()
+                .trim();
+
+
+            const industryValue =
+                document.getElementById("industryFilter").value;
+
+
+            const statusValue =
+                document.getElementById("statusFilter").value;
+
+
+            const filteredCompanies =
+                companies.filter(company => {
+
+                    const companyName =
+                        (company.companyName || "")
+                        .toLowerCase();
+
+
+                    const openJobs =
+                        company.activeJobs || 0;
+
+
+                    const status =
+                        openJobs > 0 ?
+                        "Active" :
+                        "Inactive";
+
+
+                    const matchesSearch =
+                        companyName.includes(searchValue);
+
+
+                    /*
+                     * Industry is currently returned
+                     * as "—" because the backend/database
+                     * does not store industry information.
+                     */
+
+                    const matchesIndustry =
+                        industryValue === "all" ||
+                        (company.industry || "—") === industryValue;
+
+
+                    const matchesStatus =
+                        statusValue === "all" ||
+                        status === statusValue;
+
+
+                    return (
+                        matchesSearch &&
+                        matchesIndustry &&
+                        matchesStatus
+                    );
+
+                });
+
+
+            displayCompanies(filteredCompanies);
+
+        }
+
+
+        // ==========================================
+        // VIEW COMPANY
+        // ==========================================
+
+        function viewCompany(companyName) {
+
+            const company =
+                companies.find(
+                    item =>
+                    item.companyName === companyName
+                );
+
+
+            if (!company) {
+                return;
+            }
+
+
+            alert(
+                "Company Details\n\n" +
+
+                "Company: " +
+                (company.companyName || "N/A") +
+
+                "\nLocation: " +
+                (company.location || "N/A") +
+
+                "\nIndustry: " +
+                (company.industry || "N/A") +
+
+                "\nOpen Jobs: " +
+                (company.activeJobs || 0) +
+
+                "\nTotal Jobs: " +
+                (company.totalJobs || 0) +
+
+                "\nApplications: " +
+                (company.totalApplications || 0) +
+
+                "\nStudents Placed: " +
+                (company.studentsPlaced || 0)
+            );
+
+        }
+
+
+        // ==========================================
+        // EVENT LISTENERS
+        // ==========================================
+
+        document
+            .getElementById("searchInput")
+            .addEventListener(
+                "input",
+                filterCompanies
+            );
+
+
+        document
+            .getElementById("industryFilter")
+            .addEventListener(
+                "change",
+                filterCompanies
+            );
+
+
+        document
+            .getElementById("statusFilter")
+            .addEventListener(
+                "change",
+                filterCompanies
+            );
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        loadCompanies();
+        loadPendingCompanies();
+    </script>
+
+
+</body>
+
+</html>

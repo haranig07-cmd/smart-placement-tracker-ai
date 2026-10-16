@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Placement Drives</title>
+
+    <link rel="stylesheet" href="officer-drives.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+        /* DRIVE DETAILS MODAL */
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .drive-modal {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            position: relative;
+            animation: modalOpen 0.25s ease;
+        }
+        
+        @keyframes modalOpen {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #111827;
+            font-size: 24px;
+        }
+        
+        .close-modal {
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: #f1f5f9;
+            color: #374151;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            background: #e2e8f0;
+        }
+        
+        .drive-company {
+            background: #f0f5ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .drive-company h3 {
+            margin: 0 0 5px;
+            color: #2563eb;
+            font-size: 20px;
+        }
+        
+        .drive-company p {
+            margin: 0;
+            color: #64748b;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .detail-item {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 14px;
+        }
+        
+        .detail-item i {
+            color: #2563eb;
+            margin-right: 7px;
+        }
+        
+        .detail-label {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        
+        .detail-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .modal-footer {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .modal-close-btn {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 11px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+        }
+        
+        .modal-close-btn:hover {
+            background: #1d4ed8;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .status.upcoming {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        
+        .status.ongoing {
+            background: #fef3c7;
+            color: #b45309;
+        }
+        
+        .status.completed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+        
+        @media (max-width: 700px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            .drive-modal {
+                padding: 22px;
+            }
+        }
+    </style>
+    <script src="logout.js" defer></script>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>SPT AI</h2>
+
+        <a href="officer-dashboard.html">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+
+        <a href="officer-student.html">
+            <i class="fa-solid fa-users"></i> Students
+        </a>
+
+        <a href="officer-companies.html">
+            <i class="fa-solid fa-building"></i> Companies
+        </a>
+
+        <a href="officer-drives.html" class="active">
+            <i class="fa-solid fa-calendar"></i> Drives
+        </a>
+
+        <a href="officer-reports.html">
+            <i class="fa-solid fa-chart-line"></i> Reports
+        </a>
+
+        <a href="index.html" data-logout>
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main">
+
+        <h1>Placement Drives</h1>
+
+        <p class="subtitle">
+            Manage and monitor campus placement drives.
+        </p>
+
+
+        <!-- STAT CARDS -->
+
+        <div class="cards">
+
+            <div class="card">
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <h2 id="totalDrives">0</h2>
+
+                <p>Total Drives</p>
+            </div>
+
+
+            <div class="card">
+                <i class="fa-solid fa-clock"></i>
+
+                <h2 id="upcomingDrives">0</h2>
+
+                <p>Upcoming Drives</p>
+            </div>
+
+
+            <div class="card">
+                <i class="fa-solid fa-spinner"></i>
+
+                <h2 id="ongoingDrives">0</h2>
+
+                <p>Ongoing Drives</p>
+            </div>
+
+
+            <div class="card">
+                <i class="fa-solid fa-circle-check"></i>
+
+                <h2 id="completedDrives">0</h2>
+
+                <p>Completed Drives</p>
+            </div>
+
+        </div>
+
+
+        <!-- FILTER SECTION -->
+
+        <div class="filter-box">
+
+            <input type="text" id="searchInput" placeholder="Search company or job role...">
+
+            <select id="statusFilter">
+
+                <option value="all">All Status</option>
+
+                <option value="upcoming">Upcoming</option>
+
+                <option value="ongoing">Ongoing</option>
+
+                <option value="completed">Completed</option>
+
+            </select>
+
+        </div>
+
+
+        <!-- DRIVES TABLE -->
+
+        <div class="table-box">
+
+            <h2>Placement Drives</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Company</th>
+
+                        <th>Date</th>
+
+                        <th>Job Role</th>
+
+                        <th>Eligible Students</th>
+
+                        <th>Applicants</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="driveTable">
+
+                    <tr>
+
+                        <td colspan="7" style="text-align:center;">
+
+                            Loading placement drives...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- DRIVE DETAILS MODAL -->
+
+    <div class="modal-overlay" id="driveModal">
+
+        <div class="drive-modal">
+
+            <div class="modal-header">
+
+                <h2>Drive Details</h2>
+
+                <button class="close-modal" onclick="closeDriveModal()">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="drive-company">
+
+                <h3 id="modalCompany">—</h3>
+
+                <p id="modalJobRole">—</p>
+
+            </div>
+
+
+            <div class="details-grid">
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Location
+                    </span>
+
+                    <span class="detail-value" id="modalLocation">
+
+                        —
+
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        <i class="fa-solid fa-briefcase"></i>
+                        Job Type
+                    </span>
+
+                    <span class="detail-value" id="modalJobType">
+
+                        —
+
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        <i class="fa-solid fa-calendar"></i>
+                        Deadline
+                    </span>
+
+                    <span class="detail-value" id="modalDeadline">
+
+                        —
+
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        <i class="fa-solid fa-users"></i>
+                        Eligible Students
+                    </span>
+
+                    <span class="detail-value" id="modalEligible">
+
+                        —
+
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        <i class="fa-solid fa-user-check"></i>
+                        Applicants
+                    </span>
+
+                    <span class="detail-value" id="modalApplicants">
+
+                        0
+
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Status
+                    </span>
+
+                    <span class="detail-value" id="modalStatus">
+
+                        —
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div style="margin-top: 20px;">
+
+                <h4 style="margin: 0 0 10px; color: #1e293b; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: space-between;">
+
+                    <span>
+                        <i class="fa-solid fa-user-graduate" style="color: #2563eb; margin-right: 6px;"></i>
+                        Eligible Students
+                    </span>
+
+                    <small id="modalEligibleBadge" style="font-size: 12px; font-weight: 600; color: #2563eb;"></small>
+
+                </h4>
+
+                <div id="modalEligibleList" style="max-height: 220px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px; background: #f8fafc;">
+
+                    <p style="margin: 0; color: #64748b; font-size: 13px; text-align: center; padding: 10px;">
+                        Loading eligible students...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button class="modal-close-btn" onclick="closeDriveModal()">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="officer-auth.js"></script>
+    <script>
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        let allDrives = [];
+
+
+        // ============================================
+        // LOAD DRIVES
+        // ============================================
+
+        async function loadDrives() {
+
+            const table =
+                document.getElementById("driveTable");
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align:center;">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        Loading placement drives...
+                    </td>
+                </tr>
+            `;
+
+            try {
+
+                const response =
+                    await officerFetch(
+                        API_BASE + "/api/officer/drives"
+                    );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Server returned " + response.status
+                    );
+
+                }
+
+                const data =
+                    await response.json();
+
+                if (!Array.isArray(data)) {
+
+                    throw new Error(
+                        "Invalid drive data received"
+                    );
+
+                }
+
+                allDrives = data;
+
+                updateDriveStats(allDrives);
+
+                displayDrives(allDrives);
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading drives:",
+                    error
+                );
+
+                table.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="7"
+                            style="text-align:center; color:#dc2626;"
+                        >
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            Unable to load placement drives.
+                            <br>
+                            <small>
+                                Make sure Spring Boot is running on port 8080.
+                            </small>
+                        </td>
+                    </tr>
+                `;
+
+            }
+
+        }
+
+
+        // ============================================
+        // UPDATE STATISTICS
+        // ============================================
+
+        function updateDriveStats(drives) {
+
+            let upcoming = 0;
+            let ongoing = 0;
+            let completed = 0;
+
+            drives.forEach(function(drive) {
+
+                const status =
+                    String(drive.status || "")
+                    .trim()
+                    .toLowerCase();
+
+                if (status === "upcoming") {
+
+                    upcoming++;
+
+                } else if (status === "ongoing") {
+
+                    ongoing++;
+
+                } else if (status === "completed") {
+
+                    completed++;
+
+                }
+
+            });
+
+
+            document.getElementById("totalDrives")
+                .textContent = drives.length;
+
+            document.getElementById("upcomingDrives")
+                .textContent = upcoming;
+
+            document.getElementById("ongoingDrives")
+                .textContent = ongoing;
+
+            document.getElementById("completedDrives")
+                .textContent = completed;
+
+        }
+
+
+        // ============================================
+        // DISPLAY DRIVES
+        // ============================================
+
+        function displayDrives(drives) {
+
+            const table =
+                document.getElementById("driveTable");
+
+            table.innerHTML = "";
+
+
+            if (drives.length === 0) {
+
+                table.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="7"
+                            style="text-align:center; padding:30px;"
+                        >
+                            <i class="fa-solid fa-calendar-xmark"></i>
+                            <br>
+                            No placement drives found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            drives.forEach(function(drive) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                const status =
+                    drive.status || "Unknown";
+
+
+                const statusClass =
+                    status
+                    .toLowerCase()
+                    .replace(/\s+/g, "-");
+
+
+                const eligible =
+                    drive.eligibleStudents != null ?
+                    drive.eligibleStudents :
+                    "—";
+
+
+                const applicants =
+                    drive.applications != null ?
+                    drive.applications :
+                    0;
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${escapeHtml(
+                            drive.companyName || "—"
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            drive.deadline
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            drive.jobTitle || "—"
+                        )}
+                    </td>
+
+                    <td>
+                        ${eligible}
+                    </td>
+
+                    <td>
+                        ${applicants}
+                    </td>
+
+                    <td>
+                        <span class="status ${statusClass}">
+                            ${escapeHtml(status)}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button
+                            onclick="viewDrive(${drive.id})">
+
+                            <i class="fa-solid fa-eye"></i>
+                            View
+
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+        // ============================================
+        // DATE FORMAT
+        // ============================================
+
+        function formatDate(dateString) {
+
+            if (!dateString) {
+
+                return "—";
+
+            }
+
+
+            const date =
+                new Date(dateString);
+
+
+            if (isNaN(date.getTime())) {
+
+                return dateString;
+
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        // ============================================
+        // SEARCH + STATUS FILTER
+        // ============================================
+
+        function filterDrives() {
+
+            const search =
+                document.getElementById(
+                    "searchInput"
+                )
+                .value
+                .trim()
+                .toLowerCase();
+
+
+            const selectedStatus =
+                document.getElementById(
+                    "statusFilter"
+                )
+                .value
+                .toLowerCase();
+
+
+            const filtered =
+                allDrives.filter(function(drive) {
+
+                    const company =
+                        String(
+                            drive.companyName || ""
+                        ).toLowerCase();
+
+
+                    const role =
+                        String(
+                            drive.jobTitle || ""
+                        ).toLowerCase();
+
+
+                    const driveStatus =
+                        String(
+                            drive.status || ""
+                        ).toLowerCase();
+
+
+                    const matchesSearch =
+                        company.includes(search) ||
+                        role.includes(search);
+
+
+                    const matchesStatus =
+                        selectedStatus === "all" ||
+                        driveStatus === selectedStatus;
+
+
+                    return (
+                        matchesSearch &&
+                        matchesStatus
+                    );
+
+                });
+
+
+            displayDrives(filtered);
+
+        }
+
+
+        // ============================================
+        // VIEW DRIVE
+        // ============================================
+
+        function viewDrive(id) {
+
+            const drive =
+                allDrives.find(function(item) {
+
+                    return Number(item.id) === Number(id);
+
+                });
+
+
+            if (!drive) {
+
+                alert(
+                    "Drive details not found."
+                );
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                    "modalCompany"
+                ).textContent =
+                drive.companyName || "—";
+
+
+            document.getElementById(
+                    "modalJobRole"
+                ).textContent =
+                drive.jobTitle || "—";
+
+
+            document.getElementById(
+                    "modalLocation"
+                ).textContent =
+                drive.location || "—";
+
+
+            document.getElementById(
+                    "modalJobType"
+                ).textContent =
+                drive.jobType || "—";
+
+
+            document.getElementById(
+                    "modalDeadline"
+                ).textContent =
+                formatDate(
+                    drive.deadline
+                );
+
+
+            document.getElementById(
+                    "modalEligible"
+                ).textContent =
+                drive.eligibleStudents != null ?
+                drive.eligibleStudents :
+                "—";
+
+
+            document.getElementById(
+                    "modalApplicants"
+                ).textContent =
+                drive.applications || 0;
+
+
+            document.getElementById(
+                    "modalStatus"
+                ).textContent =
+                drive.status || "—";
+
+
+            // Load eligible students for this drive
+            loadDriveEligibleStudents(id);
+
+
+            document.getElementById(
+                "driveModal"
+            ).classList.add("show");
+
+        }
+
+
+        // ============================================
+        // LOAD DRIVE ELIGIBLE STUDENTS
+        // ============================================
+
+        async function loadDriveEligibleStudents(driveId) {
+
+            const listContainer =
+                document.getElementById("modalEligibleList");
+
+            const badge =
+                document.getElementById("modalEligibleBadge");
+
+            listContainer.innerHTML = `
+                <p style="margin: 0; color: #64748b; font-size: 13px; text-align: center; padding: 10px;">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Loading eligible students...
+                </p>
+            `;
+
+            badge.textContent = "";
+
+            try {
+
+                const response =
+                    await officerFetch(
+                        `${API_BASE}/api/officer/drives/${driveId}/eligible-students`
+                    );
+
+                if (!response.ok) {
+                    throw new Error("Failed to load eligible students");
+                }
+
+                const students =
+                    await response.json();
+
+                badge.textContent =
+                    `${students.length} Student${students.length === 1 ? "" : "s"} Qualified`;
+
+                if (!students || students.length === 0) {
+
+                    listContainer.innerHTML = `
+                        <p style="margin: 0; color: #94a3b8; font-size: 13px; text-align: center; padding: 12px;">
+                            <i class="fa-solid fa-circle-exclamation"></i> No students currently meet the required skills for this drive.
+                        </p>
+                    `;
+
+                    return;
+
+                }
+
+                listContainer.innerHTML = "";
+
+                students.forEach(function(student) {
+
+                    const item =
+                        document.createElement("div");
+
+                    item.style.cssText =
+                        "display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:white; border-radius:8px; margin-bottom:8px; border:1px solid #e2e8f0;";
+
+                    const matchedSkillsText =
+                        Array.isArray(student.matchedSkills) && student.matchedSkills.length > 0 ?
+                        student.matchedSkills.join(", ") :
+                        "General eligibility";
+
+                    item.innerHTML = `
+                        <div>
+                            <strong style="font-size:13px; color:#1e293b; display:block;">
+                                ${escapeHtml(student.name || "Student")}
+                            </strong>
+                            <small style="color:#64748b; font-size:11px;">
+                                ${escapeHtml(student.department || "—")} • CGPA: ${escapeHtml(student.cgpa || "—")}
+                            </small>
+                            <div style="font-size:11px; color:#475569; margin-top:3px;">
+                                <i class="fa-solid fa-check" style="color:#16a34a; font-size:10px;"></i>
+                                Skills: ${escapeHtml(matchedSkillsText)}
+                            </div>
+                        </div>
+                        <div style="text-align:right; margin-left:10px;">
+                            <span style="display:inline-block; padding:4px 9px; border-radius:12px; font-size:11px; font-weight:600; background:#dbeafe; color:#1e40af; white-space:nowrap;">
+                                ${student.matchPercentage || 0}% Match
+                            </span>
+                        </div>
+                    `;
+
+                    listContainer.appendChild(item);
+
+                });
+
+            } catch (error) {
+
+                console.error("Error loading eligible students:", error);
+
+                listContainer.innerHTML = `
+                    <p style="margin: 0; color: #ef4444; font-size: 13px; text-align: center; padding: 10px;">
+                        Unable to load eligible students list.
+                    </p>
+                `;
+
+            }
+
+        }
+
+
+        // ============================================
+        // CLOSE MODAL
+        // ============================================
+
+        function closeDriveModal() {
+
+            document.getElementById(
+                "driveModal"
+            ).classList.remove("show");
+
+        }
+
+
+        // ============================================
+        // CLOSE MODAL WHEN CLICKING OUTSIDE
+        // ============================================
+
+        document.getElementById(
+            "driveModal"
+        ).addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    this
+                ) {
+
+                    closeDriveModal();
+
+                }
+
+            }
+        );
+
+
+        // ============================================
+        // ESCAPE KEY CLOSES MODAL
+        // ============================================
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeDriveModal();
+
+                }
+
+            }
+        );
+
+
+        // ============================================
+        // SEARCH EVENTS
+        // ============================================
+
+        document.getElementById(
+            "searchInput"
+        ).addEventListener(
+            "input",
+            filterDrives
+        );
+
+
+        document.getElementById(
+            "statusFilter"
+        ).addEventListener(
+            "change",
+            filterDrives
+        );
+
+
+        // ============================================
+        // BASIC HTML SAFETY
+        // ============================================
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // ============================================
+        // START PAGE
+        // ============================================
+
+        loadDrives();
+    </script>
+
+</body>
+
+</html>

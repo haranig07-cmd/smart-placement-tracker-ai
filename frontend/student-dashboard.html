@@ -1,0 +1,2931 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard | Smart Placement Tracker AI</title>
+
+    <link rel="stylesheet" href="student-dashboard.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="logout.js" defer></script>
+</head>
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <div class="logo">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+            <h2>Smart Placement Tracker AI</h2>
+
+        </div>
+
+
+        <div class="profile">
+
+            <!-- Notification Bell -->
+            <div class="notification-wrapper" id="notificationBell">
+
+                <i class="fa-solid fa-bell notification-icon"></i>
+
+                <span id="notificationCount" class="notification-count">0</span>
+
+                <!-- Notification Panel -->
+                <div class="notification-panel" id="notificationPanel">
+
+                    <div class="notification-panel-header">
+
+                        <div>
+                            <h3>Notifications</h3>
+                            <span id="notificationSummary">Your latest updates</span>
+                        </div>
+
+                        <button type="button" id="markAllReadBtn" class="mark-all-btn">
+                Mark all as read
+            </button>
+
+                    </div>
+
+                    <div id="notificationList" class="notification-list">
+
+                        <div class="notification-loading">
+                            Loading notifications...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <span id="profileName">Student</span>
+
+            <i class="fa-solid fa-circle-user"></i>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav>
+
+        <a href="student-dashboard.html" class="active">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+
+
+        <a href="student-profile.html">
+            <i class="fa-solid fa-user"></i> My Profile
+        </a>
+
+
+        <a href="resume.html">
+            <i class="fa-solid fa-file"></i> Resume
+        </a>
+
+
+        <a href="ats-score.html">
+            <i class="fa-solid fa-chart-column"></i> ATS Score
+        </a>
+
+
+        <a href="jobs.html">
+            <i class="fa-solid fa-briefcase"></i> Jobs
+        </a>
+
+
+        <a href="student-applications.html">
+            <i class="fa-solid fa-file-circle-check"></i> My Applications
+        </a>
+
+
+        <a href="index.html" data-logout>
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+
+    </nav>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+
+        <!-- ================= WELCOME ================= -->
+
+        <section class="welcome">
+
+            <div>
+
+                <h1>
+                    Welcome Back,
+                    <span id="welcomeName">Student</span> 👋
+                </h1>
+
+                <p>
+                    Here's an overview of your placement journey.
+                </p>
+
+            </div>
+
+
+            <a href="resume.html" class="resume-button">
+
+                <i class="fa-solid fa-file-arrow-up"></i> Analyze Resume
+
+            </a>
+
+        </section>
+
+
+
+        <!-- ================= TOP STATS ================= -->
+
+        <section class="stats">
+
+
+            <!-- ATS SCORE -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+                <div>
+
+                    <p>ATS Score</p>
+
+                    <h2 id="atsScoreTop">--</h2>
+
+                    <span id="atsStatusTop">
+                No Resume
+            </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RESUME -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-file-circle-check"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Resume</p>
+
+                    <h2 id="resumeStatus">
+                        Not Uploaded
+                    </h2>
+
+                    <span id="resumeDate">
+                Upload your resume
+            </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- APPLIED JOBS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-briefcase"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Applied Jobs</p>
+
+                    <h2 id="appliedJobsCount">
+                        0
+                    </h2>
+
+                    <span>
+                Active Applications
+            </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SKILLS MATCH -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-lightbulb"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Skills Match</p>
+
+                    <h2 id="skillsMatch">
+                        0%
+                    </h2>
+
+                    <span>
+                Industry Match
+            </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PLACEMENT READINESS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-rocket"></i>
+
+                </div>
+
+                <div>
+
+                    <p>Placement Readiness</p>
+
+                    <h2 id="placementReadiness">
+                        --
+                    </h2>
+
+                    <span id="placementReadinessStatus">
+                Complete your profile
+            </span>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+        <!-- ================= DASHBOARD GRID ================= -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- ================= ATS SCORE ================= -->
+
+            <div class="dashboard-card">
+
+                <div class="card-title">
+
+                    <div>
+
+                        <h2>ATS Score</h2>
+
+                        <p>
+                            Your latest resume performance
+                        </p>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                </div>
+
+
+
+                <div class="ats-content">
+
+
+                    <div class="score-circle">
+
+                        <span id="atsScoreCircle">
+                            --
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="ats-info">
+
+                        <h3 id="atsTitle">
+                            No Resume Yet
+                        </h3>
+
+
+                        <p id="atsDescription">
+
+                            Upload your resume to get your ATS compatibility score.
+
+                        </p>
+
+
+                        <a href="ats-score.html">
+
+                            View Detailed Score →
+
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= RECENT ACTIVITY ================= -->
+
+            <div class="dashboard-card">
+
+                <div class="card-title">
+
+                    <div>
+
+                        <h2>Recent Activity</h2>
+
+                        <p>
+                            Your latest placement activities
+                        </p>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+
+                </div>
+
+
+
+                <div class="activity" id="activityList">
+
+                    <div class="activity-item">
+
+                        <i class="fa-solid fa-clock"></i>
+
+
+                        <div>
+
+                            <strong>
+                                No recent activity
+                            </strong>
+
+                            <p>
+                                Start your placement journey.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= AI SUGGESTIONS ================= -->
+
+            <div class="dashboard-card">
+
+                <div class="card-title">
+
+                    <div>
+
+                        <h2>AI Suggestions</h2>
+
+                        <p>
+                            Improve your placement readiness
+                        </p>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-robot"></i>
+
+                </div>
+
+
+
+                <ul class="suggestions" id="suggestionsList">
+
+                    <li>
+
+                        <i class="fa-solid fa-check"></i> Complete your profile
+
+                    </li>
+
+                </ul>
+
+
+
+                <a href="resume.html" class="card-link">
+
+                    Improve My Resume →
+
+                </a>
+
+            </div>
+
+
+
+            <!-- ================= RECOMMENDED JOBS ================= -->
+
+            <div class="dashboard-card">
+
+                <div class="card-title">
+
+                    <div>
+
+                        <h2>Recommended Jobs</h2>
+
+                        <p>
+                            Jobs matching your profile
+                        </p>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-briefcase"></i>
+
+                </div>
+
+
+
+                <div class="job-preview" id="recommendedJobs">
+
+                    <div class="job-item">
+
+                        <div>
+
+                            <h3>
+                                Loading jobs...
+                            </h3>
+
+                            <p>
+                                Please wait
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <a href="jobs.html" class="card-link">
+
+                    View All Jobs →
+
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= PROFILE COMPLETION ================= -->
+
+        <section class="progress-card">
+
+            <div>
+
+                <h2>
+                    Placement Journey
+                </h2>
+
+                <p>
+
+                    Keep improving your profile to increase your chances of getting placed.
+
+                </p>
+
+            </div>
+
+
+
+            <div class="progress-container">
+
+                <div class="progress-label">
+
+                    <span>
+                        Profile Completion
+                    </span>
+
+
+                    <strong id="profileCompletion">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div class="progress-bar" id="profileProgressBar">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+        <!-- AI SKILL GAP ANALYSIS -->
+        <section class="skill-gap-card">
+
+            <div class="skill-gap-header">
+                <div>
+                    <span class="section-tag">AI ANALYSIS</span>
+                    <h2>Skill Gap Analysis</h2>
+                    <p>
+                        See which skills you already have and what you should learn for your recommended placement opportunities.
+                    </p>
+                </div>
+
+                <div class="skill-gap-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+            </div>
+
+            <div class="skill-gap-content">
+
+                <div class="skill-group">
+                    <h3>
+                        <i class="fas fa-check-circle"></i> Your Skills
+                    </h3>
+
+                    <div id="currentSkills" class="skill-tags">
+                        <span class="skill-empty">
+                    Loading skills...
+                </span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>
+                        <i class="fas fa-lightbulb"></i> Skills to Learn
+                    </h3>
+
+                    <div id="missingSkills" class="skill-tags">
+                        <span class="skill-empty">
+                    Analyzing skill gaps...
+                </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="skill-gap-footer">
+
+                <div class="learning-message">
+                    <i class="fas fa-graduation-cap"></i>
+
+                    <div>
+                        <strong>AI Learning Suggestion</strong>
+
+                        <p id="skillGapMessage">
+                            Complete your profile to get personalized skill recommendations.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+
+            © 2026 Smart Placement Tracker AI | Student Dashboard
+
+        </p>
+
+    </footer>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+        // ==================================================
+        // LOGGED-IN USER
+        // ==================================================
+
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        const userId =
+            localStorage.getItem("userId");
+
+        const userRole =
+            localStorage.getItem("userRole");
+
+
+        // ==================================================
+        // LOGIN CHECK
+        // ==================================================
+
+        if (!userId ||
+            userId === "null" ||
+            userId === "undefined" ||
+            userRole !== "STUDENT"
+        ) {
+
+            alert("Please login first.");
+
+            window.location.href =
+                "login.html";
+
+        } else {
+
+            loadDashboard();
+
+        }
+
+
+
+        // ==================================================
+        // GLOBAL DATA
+        // ==================================================
+
+        let studentProfile = null;
+
+        let studentResume = null;
+
+        let studentApplications = [];
+
+        let allJobs = [];
+
+
+
+        // ==================================================
+        // LOAD COMPLETE DASHBOARD
+        // ==================================================
+
+        async function loadDashboard() {
+
+            try {
+
+                await loadStudentProfile();
+
+                await loadResume();
+
+                await loadApplications();
+
+                await loadJobs();
+
+
+                await updateDashboard();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Dashboard loading error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+
+        // ==================================================
+        // LOAD STUDENT PROFILE
+        // ==================================================
+
+        async function loadStudentProfile() {
+
+            const response = await fetch(
+                `${API_BASE}/api/student-profile/${userId}`, {
+                    credentials: "include"
+                }
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Student profile not found"
+                );
+
+            }
+
+
+            studentProfile =
+                await response.json();
+
+
+            const studentName =
+
+                studentProfile.user.name ||
+
+                localStorage.getItem("userName") ||
+
+                "Student";
+
+
+            document.getElementById(
+                    "profileName"
+                ).textContent =
+                studentName;
+
+
+            document.getElementById(
+                    "welcomeName"
+                ).textContent =
+                studentName;
+
+        }
+
+
+
+        // ==================================================
+        // LOAD RESUME
+        // ==================================================
+
+        async function loadResume() {
+
+            try {
+
+                const response = await fetch(
+                    `${API_BASE}/api/resume/${userId}`, {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) {
+
+                    studentResume = null;
+
+                    calculateProfileCompletion(studentProfile);
+
+                    return;
+                }
+
+                studentResume = await response.json();
+
+                calculateProfileCompletion(studentProfile);
+
+            } catch (error) {
+
+                console.log("No resume found.");
+
+                studentResume = null;
+
+                calculateProfileCompletion(studentProfile);
+            }
+        }
+
+
+        // ==================================================
+        // LOAD APPLICATIONS
+        // ==================================================
+
+        async function loadApplications() {
+
+            try {
+
+                const response = await fetch(
+                    `${API_BASE}/api/applications/student/${userId}`, {
+                        credentials: "include"
+                    }
+                );
+
+
+                if (!response.ok) {
+
+                    studentApplications = [];
+
+                    return;
+
+                }
+
+
+                studentApplications =
+                    await response.json();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to load applications:",
+                    error
+                );
+
+                studentApplications = [];
+
+            }
+
+        }
+
+
+
+        // ==================================================
+        // LOAD JOBS
+        // ==================================================
+
+        async function loadJobs() {
+
+            try {
+
+                const response = await fetch(
+
+                    `${API_BASE}/api/jobs`
+
+                );
+
+
+                if (!response.ok) {
+
+                    allJobs = [];
+
+                    return;
+
+                }
+
+
+                allJobs =
+                    await response.json();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to load jobs:",
+                    error
+                );
+
+                allJobs = [];
+
+            }
+
+        }
+
+
+
+        // ==================================================
+        // UPDATE DASHBOARD
+        // ==================================================
+
+        async function updateDashboard() {
+
+            updateATS();
+
+            updateResume();
+
+            updateApplications();
+
+            updateSkillsMatch();
+
+            updateRecentActivity();
+
+            updateSuggestions();
+
+            await updateRecommendedJobs();
+            updateSkillGap();
+            updatePlacementReadiness();
+
+        }
+
+
+
+        // ==================================================
+        // ATS SCORE
+        // ==================================================
+
+        function updateATS() {
+
+            let score = null;
+
+
+            if (
+                studentResume &&
+                studentResume.atsScore !== null &&
+                studentResume.atsScore !== undefined
+            ) {
+
+                score =
+                    Number(
+                        studentResume.atsScore
+                    );
+
+            }
+
+
+            // No resume
+
+            if (
+                score === null ||
+                isNaN(score)
+            ) {
+
+                document.getElementById(
+                        "atsScoreTop"
+                    ).textContent =
+                    "--";
+
+
+                document.getElementById(
+                        "atsScoreCircle"
+                    ).textContent =
+                    "--";
+
+
+                document.getElementById(
+                        "atsStatusTop"
+                    ).textContent =
+                    "No Resume";
+
+
+                document.getElementById(
+                        "atsTitle"
+                    ).textContent =
+                    "No Resume Yet";
+
+
+                document.getElementById(
+                        "atsDescription"
+                    ).textContent =
+                    "Upload your resume to get your ATS compatibility score.";
+
+                return;
+
+            }
+
+
+
+            // Show score
+
+            document.getElementById(
+                    "atsScoreTop"
+                ).textContent =
+                score + "%";
+
+
+            document.getElementById(
+                    "atsScoreCircle"
+                ).textContent =
+                score + "%";
+
+
+
+            let title = "";
+
+            let description = "";
+
+            let status = "";
+
+
+
+            if (score >= 85) {
+
+                title =
+                    "Excellent Resume";
+
+                status =
+                    "Excellent Resume";
+
+                description =
+                    "Your resume has a strong ATS compatibility score.";
+
+            } else if (score >= 70) {
+
+                title =
+                    "Good Resume";
+
+                status =
+                    "Good Resume";
+
+                description =
+                    "Your resume has a good ATS compatibility score.";
+
+            } else if (score >= 50) {
+
+                title =
+                    "Needs Improvement";
+
+                status =
+                    "Needs Improvement";
+
+                description =
+                    "Your resume can be improved to increase ATS compatibility.";
+
+            } else {
+
+                title =
+                    "Improve Resume";
+
+                status =
+                    "Needs Improvement";
+
+                description =
+                    "Your resume needs improvement for better ATS compatibility.";
+
+            }
+
+
+
+            document.getElementById(
+                    "atsStatusTop"
+                ).textContent =
+                status;
+
+
+            document.getElementById(
+                    "atsTitle"
+                ).textContent =
+                title;
+
+
+            document.getElementById(
+                    "atsDescription"
+                ).textContent =
+                description;
+
+        }
+
+
+
+        // ==================================================
+        // RESUME STATUS
+        // ==================================================
+
+        function updateResume() {
+
+            if (!studentResume) {
+
+                document.getElementById(
+                        "resumeStatus"
+                    ).textContent =
+                    "Not Uploaded";
+
+
+                document.getElementById(
+                        "resumeDate"
+                    ).textContent =
+                    "Upload your resume";
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                    "resumeStatus"
+                ).textContent =
+                "Uploaded";
+
+
+            if (studentResume.uploadedAt) {
+
+                const date =
+                    new Date(
+                        studentResume.uploadedAt
+                    );
+
+
+                document.getElementById(
+                        "resumeDate"
+                    ).textContent =
+                    "Updated " +
+                    formatRelativeDate(date);
+
+            } else {
+
+                document.getElementById(
+                        "resumeDate"
+                    ).textContent =
+                    "Resume available";
+
+            }
+
+        }
+
+
+
+        // ==================================================
+        // APPLICATION COUNT
+        // ==================================================
+
+        function updateApplications() {
+
+            document.getElementById(
+                    "appliedJobsCount"
+                ).textContent =
+                studentApplications.length;
+
+        }
+
+
+
+        // ==================================================
+        // SKILLS MATCH
+        // ==================================================
+
+        function updateSkillsMatch() {
+
+            if (!studentProfile ||
+                !studentProfile.skills ||
+                allJobs.length === 0
+            ) {
+
+                document.getElementById(
+                        "skillsMatch"
+                    ).textContent =
+                    "0%";
+
+                return;
+
+            }
+
+
+            const studentSkills =
+
+                studentProfile.skills
+                .toLowerCase()
+                .split(",")
+                .map(
+                    skill =>
+                    skill.trim()
+                )
+                .filter(
+                    skill =>
+                    skill
+                );
+
+
+            if (
+                studentSkills.length === 0
+            ) {
+
+                document.getElementById(
+                        "skillsMatch"
+                    ).textContent =
+                    "0%";
+
+                return;
+
+            }
+
+
+            let matched = 0;
+
+            let total = 0;
+
+
+            allJobs.forEach(job => {
+
+                if (!job.skills)
+                    return;
+
+
+                const jobSkills =
+
+                    job.skills
+                    .toLowerCase()
+                    .split(",")
+                    .map(
+                        skill =>
+                        skill.trim()
+                    )
+                    .filter(
+                        skill =>
+                        skill
+                    );
+
+
+                jobSkills.forEach(skill => {
+
+                    total++;
+
+
+                    const found =
+
+                        studentSkills.some(
+
+                            studentSkill =>
+
+                            studentSkill.includes(
+                                skill
+                            ) ||
+
+                            skill.includes(
+                                studentSkill
+                            )
+
+                        );
+
+
+                    if (found) {
+
+                        matched++;
+
+                    }
+
+                });
+
+            });
+
+
+            let percentage = 0;
+
+
+            if (total > 0) {
+
+                percentage =
+
+                    Math.round(
+                        (matched / total) * 100
+                    );
+
+            }
+
+
+            document.getElementById(
+                    "skillsMatch"
+                ).textContent =
+                percentage + "%";
+
+        }
+
+
+
+        // ==================================================
+        // PROFILE COMPLETION
+        // ==================================================
+
+        function calculateProfileCompletion(profile) {
+
+            if (!profile) {
+
+                document.getElementById(
+                    "profileCompletion"
+                ).textContent = "0%";
+
+                document.getElementById(
+                    "profileProgressBar"
+                ).style.width = "0%";
+
+                return;
+            }
+
+            const user = profile.user || {};
+
+            const fields = [
+
+                // Student identity
+                user.name,
+
+                user.email,
+
+                // Student profile
+                profile.phone,
+
+                profile.college,
+
+                profile.department,
+
+                profile.cgpa,
+
+                profile.skills,
+
+                profile.graduationYear,
+
+                // Resume
+                studentResume
+
+            ];
+
+            let completedFields = 0;
+
+            fields.forEach(function(field) {
+
+                if (
+                    field !== null &&
+                    field !== undefined &&
+                    (
+                        typeof field === "object" ||
+                        field.toString().trim() !== ""
+                    )
+                ) {
+
+                    completedFields++;
+
+                }
+
+            });
+
+            const completionPercentage = Math.round(
+                (completedFields / fields.length) * 100
+            );
+
+            document.getElementById(
+                    "profileCompletion"
+                ).textContent =
+                completionPercentage + "%";
+
+            document.getElementById(
+                    "profileProgressBar"
+                ).style.width =
+                completionPercentage + "%";
+        }
+
+
+        // ==================================================
+        // RECENT ACTIVITY
+        // ==================================================
+
+        function updateRecentActivity() {
+
+            const activities = [];
+
+
+            // Resume activity
+
+            if (
+                studentResume &&
+                studentResume.uploadedAt
+            ) {
+
+                activities.push({
+
+                    icon: "fa-file-circle-check",
+
+                    title: "Resume Updated",
+
+                    date: new Date(
+                        studentResume.uploadedAt
+                    )
+
+                });
+
+            }
+
+
+            // Application activities
+
+            studentApplications.forEach(
+                application => {
+
+                    if (
+                        application.appliedAt
+                    ) {
+
+                        activities.push({
+
+                            icon: "fa-paper-plane",
+
+                            title:
+
+                                "Application Submitted for " +
+
+                                (
+                                    application.job &&
+                                    application.job.title ?
+                                    application.job.title :
+                                    "Job"
+                                ),
+                            date:
+
+                                new Date(
+                                application.appliedAt
+                            )
+
+                        });
+
+                    }
+
+                }
+            );
+
+
+            // Sort newest first
+
+            activities.sort(
+                (a, b) =>
+                b.date - a.date
+            );
+
+
+            const activityList =
+                document.getElementById(
+                    "activityList"
+                );
+
+
+            if (
+                activities.length === 0
+            ) {
+
+                activityList.innerHTML = `
+
+                    <div class="activity-item">
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        <div>
+
+                            <strong>
+                                No recent activity
+                            </strong>
+
+                            <p>
+                                Start your placement journey.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            activityList.innerHTML =
+
+                activities
+                .slice(0, 3)
+                .map(
+                    activity => `
+
+                        <div class="activity-item">
+
+                            <i class="fa-solid ${activity.icon}">
+                            </i>
+
+                            <div>
+
+                                <strong>
+                                    ${escapeHtml(
+                                        activity.title
+                                    )}
+                                </strong>
+
+                                <p>
+                                    ${formatRelativeDate(
+                                        activity.date
+                                    )}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    `
+                )
+                .join("");
+
+        }
+
+
+
+        // ==================================================
+        // AI SUGGESTIONS
+        // ==================================================
+
+        function updateSuggestions() {
+
+            const suggestions = [];
+
+
+            const profileCompletion =
+                calculateCompletionValue(
+                    studentProfile
+                );
+
+
+            if (
+                profileCompletion < 100
+            ) {
+
+                suggestions.push(
+                    "Complete your student profile"
+                );
+
+            }
+
+
+            if (!studentResume) {
+
+                suggestions.push(
+                    "Upload your resume"
+                );
+
+            } else if (
+
+                studentResume.atsScore !== null &&
+
+                studentResume.atsScore < 70
+
+            ) {
+
+                suggestions.push(
+                    "Improve your resume ATS score"
+                );
+
+            }
+
+
+            const skills =
+                studentProfile && studentProfile.skills ?
+                studentProfile.skills :
+                "";
+
+
+            if (!skills
+                .toLowerCase()
+                .includes("react")
+            ) {
+
+                suggestions.push(
+                    "Improve React.js skills"
+                );
+
+            }
+
+
+            if (
+
+                !skills
+                .toLowerCase()
+                .includes("sql") &&
+
+                !skills
+                .toLowerCase()
+                .includes("mysql")
+
+            ) {
+
+                suggestions.push(
+                    "Improve SQL and database skills"
+                );
+
+            }
+
+
+            if (
+                suggestions.length === 0
+            ) {
+
+                suggestions.push(
+                    "Keep improving your technical skills"
+                );
+
+                suggestions.push(
+                    "Practice Data Structures and Algorithms"
+                );
+
+            }
+
+
+            const list =
+                document.getElementById(
+                    "suggestionsList"
+                );
+
+
+            list.innerHTML =
+
+                suggestions
+                .slice(0, 5)
+                .map(
+                    item => `
+
+                        <li>
+
+                            <i class="fa-solid fa-check"></i>
+
+                            ${escapeHtml(item)}
+
+                        </li>
+
+                    `
+                )
+                .join("");
+
+        }
+
+
+
+        // ==================================================
+        // RECOMMENDED JOBS (FROM BACKEND RECOMMENDATION API)
+        // ==================================================
+
+        // ==================================================
+        // RECOMMENDED JOBS
+        // ==================================================
+
+        async function updateRecommendedJobs() {
+
+            const container =
+                document.getElementById("recommendedJobs");
+
+            try {
+
+                // allJobs is already loaded from /api/jobs
+                // in loadDashboard() before this function runs.
+
+                if (!allJobs || allJobs.length === 0) {
+
+                    container.innerHTML = `
+                <div class="job-item">
+                    <div>
+                        <h3>No Jobs Available</h3>
+                        <p>No job opportunities are currently available.</p>
+                    </div>
+                </div>
+            `;
+
+                    return;
+                }
+
+
+                // --------------------------------------------------
+                // First try to get AI recommendations
+                // --------------------------------------------------
+
+                let recommendations = [];
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_BASE}/api/recommendations/${userId}`, {
+                                credentials: "include"
+                            }
+                        );
+
+
+                    if (response.ok) {
+
+                        const data =
+                            await response.json();
+
+                        if (
+                            data &&
+                            Array.isArray(data.recommendations)
+                        ) {
+
+                            recommendations =
+                                data.recommendations;
+
+                        }
+
+                    }
+
+                } catch (recommendationError) {
+
+                    console.warn(
+                        "AI recommendation API unavailable. Using available jobs.",
+                        recommendationError
+                    );
+
+                }
+
+
+                // --------------------------------------------------
+                // If AI recommendations are available,
+                // show them first.
+                // Otherwise use normal jobs.
+                // --------------------------------------------------
+
+                let jobsToShow = [];
+
+
+                if (recommendations.length > 0) {
+
+                    jobsToShow =
+                        recommendations.slice(0, 3);
+
+                } else {
+
+                    jobsToShow =
+                        allJobs.slice(0, 3);
+
+                }
+
+
+                // --------------------------------------------------
+                // Display jobs
+                // --------------------------------------------------
+
+                container.innerHTML =
+                    jobsToShow
+                    .map(function(job) {
+
+                        let match = 0;
+
+
+                        // AI recommendation match
+                        if (
+                            job.matchPercentage !== undefined &&
+                            job.matchPercentage !== null
+                        ) {
+
+                            match =
+                                Number(job.matchPercentage);
+
+                        }
+
+
+                        // If no AI percentage is available,
+                        // calculate a simple profile-skill match.
+                        if (
+                            match === 0 &&
+                            studentProfile &&
+                            studentProfile.skills &&
+                            job.skills
+                        ) {
+
+                            const studentSkills =
+                                studentProfile.skills
+                                .toLowerCase()
+                                .split(",")
+                                .map(
+                                    skill =>
+                                    skill.trim()
+                                )
+                                .filter(
+                                    skill =>
+                                    skill.length > 0
+                                );
+
+
+                            const jobSkills =
+                                job.skills
+                                .toLowerCase()
+                                .split(",")
+                                .map(
+                                    skill =>
+                                    skill.trim()
+                                )
+                                .filter(
+                                    skill =>
+                                    skill.length > 0
+                                );
+
+
+                            if (
+                                jobSkills.length > 0 &&
+                                studentSkills.length > 0
+                            ) {
+
+                                let matchedSkills = 0;
+
+
+                                jobSkills.forEach(
+                                    function(jobSkill) {
+
+                                        const matched =
+                                            studentSkills.some(
+                                                function(studentSkill) {
+
+                                                    return (
+                                                        studentSkill === jobSkill ||
+                                                        studentSkill.includes(jobSkill) ||
+                                                        jobSkill.includes(studentSkill)
+                                                    );
+
+                                                }
+                                            );
+
+
+                                        if (matched) {
+                                            matchedSkills++;
+                                        }
+
+                                    }
+                                );
+
+
+                                match =
+                                    Math.round(
+                                        (
+                                            matchedSkills /
+                                            jobSkills.length
+                                        ) * 100
+                                    );
+
+                            }
+
+                        }
+
+
+                        return `
+                        <div class="job-item">
+
+                            <div>
+
+                                <h3>
+                                    ${escapeHtml(
+                                        job.title || "Job"
+                                    )}
+                                </h3>
+
+                                <p>
+                                    ${escapeHtml(
+                                        job.companyName ||
+                                        "Company"
+                                    )}
+                                    •
+                                    ${escapeHtml(
+                                        job.location ||
+                                        "Location"
+                                    )}
+                                </p>
+
+                            </div>
+
+                            <strong>
+                                ${match}%
+                            </strong>
+
+                        </div>
+                    `;
+
+                    })
+                    .join("");
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading recommended jobs:",
+                    error
+                );
+
+
+                // Final fallback:
+                // show jobs already loaded from /api/jobs.
+
+                if (
+                    allJobs &&
+                    allJobs.length > 0
+                ) {
+
+                    container.innerHTML =
+                        allJobs
+                        .slice(0, 3)
+                        .map(
+                            job => `
+                            <div class="job-item">
+
+                                <div>
+
+                                    <h3>
+                                        ${escapeHtml(
+                                            job.title ||
+                                            "Job"
+                                        )}
+                                    </h3>
+
+                                    <p>
+                                        ${escapeHtml(
+                                            job.companyName ||
+                                            "Company"
+                                        )}
+                                        •
+                                        ${escapeHtml(
+                                            job.location ||
+                                            "Location"
+                                        )}
+                                    </p>
+
+                                </div>
+
+                                <strong>
+                                    0%
+                                </strong>
+
+                            </div>
+                        `
+                        )
+                        .join("");
+
+                } else {
+
+                    container.innerHTML = `
+                <div class="job-item">
+
+                    <div>
+
+                        <h3>
+                            No Jobs Available
+                        </h3>
+
+                        <p>
+                            Check again later.
+                        </p>
+
+                    </div>
+
+                </div>
+            `;
+
+                }
+
+            }
+
+        }
+
+
+
+        // ==================================================
+        // CALCULATE COMPLETION VALUE
+        // ==================================================
+
+        function calculateCompletionValue(
+            profile
+        ) {
+
+            if (!profile)
+                return 0;
+
+
+            const fields = [
+
+                profile.phone,
+
+                profile.college,
+
+                profile.department,
+
+                profile.graduationYear,
+
+                profile.cgpa,
+
+                profile.skills
+
+            ];
+
+
+            const completed =
+
+                fields.filter(
+
+                    field =>
+
+                    field !== null &&
+
+                    field !== undefined &&
+
+                    field
+                    .toString()
+                    .trim() !== ""
+
+                ).length;
+
+
+            return Math.round(
+
+                (
+                    completed /
+                    fields.length
+                ) * 100
+
+            );
+
+        }
+
+
+
+        // ==================================================
+        // RELATIVE DATE
+        // ==================================================
+
+        function formatRelativeDate(
+            date
+        ) {
+
+            const now =
+                new Date();
+
+
+            const difference =
+                now - date;
+
+
+            const minutes =
+
+                Math.floor(
+
+                    difference /
+                    (1000 * 60)
+
+                );
+
+
+            if (
+                minutes < 1
+            ) {
+
+                return "Just now";
+
+            }
+
+
+            if (
+                minutes < 60
+            ) {
+
+                return (
+
+                    minutes +
+
+                    (
+                        minutes === 1 ?
+                        " minute ago" :
+                        " minutes ago"
+                    )
+
+                );
+
+            }
+
+
+            const hours =
+
+                Math.floor(
+                    minutes / 60
+                );
+
+
+            if (
+                hours < 24
+            ) {
+
+                return (
+
+                    hours +
+
+                    (
+                        hours === 1 ?
+                        " hour ago" :
+                        " hours ago"
+                    )
+
+                );
+
+            }
+
+
+            const days =
+
+                Math.floor(
+                    hours / 24
+                );
+
+
+            if (
+                days === 1
+            ) {
+
+                return "Yesterday";
+
+            }
+
+
+            if (
+                days < 7
+            ) {
+
+                return days +
+                    " days ago";
+
+            }
+
+
+            return date.toLocaleDateString();
+
+        }
+
+
+
+        // ==================================================
+        // HTML ESCAPE
+        // ==================================================
+
+        function escapeHtml(
+            value
+        ) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+        function updateSkillGap() {
+
+            const currentSkillsContainer =
+                document.getElementById("currentSkills");
+
+            const missingSkillsContainer =
+                document.getElementById("missingSkills");
+
+            const message =
+                document.getElementById("skillGapMessage");
+
+            if (!currentSkillsContainer ||
+                !missingSkillsContainer ||
+                !message) {
+
+                return;
+            }
+
+            /*
+             * Get student's current skills
+             */
+
+            let studentSkills = [];
+
+            if (studentProfile &&
+                studentProfile.skills) {
+
+                studentSkills = studentProfile.skills
+                    .split(",")
+                    .map(skill => skill.trim())
+                    .filter(skill => skill.length > 0);
+            }
+
+            /*
+             * Display current skills
+             */
+
+            if (studentSkills.length === 0) {
+
+                currentSkillsContainer.innerHTML =
+                    `<span class="skill-empty">
+                No skills added yet
+             </span>`;
+
+            } else {
+
+                currentSkillsContainer.innerHTML =
+                    studentSkills.map(skill => {
+
+                        return `
+                    <span class="skill-tag current">
+                        <i class="fas fa-check"></i>
+                        ${skill}
+                    </span>
+                `;
+
+                    }).join("");
+            }
+
+            /*
+             * Collect skills required by recommended jobs
+             */
+
+            let requiredSkills = [];
+
+            if (Array.isArray(allJobs)) {
+
+                allJobs.forEach(job => {
+
+                    if (!job.skills) {
+                        return;
+                    }
+
+                    const skills = job.skills
+                        .split(",")
+                        .map(skill => skill.trim())
+                        .filter(skill => skill.length > 0);
+
+                    requiredSkills.push(...skills);
+
+                });
+            }
+
+            /*
+             * Remove duplicate skills
+             */
+
+            requiredSkills = [
+                ...new Map(
+                    requiredSkills.map(skill => [
+                        skill.toLowerCase(),
+                        skill
+                    ])
+                ).values()
+            ];
+
+            /*
+             * Find missing skills
+             */
+
+            const currentSkillNames =
+                studentSkills.map(skill =>
+                    skill.toLowerCase()
+                );
+
+            const missingSkills =
+                requiredSkills.filter(skill =>
+                    !currentSkillNames.includes(
+                        skill.toLowerCase()
+                    )
+                );
+
+            /*
+             * Display missing skills
+             */
+
+            if (missingSkills.length === 0) {
+
+                missingSkillsContainer.innerHTML =
+                    `<span class="skill-empty success">
+                <i class="fas fa-check-circle"></i>
+                No major skill gaps detected
+             </span>`;
+
+                message.textContent =
+                    "Your current skills match the available job requirements well.";
+
+                return;
+            }
+
+            /*
+             * Show maximum 8 missing skills
+             */
+
+            const importantMissingSkills =
+                missingSkills.slice(0, 8);
+
+            missingSkillsContainer.innerHTML =
+                importantMissingSkills.map(skill => {
+
+                    return `
+                <span class="skill-tag missing">
+                    <i class="fas fa-plus"></i>
+                    ${skill}
+                </span>
+            `;
+
+                }).join("");
+
+            /*
+             * Learning suggestion
+             */
+
+            const firstSkill =
+                importantMissingSkills[0];
+
+            message.textContent =
+                `Focus on learning ${firstSkill} first. ` +
+                `Adding more job-relevant skills can improve ` +
+                `your placement opportunities.`;
+        }
+    </script>
+    <script>
+        /* =====================================================
+                                                                                           NOTIFICATION SYSTEM
+                                                                                           ===================================================== */
+
+        const notificationBell =
+            document.getElementById("notificationBell");
+
+        const notificationPanel =
+            document.getElementById("notificationPanel");
+
+        const notificationList =
+            document.getElementById("notificationList");
+
+        const notificationCount =
+            document.getElementById("notificationCount");
+
+        const notificationSummary =
+            document.getElementById("notificationSummary");
+
+        const markAllReadBtn =
+            document.getElementById("markAllReadBtn");
+
+
+        const NOTIFICATION_API =
+            "http://" + window.location.hostname + ":8080/api/notifications";
+
+
+        /* =====================================================
+           LOAD UNREAD COUNT
+           ===================================================== */
+
+        async function loadNotificationCount() {
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API + "/unread-count", {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) return;
+
+                const data = await response.json();
+
+                const count = Number(data.count || 0);
+
+                if (count > 0) {
+
+                    notificationCount.textContent =
+                        count > 99 ? "99+" : count;
+
+                    notificationCount.classList.add("show");
+
+                } else {
+
+                    notificationCount.textContent = "0";
+
+                    notificationCount.classList.remove("show");
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Notification count error:",
+                    error
+                );
+            }
+        }
+
+
+        /* =====================================================
+           LOAD NOTIFICATIONS
+           ===================================================== */
+
+        async function loadNotifications() {
+
+            if (!notificationList) return;
+
+            notificationList.innerHTML = `
+        <div class="notification-loading">
+            Loading notifications...
+        </div>
+    `;
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API, {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) {
+
+                    notificationList.innerHTML = `
+                <div class="notification-empty">
+                    Unable to load notifications.
+                </div>
+            `;
+
+                    return;
+                }
+
+                const notifications = await response.json();
+
+                renderNotifications(notifications);
+
+            } catch (error) {
+
+                console.error(
+                    "Notification loading error:",
+                    error
+                );
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+                Unable to load notifications.
+            </div>
+        `;
+            }
+        }
+
+
+        /* =====================================================
+           RENDER NOTIFICATIONS
+           ===================================================== */
+
+        function renderNotifications(notifications) {
+
+            if (!notifications || notifications.length === 0) {
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+
+                <i class="fa-regular fa-bell-slash"></i>
+
+                No notifications yet.
+
+            </div>
+        `;
+
+                notificationSummary.textContent =
+                    "You're all caught up";
+
+                return;
+            }
+
+
+            notificationList.innerHTML =
+                notifications.map(notification => {
+
+                        const unread =
+                            notification.read === false;
+
+                        const icon =
+                            getNotificationIcon(notification.type);
+
+                        const time =
+                            formatNotificationTime(
+                                notification.createdAt
+                            );
+
+                        return `
+                <div
+                    class="notification-item ${unread ? "unread" : ""}"
+                    data-id="${notification.id}"
+                    data-link="${notification.link || ""}"
+                >
+
+                    <div class="notification-item-icon">
+                        <i class="${icon}"></i>
+                    </div>
+
+                    <div class="notification-item-content">
+
+                        <p class="notification-item-message">
+                            ${escapeNotificationText(
+                                notification.message
+                            )}
+                        </p>
+
+                        <span class="notification-item-time">
+                            ${time}
+                        </span>
+
+                    </div>
+
+                    ${
+                        unread
+                        ? `<span class="notification-unread-dot"></span>`
+                        : ""
+                    }
+
+                </div>
+            `;
+
+        }).join("");
+
+
+    notificationSummary.textContent =
+        notifications.length === 1
+            ? "1 notification"
+            : `${notifications.length} notifications`;
+
+
+    document
+        .querySelectorAll(".notification-item")
+        .forEach(item => {
+
+            item.addEventListener(
+                "click",
+                () => handleNotificationClick(item)
+            );
+
+        });
+}
+
+
+/* =====================================================
+   NOTIFICATION ICON
+   ===================================================== */
+
+function getNotificationIcon(type) {
+
+    switch (type) {
+
+        case "APPLICATION":
+            return "fa-solid fa-file-circle-check";
+
+        case "APPLICATION_STATUS":
+            return "fa-solid fa-circle-check";
+
+        default:
+            return "fa-solid fa-bell";
+    }
+}
+
+
+/* =====================================================
+   CLICK NOTIFICATION
+   ===================================================== */
+
+async function handleNotificationClick(item) {
+
+    const id =
+        item.dataset.id;
+
+    const link =
+        item.dataset.link;
+
+
+    try {
+
+        await fetch(
+            NOTIFICATION_API +
+            "/" + id +
+            "/read",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Failed to mark notification as read:",
+            error
+        );
+    }
+
+
+    await loadNotificationCount();
+
+
+    if (link) {
+
+        window.location.href = link;
+
+    } else {
+
+        item.classList.remove("unread");
+
+        const dot =
+            item.querySelector(
+                ".notification-unread-dot"
+            );
+
+        if (dot) dot.remove();
+    }
+}
+
+
+/* =====================================================
+   MARK ALL AS READ
+   ===================================================== */
+
+async function markAllNotificationsAsRead() {
+
+    try {
+
+        const response = await fetch(
+            NOTIFICATION_API + "/read-all",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) return;
+
+        await loadNotifications();
+
+        await loadNotificationCount();
+
+    } catch (error) {
+
+        console.error(
+            "Mark all as read error:",
+            error
+        );
+    }
+}
+
+
+/* =====================================================
+   BELL CLICK
+   ===================================================== */
+
+if (notificationBell) {
+
+    notificationBell.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            notificationPanel.classList.toggle("show");
+
+            if (
+                notificationPanel.classList.contains("show")
+            ) {
+
+                await loadNotifications();
+            }
+
+        }
+    );
+}
+
+
+/* =====================================================
+   MARK ALL BUTTON
+   ===================================================== */
+
+if (markAllReadBtn) {
+
+    markAllReadBtn.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            await markAllNotificationsAsRead();
+
+        }
+    );
+}
+
+
+/* =====================================================
+   CLOSE PANEL WHEN CLICKING OUTSIDE
+   ===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            notificationPanel &&
+            notificationBell &&
+            !notificationBell.contains(event.target)
+        ) {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESCAPE KEY
+   ===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FORMAT TIME
+   ===================================================== */
+
+function formatNotificationTime(dateString) {
+
+    if (!dateString) return "Just now";
+
+    const date =
+        new Date(dateString);
+
+    if (Number.isNaN(date.getTime())) {
+        return "Just now";
+    }
+
+    const now =
+        new Date();
+
+    const seconds =
+        Math.floor(
+            (now - date) / 1000
+        );
+
+    if (seconds < 60) {
+        return "Just now";
+    }
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    if (minutes < 60) {
+        return `${minutes} min ago`;
+    }
+
+    const hours =
+        Math.floor(minutes / 60);
+
+    if (hours < 24) {
+        return `${hours} hr ago`;
+    }
+
+    const days =
+        Math.floor(hours / 24);
+
+    if (days === 1) {
+        return "Yesterday";
+    }
+
+    if (days < 7) {
+        return `${days} days ago`;
+    }
+
+    return date.toLocaleDateString();
+}
+
+
+/* =====================================================
+   BASIC HTML ESCAPING
+   ===================================================== */
+
+function escapeNotificationText(text) {
+
+    if (text === null || text === undefined) {
+        return "";
+    }
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+   ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadNotificationCount();
+
+    }
+);
+    </script>
+    <script>
+        function updatePlacementReadiness() {
+            const readinessElement =
+                document.getElementById("placementReadiness");
+
+            const statusElement =
+                document.getElementById("placementReadinessStatus");
+
+            const atsScore =
+                studentResume &&
+                studentResume.atsScore !== null &&
+                studentResume.atsScore !== undefined ?
+                Number(studentResume.atsScore) :
+                null;
+
+            if (
+                atsScore === null ||
+                !Number.isFinite(atsScore) ||
+                atsScore < 0 ||
+                atsScore > 100
+            ) {
+                readinessElement.textContent = "--";
+                statusElement.textContent = "Upload your resume first";
+                return;
+            }
+
+            const skillsMatch =
+                parseInt(
+                    document.getElementById("skillsMatch").textContent,
+                    10
+                ) || 0;
+
+            const applications =
+                parseInt(
+                    document.getElementById("appliedJobsCount").textContent,
+                    10
+                ) || 0;
+
+            let applicationScore = 0;
+
+            if (applications >= 5) {
+                applicationScore = 100;
+            } else if (applications >= 3) {
+                applicationScore = 80;
+            } else if (applications >= 1) {
+                applicationScore = 60;
+            }
+
+            const readiness = Math.round(
+                (atsScore * 0.50) +
+                (skillsMatch * 0.30) +
+                (applicationScore * 0.20)
+            );
+
+            readinessElement.textContent = readiness + "%";
+
+            if (readiness >= 80) {
+                statusElement.textContent = "Placement Ready";
+            } else if (readiness >= 60) {
+                statusElement.textContent = "Almost Ready";
+            } else {
+                statusElement.textContent = "Needs Improvement";
+            }
+        }
+    </script>
+</body>
+
+</html>

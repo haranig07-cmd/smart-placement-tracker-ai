@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        ATS Score | Smart Placement Tracker AI
+    </title>
+
+    <link rel="stylesheet" href="ats-score.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="logout.js" defer></script>
+</head>
+
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <div class="logo">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+            <h2>
+                Smart Placement Tracker AI
+            </h2>
+
+        </div>
+
+
+        <div class="profile">
+
+            <!-- Notification Bell -->
+            <div class="notification-wrapper" id="notificationBell">
+
+                <i class="fa-solid fa-bell notification-icon"></i>
+
+                <span id="notificationCount" class="notification-count">
+                0
+            </span>
+
+
+                <!-- Notification Panel -->
+                <div class="notification-panel" id="notificationPanel">
+
+                    <div class="notification-panel-header">
+
+                        <div>
+
+                            <h3>
+                                Notifications
+                            </h3>
+
+                            <span id="notificationSummary">
+                            Your latest updates
+                        </span>
+
+                        </div>
+
+
+                        <button type="button" id="markAllReadBtn" class="mark-all-btn">
+
+                        Mark all as read
+
+                    </button>
+
+                    </div>
+
+
+                    <div id="notificationList" class="notification-list">
+
+                        <div class="notification-loading">
+                            Loading notifications...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Student Name -->
+            <span id="profileName">
+            Student
+        </span>
+
+
+            <!-- User Icon -->
+            <i class="fa-solid fa-circle-user"></i>
+
+        </div>
+
+    </header>
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav>
+
+        <a href="student-dashboard.html">
+
+            <i class="fa-solid fa-house"></i> Dashboard
+
+        </a>
+
+
+        <a href="student-profile.html">
+
+            <i class="fa-solid fa-user"></i> My Profile
+
+        </a>
+
+
+        <a href="resume.html">
+
+            <i class="fa-solid fa-file"></i> Resume
+
+        </a>
+
+
+        <a href="ats-score.html" class="active">
+
+            <i class="fa-solid fa-chart-column"></i> ATS Score
+
+        </a>
+
+        <a href="jobs.html">
+
+            <i class="fa-solid fa-briefcase"></i> Jobs
+
+        </a>
+        <a href="student-applications.html">
+            <i class="fa-solid fa-file-circle-check"></i> My Applications
+        </a>
+
+        <a href="index.html" data-logout>
+
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+
+        </a>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+
+        <!-- PAGE TITLE -->
+
+        <section class="page-title">
+
+            <h1>
+                ATS Score Analysis
+            </h1>
+
+            <p>
+                Understand how well your resume performs against Applicant Tracking Systems.
+            </p>
+
+        </section>
+
+
+        <!-- ================= SCORE OVERVIEW ================= -->
+
+        <section class="score-overview">
+
+
+            <!-- SCORE CARD -->
+
+            <div class="score-card">
+
+
+                <div class="score-circle">
+
+                    <div>
+
+                        <strong id="score">
+                            --
+                        </strong>
+
+                        <span>%</span>
+
+                    </div>
+
+                </div>
+
+
+                <h2 id="scoreTitle">
+                    Loading...
+                </h2>
+
+
+                <p id="scoreDescription">
+                    Analyzing your resume...
+                </p>
+
+
+                <button onclick="window.location.href='resume.html'">
+
+                    <i class="fa-solid fa-file-arrow-up"></i>
+
+                    Improve Resume
+
+                </button>
+
+
+            </div>
+
+
+            <!-- SCORE DETAILS -->
+
+            <div class="score-details">
+
+
+                <h2>
+                    Score Breakdown
+                </h2>
+
+
+                <!-- KEYWORDS -->
+
+                <div class="score-item">
+
+                    <div class="score-label">
+
+                        <span>
+                            Keywords
+                        </span>
+
+                        <strong id="keywordScore">
+                            --
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bar">
+
+                        <div class="bar-fill keywords" id="keywordBar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SKILLS -->
+
+                <div class="score-item">
+
+                    <div class="score-label">
+
+                        <span>
+                            Skills
+                        </span>
+
+                        <strong id="skillScore">
+                            --
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bar">
+
+                        <div class="bar-fill skills" id="skillBar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SECTIONS -->
+
+                <div class="score-item">
+
+                    <div class="score-label">
+
+                        <span>
+                            Resume Sections
+                        </span>
+
+                        <strong id="sectionScore">
+                            --
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bar">
+
+                        <div class="bar-fill formatting" id="sectionBar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONTENT -->
+
+                <div class="score-item">
+
+                    <div class="score-label">
+
+                        <span>
+                            Content
+                        </span>
+
+                        <strong id="contentScore">
+                            --
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bar">
+
+                        <div class="bar-fill experience" id="contentBar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ANALYSIS ================= -->
+
+        <section class="analysis-grid">
+
+
+            <!-- STRENGTHS -->
+
+            <div class="analysis-card">
+
+
+                <div class="card-title">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    <h2>
+                        Resume Strengths
+                    </h2>
+
+                </div>
+
+
+                <ul id="strengthList">
+
+                    <li>
+                        <i class="fa-solid fa-spinner fa-spin"></i> Analyzing resume...
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- IMPROVEMENTS -->
+
+            <div class="analysis-card">
+
+
+                <div class="card-title warning">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    <h2>
+                        Areas to Improve
+                    </h2>
+
+                </div>
+
+
+                <ul id="improvementList">
+
+                    <li>
+                        <i class="fa-solid fa-spinner fa-spin"></i> Analyzing resume...
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ================= SKILLS ================= -->
+
+        <section class="skills-section">
+
+
+            <!-- DETECTED SKILLS -->
+
+            <div class="skills-card">
+
+
+                <div class="card-title">
+
+                    <i class="fa-solid fa-code"></i>
+
+                    <h2>
+                        Detected Skills
+                    </h2>
+
+                </div>
+
+
+                <div class="skill-list" id="detectedSkills">
+
+                    <span>
+                        Loading...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECOMMENDED SKILLS -->
+
+            <div class="skills-card missing">
+
+
+                <div class="card-title">
+
+                    <i class="fa-solid fa-lightbulb"></i>
+
+                    <h2>
+                        Recommended Skills
+                    </h2>
+
+                </div>
+
+
+                <div class="skill-list" id="recommendedSkills">
+
+                    <span>
+                        Loading...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ================= KEYWORDS ================= -->
+
+        <section class="keyword-section">
+
+
+            <div class="keyword-card">
+
+
+                <div class="card-title">
+
+                    <i class="fa-solid fa-key"></i>
+
+                    <h2>
+                        Keyword Analysis
+                    </h2>
+
+                </div>
+
+
+                <p>
+                    Important keywords detected in your resume.
+                </p>
+
+
+                <div class="keywords" id="keywordList">
+
+                    <span>
+                        Loading...
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= AI RECOMMENDATION ================= -->
+
+        <section class="recommendation">
+
+
+            <div class="recommendation-card">
+
+
+                <div class="recommendation-icon">
+
+                    <i class="fa-solid fa-robot"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        AI Recommendation
+                    </h2>
+
+
+                    <p id="aiRecommendation">
+
+                        Analyzing your resume and generating recommendations...
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ACTIONS ================= -->
+
+        <section class="actions">
+
+
+            <button onclick="window.location.href='resume.html'">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Resume
+
+            </button>
+
+
+            <button onclick="window.location.href='jobs.html'">
+
+                View Recommended Jobs
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Smart Placement Tracker AI | ATS Score Analysis
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+        // ==========================================
+        // GET LOGGED-IN USER
+        // ==========================================
+
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        const userId =
+            localStorage.getItem("userId");
+
+        const userName =
+            localStorage.getItem("userName");
+
+        const userRole =
+            localStorage.getItem("userRole");
+
+        // ==========================================
+        // LOGIN CHECK
+        // ==========================================
+
+        if (!userId ||
+            userId === "null" ||
+            userId === "undefined" ||
+            userRole !== "STUDENT"
+        ) {
+
+            alert(
+                "Please login first."
+            );
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        // ==========================================
+        // LOAD ATS ANALYSIS
+        // ==========================================
+
+        async function loadATSAnalysis() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/api/resume/${userId}`,
+
+                        {
+                            credentials: "include"
+                        }
+                    );
+
+
+                // ==================================
+                // NO RESUME
+                // ==================================
+
+                if (response.status === 404) {
+
+                    showNoResume();
+
+                    return;
+
+                }
+
+
+                if (!response.ok) {
+
+                    const errorText = await response.text();
+
+                    console.error(
+                        "ATS API ERROR:",
+                        response.status,
+                        errorText
+                    );
+
+                    throw new Error(
+                        `ATS API returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "ATS Response:",
+                    data
+                );
+
+
+                // ==================================
+                // PROFILE NAME
+                // ==================================
+
+                document
+                    .getElementById(
+                        "profileName"
+                    )
+                    .textContent =
+                    userName || "Student";
+
+
+                // ==================================
+                // ATS SCORE
+                // ==================================
+
+                const score =
+                    data.atsScore !== undefined &&
+                    data.atsScore !== null ?
+                    data.atsScore :
+                    0;
+
+
+                document
+                    .getElementById(
+                        "score"
+                    )
+                    .textContent =
+                    score;
+
+
+                // ==================================
+                // SCORE TITLE
+                // ==================================
+
+                let title;
+
+                let description;
+
+
+                if (score >= 85) {
+
+                    title =
+                        "Excellent ATS Score";
+
+                    description =
+                        "Your resume has strong ATS compatibility.";
+
+                } else if (score >= 75) {
+
+                    title =
+                        "Good ATS Score";
+
+                    description =
+                        "Your resume has a good chance of passing ATS screening.";
+
+                } else if (score >= 60) {
+
+                    title =
+                        "Average ATS Score";
+
+                    description =
+                        "Your resume can be improved to perform better in ATS screening.";
+
+                } else {
+
+                    title =
+                        "Needs Improvement";
+
+                    description =
+                        "Your resume needs improvement before applying.";
+
+                }
+
+
+                document
+                    .getElementById(
+                        "scoreTitle"
+                    )
+                    .textContent =
+                    title;
+
+
+                document
+                    .getElementById(
+                        "scoreDescription"
+                    )
+                    .textContent =
+                    description;
+
+
+                // ==================================
+                // ANALYSIS
+                // ==================================
+
+                const analysis =
+                    data.analysis || {};
+
+
+                const detectedSkills =
+                    analysis.detectedSkills || [];
+
+
+                const detectedSections =
+                    analysis.detectedSections || [];
+
+
+                const detectedKeywords =
+                    analysis.detectedKeywords || [];
+
+
+                const strengths =
+                    analysis.strengths || [];
+
+
+                const improvements =
+                    analysis.improvements || [];
+
+
+                // ==================================
+                // BREAKDOWN
+                // ==================================
+
+                /*
+                 * IMPORTANT:
+                 *
+                 * The backend now calculates the
+                 * percentages.
+                 *
+                 * We use those values directly
+                 * instead of calculating them again.
+                 */
+
+                const skillPercent =
+                    analysis.skillsPercentage !== undefined ?
+                    analysis.skillsPercentage :
+                    0;
+
+
+                const keywordPercent =
+                    analysis.keywordsPercentage !== undefined ?
+                    analysis.keywordsPercentage :
+                    0;
+
+
+                const sectionPercent =
+                    analysis.sectionsPercentage !== undefined ?
+                    analysis.sectionsPercentage :
+                    0;
+
+
+                const contentPercent =
+                    analysis.contentPercentage !== undefined ?
+                    analysis.contentPercentage :
+                    0;
+
+
+                // ==================================
+                // DISPLAY BREAKDOWN
+                // ==================================
+
+                setScore(
+                    "keywordScore",
+                    "keywordBar",
+                    keywordPercent
+                );
+
+
+                setScore(
+                    "skillScore",
+                    "skillBar",
+                    skillPercent
+                );
+
+
+                setScore(
+                    "sectionScore",
+                    "sectionBar",
+                    sectionPercent
+                );
+
+
+                setScore(
+                    "contentScore",
+                    "contentBar",
+                    contentPercent
+                );
+
+
+                // ==================================
+                // STRENGTHS
+                // ==================================
+
+                const strengthList =
+                    document.getElementById(
+                        "strengthList"
+                    );
+
+
+                strengthList.innerHTML = "";
+
+
+                if (
+                    strengths.length === 0
+                ) {
+
+                    addListItem(
+                        strengthList,
+                        "Resume has been analyzed successfully.",
+                        "check"
+                    );
+
+                } else {
+
+                    strengths.forEach(
+                        function(item) {
+
+                            addListItem(
+                                strengthList,
+                                item,
+                                "check"
+                            );
+
+                        }
+                    );
+
+                }
+
+
+                // ==================================
+                // IMPROVEMENTS
+                // ==================================
+
+                const improvementList =
+                    document.getElementById(
+                        "improvementList"
+                    );
+
+
+                improvementList.innerHTML = "";
+
+
+                if (
+                    improvements.length === 0
+                ) {
+
+                    addListItem(
+                        improvementList,
+                        "No major improvements detected.",
+                        "check"
+                    );
+
+                } else {
+
+                    improvements.forEach(
+                        function(item) {
+
+                            addListItem(
+                                improvementList,
+                                item,
+                                "x"
+                            );
+
+                        }
+                    );
+
+                }
+
+
+                // ==================================
+                // DETECTED SKILLS
+                // ==================================
+
+                displayTags(
+                    "detectedSkills",
+                    detectedSkills,
+                    "No technical skills detected."
+                );
+
+
+                // ==================================
+                // RECOMMENDED SKILLS
+                // ==================================
+
+                const recommendedSkills =
+                    getRecommendedSkills(
+                        detectedSkills
+                    );
+
+
+                displayTags(
+                    "recommendedSkills",
+                    recommendedSkills,
+                    "No additional skills suggested."
+                );
+
+
+                // ==================================
+                // KEYWORDS
+                // ==================================
+
+                displayTags(
+                    "keywordList",
+                    detectedKeywords,
+                    "No important keywords detected."
+                );
+
+
+                // ==================================
+                // AI RECOMMENDATION
+                // ==================================
+
+                generateRecommendation(
+                    score,
+                    detectedSkills,
+                    improvements
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "ATS Error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to load ATS analysis. Please make sure Spring Boot is running."
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // SET SCORE
+        // ==========================================
+
+        function setScore(
+            textId,
+            barId,
+            value
+        ) {
+
+            const rounded =
+                Math.round(
+                    Number(value) || 0
+                );
+
+
+            document
+                .getElementById(
+                    textId
+                )
+                .textContent =
+                rounded + "%";
+
+
+            document
+                .getElementById(
+                    barId
+                )
+                .style.width =
+                rounded + "%";
+
+        }
+
+
+        // ==========================================
+        // ADD LIST ITEM
+        // ==========================================
+
+        function addListItem(
+            list,
+            text,
+            type
+        ) {
+
+            const li =
+                document.createElement(
+                    "li"
+                );
+
+
+            const icon =
+                document.createElement(
+                    "i"
+                );
+
+
+            if (type === "check") {
+
+                icon.className =
+                    "fa-solid fa-check";
+
+            } else {
+
+                icon.className =
+                    "fa-solid fa-xmark";
+
+            }
+
+
+            li.appendChild(icon);
+
+
+            li.appendChild(
+                document.createTextNode(
+                    " " + text
+                )
+            );
+
+
+            list.appendChild(li);
+
+        }
+
+
+        // ==========================================
+        // DISPLAY TAGS
+        // ==========================================
+
+        function displayTags(
+            elementId,
+            items,
+            emptyMessage
+        ) {
+
+            const container =
+                document.getElementById(
+                    elementId
+                );
+
+
+            container.innerHTML = "";
+
+
+            if (!items ||
+                items.length === 0
+            ) {
+
+                const span =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                span.textContent =
+                    emptyMessage;
+
+
+                container.appendChild(
+                    span
+                );
+
+
+                return;
+
+            }
+
+
+            items.forEach(
+                function(item) {
+
+                    const span =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    span.textContent =
+                        item;
+
+
+                    container.appendChild(
+                        span
+                    );
+
+                }
+            );
+
+        }
+
+
+        // ==========================================
+        // RECOMMENDED SKILLS
+        // ==========================================
+
+        function getRecommendedSkills(
+            detectedSkills
+        ) {
+
+            const allSkills = [
+
+                "React.js",
+                "Node.js",
+                "MongoDB",
+                "Git",
+                "REST API",
+                "Spring Boot",
+                "Docker",
+                "AWS",
+                "Data Structures",
+                "Algorithms"
+
+            ];
+
+
+            return allSkills
+                .filter(
+                    function(skill) {
+
+                        const exists =
+                            detectedSkills.some(
+                                function(detected) {
+
+                                    return detected
+                                        .toLowerCase()
+                                        .includes(
+                                            skill.toLowerCase()
+                                        );
+
+                                }
+                            );
+
+
+                        return !exists;
+
+                    }
+                )
+                .slice(0, 5);
+
+        }
+
+
+        // ==========================================
+        // AI RECOMMENDATION
+        // ==========================================
+
+        function generateRecommendation(
+            score,
+            skills,
+            improvements
+        ) {
+
+            let message;
+
+
+            if (score >= 85) {
+
+                message =
+                    "Your resume has strong ATS compatibility. Keep improving your technical skills and add measurable achievements to make your resume even stronger.";
+
+            } else if (score >= 75) {
+
+                message =
+                    "Your resume has a good foundation. Improve the areas listed above and add more job-relevant technical skills to increase your ATS score.";
+
+            } else if (score >= 60) {
+
+                message =
+                    "Your resume needs some improvement. Focus on technical skills, projects, keywords and relevant experience.";
+
+            } else {
+
+                message =
+                    "Your resume needs significant improvement. Add relevant skills, projects, certifications, experience and job-specific keywords.";
+
+            }
+
+
+            document
+                .getElementById(
+                    "aiRecommendation"
+                )
+                .textContent =
+                message;
+
+        }
+
+
+        // ==========================================
+        // NO RESUME
+        // ==========================================
+
+        function showNoResume() {
+
+            document
+                .getElementById(
+                    "score"
+                )
+                .textContent =
+                "0";
+
+
+            document
+                .getElementById(
+                    "scoreTitle"
+                )
+                .textContent =
+                "No Resume Uploaded";
+
+
+            document
+                .getElementById(
+                    "scoreDescription"
+                )
+                .textContent =
+                "Upload your resume to calculate your ATS score.";
+
+
+            // Reset breakdown
+
+            setScore(
+                "keywordScore",
+                "keywordBar",
+                0
+            );
+
+
+            setScore(
+                "skillScore",
+                "skillBar",
+                0
+            );
+
+
+            setScore(
+                "sectionScore",
+                "sectionBar",
+                0
+            );
+
+
+            setScore(
+                "contentScore",
+                "contentBar",
+                0
+            );
+
+
+            document
+                .getElementById(
+                    "strengthList"
+                )
+                .innerHTML =
+                "<li><i class='fa-solid fa-info-circle'></i> Upload a resume to begin analysis.</li>";
+
+
+            document
+                .getElementById(
+                    "improvementList"
+                )
+                .innerHTML =
+                "<li><i class='fa-solid fa-upload'></i> Upload your resume first.</li>";
+
+
+            displayTags(
+                "detectedSkills", [],
+                "No resume uploaded."
+            );
+
+
+            displayTags(
+                "recommendedSkills", [],
+                "Upload a resume to get recommendations."
+            );
+
+
+            displayTags(
+                "keywordList", [],
+                "No resume uploaded."
+            );
+
+
+            document
+                .getElementById(
+                    "aiRecommendation"
+                )
+                .textContent =
+                "Upload your resume to receive personalized recommendations.";
+
+        }
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        loadATSAnalysis();
+    </script>
+    <script>
+        /* =====================================================
+                                                                   STUDENT NOTIFICATION SYSTEM
+                                                                   ===================================================== */
+
+        const notificationBell =
+            document.getElementById("notificationBell");
+
+        const notificationPanel =
+            document.getElementById("notificationPanel");
+
+        const notificationList =
+            document.getElementById("notificationList");
+
+        const notificationCount =
+            document.getElementById("notificationCount");
+
+        const notificationSummary =
+            document.getElementById("notificationSummary");
+
+        const markAllReadBtn =
+            document.getElementById("markAllReadBtn");
+
+
+        const NOTIFICATION_API =
+            "http://" + window.location.hostname + ":8080/api/notifications";
+
+
+        /* =====================================================
+           LOAD UNREAD COUNT
+           ===================================================== */
+
+        async function loadNotificationCount() {
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API + "/unread-count", {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) return;
+
+                const data = await response.json();
+
+                const count = Number(data.count || 0);
+
+                if (count > 0) {
+
+                    notificationCount.textContent =
+                        count > 99 ? "99+" : count;
+
+                    notificationCount.classList.add("show");
+
+                } else {
+
+                    notificationCount.textContent = "0";
+
+                    notificationCount.classList.remove("show");
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Notification count error:",
+                    error
+                );
+            }
+        }
+
+
+        /* =====================================================
+           LOAD NOTIFICATIONS
+           ===================================================== */
+
+        async function loadNotifications() {
+
+            notificationList.innerHTML = `
+        <div class="notification-loading">
+            Loading notifications...
+        </div>
+    `;
+
+            try {
+
+                const response = await fetch(
+                    NOTIFICATION_API, {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) {
+
+                    notificationList.innerHTML = `
+                <div class="notification-empty">
+                    Unable to load notifications.
+                </div>
+            `;
+
+                    return;
+                }
+
+                const notifications =
+                    await response.json();
+
+                renderNotifications(notifications);
+
+            } catch (error) {
+
+                console.error(
+                    "Notification loading error:",
+                    error
+                );
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+                Unable to load notifications.
+            </div>
+        `;
+            }
+        }
+
+
+        /* =====================================================
+           RENDER NOTIFICATIONS
+           ===================================================== */
+
+        function renderNotifications(notifications) {
+
+            if (!notifications ||
+                notifications.length === 0
+            ) {
+
+                notificationList.innerHTML = `
+            <div class="notification-empty">
+
+                <i class="fa-regular fa-bell-slash"></i>
+
+                No notifications yet.
+
+            </div>
+        `;
+
+                notificationSummary.textContent =
+                    "You're all caught up";
+
+                return;
+            }
+
+
+            notificationList.innerHTML =
+                notifications.map(notification => {
+
+                        const unread =
+                            notification.read === false;
+
+                        const icon =
+                            getNotificationIcon(
+                                notification.type
+                            );
+
+                        const time =
+                            formatNotificationTime(
+                                notification.createdAt
+                            );
+
+                        return `
+                <div
+                    class="notification-item ${unread ? "unread" : ""}"
+                    data-id="${notification.id}"
+                    data-link="${notification.link || ""}"
+                >
+
+                    <div class="notification-item-icon">
+                        <i class="${icon}"></i>
+                    </div>
+
+                    <div class="notification-item-content">
+
+                        <p class="notification-item-message">
+                            ${escapeNotificationText(
+                                notification.message
+                            )}
+                        </p>
+
+                        <span class="notification-item-time">
+                            ${time}
+                        </span>
+
+                    </div>
+
+                    ${
+                        unread
+                        ? `<span class="notification-unread-dot"></span>`
+                        : ""
+                    }
+
+                </div>
+            `;
+
+        }).join("");
+
+
+    notificationSummary.textContent =
+        notifications.length === 1
+            ? "1 notification"
+            : `${notifications.length} notifications`;
+
+
+    document
+        .querySelectorAll(".notification-item")
+        .forEach(item => {
+
+            item.addEventListener(
+                "click",
+                () => handleNotificationClick(item)
+            );
+
+        });
+}
+
+
+/* =====================================================
+   NOTIFICATION ICON
+   ===================================================== */
+
+function getNotificationIcon(type) {
+
+    switch (type) {
+
+        case "APPLICATION":
+            return "fa-solid fa-file-circle-check";
+
+        case "APPLICATION_STATUS":
+            return "fa-solid fa-circle-check";
+
+        default:
+            return "fa-solid fa-bell";
+    }
+}
+
+
+/* =====================================================
+   CLICK NOTIFICATION
+   ===================================================== */
+
+async function handleNotificationClick(item) {
+
+    const id =
+        item.dataset.id;
+
+    const link =
+        item.dataset.link;
+
+
+    try {
+
+        await fetch(
+            NOTIFICATION_API +
+            "/" + id +
+            "/read",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Failed to mark notification as read:",
+            error
+        );
+    }
+
+
+    await loadNotificationCount();
+
+
+    if (link) {
+
+        window.location.href = link;
+
+    } else {
+
+        item.classList.remove("unread");
+
+        const dot =
+            item.querySelector(
+                ".notification-unread-dot"
+            );
+
+        if (dot) {
+            dot.remove();
+        }
+
+    }
+}
+
+
+/* =====================================================
+   MARK ALL AS READ
+   ===================================================== */
+
+async function markAllNotificationsAsRead() {
+
+    try {
+
+        const response = await fetch(
+            NOTIFICATION_API + "/read-all",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) return;
+
+        await loadNotifications();
+
+        await loadNotificationCount();
+
+    } catch (error) {
+
+        console.error(
+            "Mark all as read error:",
+            error
+        );
+    }
+}
+
+
+/* =====================================================
+   BELL CLICK
+   ===================================================== */
+
+if (notificationBell) {
+
+    notificationBell.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            notificationPanel.classList.toggle(
+                "show"
+            );
+
+            if (
+                notificationPanel.classList.contains(
+                    "show"
+                )
+            ) {
+
+                await loadNotifications();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   MARK ALL BUTTON
+   ===================================================== */
+
+if (markAllReadBtn) {
+
+    markAllReadBtn.addEventListener(
+        "click",
+        async function(event) {
+
+            event.stopPropagation();
+
+            await markAllNotificationsAsRead();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE PANEL OUTSIDE
+   ===================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            notificationPanel &&
+            notificationBell &&
+            !notificationBell.contains(
+                event.target
+            )
+        ) {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESCAPE KEY
+   ===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            notificationPanel.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FORMAT TIME
+   ===================================================== */
+
+function formatNotificationTime(dateString) {
+
+    if (!dateString) {
+        return "Just now";
+    }
+
+    const date =
+        new Date(dateString);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "Just now";
+
+    }
+
+    const now =
+        new Date();
+
+    const seconds =
+        Math.floor(
+            (now - date) / 1000
+        );
+
+
+    if (seconds < 60) {
+        return "Just now";
+    }
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+    if (minutes < 60) {
+        return `${minutes} min ago`;
+    }
+
+
+    const hours =
+        Math.floor(
+            minutes / 60
+        );
+
+    if (hours < 24) {
+        return `${hours} hr ago`;
+    }
+
+
+    const days =
+        Math.floor(
+            hours / 24
+        );
+
+    if (days === 1) {
+        return "Yesterday";
+    }
+
+    if (days < 7) {
+        return `${days} days ago`;
+    }
+
+
+    return date.toLocaleDateString();
+}
+
+
+/* =====================================================
+   HTML ESCAPING
+   ===================================================== */
+
+function escapeNotificationText(text) {
+
+    if (
+        text === null ||
+        text === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+   ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadNotificationCount();
+
+    }
+);
+    </script>
+
+</body>
+
+</html>

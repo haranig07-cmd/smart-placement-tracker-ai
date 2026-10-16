@@ -1,0 +1,2754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shortlisted Students | SPT AI</title>
+
+    <link rel="stylesheet" href="shortlisted.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <script src="logout.js" defer></script>
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         HEADER
+    =========================================== -->
+
+    <header class="header">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-brain"></i>
+
+            <span>
+                SPT <strong>AI</strong>
+            </span>
+
+        </div>
+
+
+        <div class="company-profile">
+
+            <div class="notification" id="notificationBell">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span id="notificationCount">0</span>
+
+                <div class="notification-panel" id="notificationPanel">
+
+                    <div class="notification-panel-header">
+
+                        <div>
+                            <strong>Notifications</strong>
+                            <small id="notificationSummary">0 unread</small>
+                        </div>
+
+                        <button type="button" id="markAllReadBtn">
+                Mark all as read
+            </button>
+
+                    </div>
+
+                    <div class="notification-list" id="notificationList">
+
+                        <div class="notification-empty">
+
+                            <i class="fa-regular fa-bell-slash"></i>
+
+                            <p>
+                                No notifications
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-icon">
+
+                <i class="fa-solid fa-building"></i>
+
+            </div>
+
+
+            <div class="profile-text">
+
+                <strong id="companyName">
+                    Company
+                </strong>
+
+                <small>
+                    Recruiter
+                </small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ==========================================
+         NAVIGATION
+    =========================================== -->
+
+    <nav class="navbar">
+
+        <a href="company-dashboard.html">
+
+            <i class="fa-solid fa-house"></i> Dashboard
+
+        </a>
+
+
+        <a href="post-job.html">
+
+            <i class="fa-solid fa-plus"></i> Post Job
+
+        </a>
+
+
+        <a href="applications.html">
+
+            <i class="fa-solid fa-users"></i> Applications
+
+        </a>
+
+
+        <a href="shortlisted.html" class="active">
+
+            <i class="fa-solid fa-user-check"></i> Shortlisted
+
+        </a>
+
+
+        <a href="index.html" data-logout>
+
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+
+        </a>
+
+    </nav>
+
+
+
+    <!-- ==========================================
+         MAIN
+    =========================================== -->
+
+    <main>
+
+
+        <!-- PAGE TITLE -->
+
+        <section class="page-title">
+
+            <div>
+
+                <h1>
+                    Shortlisted Students ⭐
+                </h1>
+
+                <p>
+                    View candidates selected for the next stage of recruitment.
+                </p>
+
+            </div>
+
+
+            <div class="shortlisted-count">
+
+                <i class="fa-solid fa-user-check"></i> 0 Shortlisted
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             SUMMARY
+        =========================================== -->
+
+        <section class="summary">
+
+
+            <!-- TOTAL SHORTLISTED -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+
+                    <i class="fa-solid fa-user-check"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        0
+                    </h2>
+
+                    <p>
+                        Total Shortlisted
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SOFTWARE ENGINEER -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+
+                    <i class="fa-solid fa-code"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        0
+                    </h2>
+
+                    <p>
+                        Software Engineer
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AI ENGINEER -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+
+                    <i class="fa-solid fa-robot"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        0
+                    </h2>
+
+                    <p>
+                        AI Engineer
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- JAVA DEVELOPER -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+
+                    <i class="fa-brands fa-java"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        0
+                    </h2>
+
+                    <p>
+                        Java Developer
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             FILTER
+        =========================================== -->
+
+        <section class="filter-card">
+
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+
+                <input type="text" id="searchInput" placeholder="Search shortlisted students..." onkeyup="filterStudents()">
+
+            </div>
+
+
+
+            <select id="jobFilter" onchange="filterStudents()">
+
+                <option value="all">
+                    All Jobs
+                </option>
+
+                <option value="Software Engineer">
+                    Software Engineer
+                </option>
+
+                <option value="Java Developer">
+                    Java Developer
+                </option>
+
+                <option value="AI Engineer">
+                    AI Engineer
+                </option>
+
+            </select>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             STUDENTS
+        =========================================== -->
+
+        <section class="students-card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Selected Candidates
+                    </h2>
+
+                    <p>
+                        Students shortlisted by the recruitment team
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Dynamic student cards appear here -->
+
+            <div class="student-grid" id="studentGrid">
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 SPT AI. Smart Placement Tracking System.
+        </p>
+
+
+        <div>
+
+            <a href="#">
+                Privacy
+            </a>
+
+            <a href="#">
+                Help
+            </a>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script>
+        // ==========================================
+        // GLOBAL DATA
+        // ==========================================
+
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+
+        let shortlistedStudents = [];
+
+
+        // ==========================================
+        // LOAD COMPANY NAME
+        // ==========================================
+
+        function loadCompanyName() {
+
+            const companyName =
+                localStorage.getItem("companyName");
+
+            if (companyName) {
+                document.getElementById("companyName").innerText =
+                    companyName;
+            }
+        }
+
+
+        // ==========================================
+        // LOAD SHORTLISTED STUDENTS
+        // ==========================================
+
+        async function loadShortlistedStudents() {
+
+            const companyName =
+                localStorage.getItem("companyName");
+
+            const userRole =
+                localStorage.getItem("userRole");
+
+            // Check login
+            if (!companyName || userRole !== "COMPANY") {
+
+                alert("Please login as a company first.");
+
+                window.location.href = "login.html";
+
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    `${API_BASE}/api/company/dashboard/${encodeURIComponent(companyName)}/shortlisted`, {
+                        credentials: "include"
+                    }
+                );
+
+                if (response.status === 403) {
+
+                    alert(
+                        "Your company session has expired. Please login again."
+                    );
+
+                    window.location.href = "login.html";
+
+                    return;
+                }
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to load shortlisted students"
+                    );
+                }
+
+                shortlistedStudents =
+                    await response.json();
+
+                displayStudents(shortlistedStudents);
+
+                updateSummary(shortlistedStudents);
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading shortlisted students:",
+                    error
+                );
+
+                document.getElementById("studentGrid").innerHTML = `
+                <div style="
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    padding: 50px;
+                ">
+                    <i
+                        class="fa-solid fa-circle-exclamation"
+                        style="
+                            font-size:45px;
+                            margin-bottom:15px;
+                        ">
+                    </i>
+
+                    <h3>
+                        Unable to load shortlisted students
+                    </h3>
+
+                    <p>
+                        Please make sure the Spring Boot backend is running.
+                    </p>
+                </div>
+            `;
+            }
+        }
+
+
+        // ==========================================
+        // DISPLAY STUDENTS
+        // ==========================================
+
+        function displayStudents(students) {
+
+            const grid =
+                document.getElementById("studentGrid");
+
+            grid.innerHTML = "";
+
+            // No students
+            if (!students || students.length === 0) {
+
+                grid.innerHTML = `
+                <div style="
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    padding: 50px;
+                ">
+
+                    <i
+                        class="fa-solid fa-user-slash"
+                        style="
+                            font-size:45px;
+                            margin-bottom:15px;
+                        ">
+                    </i>
+
+                    <h3>
+                        No Shortlisted Students
+                    </h3>
+
+                    <p>
+                        No candidates have been shortlisted yet.
+                    </p>
+
+                </div>
+            `;
+
+                return;
+            }
+
+
+            students.forEach(application => {
+
+                const student =
+                    application.student || {};
+
+                const job =
+                    application.job || {};
+
+
+                const studentName =
+                    student.name ||
+                    "Unknown Student";
+
+
+                const studentEmail =
+                    student.email ||
+                    "No email";
+
+
+                const studentId =
+                    student.id;
+
+
+                const jobTitle =
+                    job.title ||
+                    "Unknown Job";
+
+
+                const atsScore =
+                    application.atsScore !== null &&
+                    application.atsScore !== undefined ?
+                    application.atsScore :
+                    "N/A";
+
+
+                // ==========================================
+                // GET SKILLS
+                // ==========================================
+
+                const skills =
+                    job.skills ?
+                    job.skills
+                    .split(",")
+                    .map(skill => skill.trim())
+                    .filter(skill => skill !== "") : [];
+
+
+                const skillsHTML =
+                    skills.length > 0 ?
+                    skills
+                    .slice(0, 3)
+                    .map(
+                        skill =>
+                        `<span>${escapeHTML(skill)}</span>`
+                    )
+                    .join("") :
+                    `
+                        <span>
+                            No skills available
+                        </span>
+                    `;
+
+
+                // ==========================================
+                // INITIALS
+                // ==========================================
+
+                const initials =
+                    getInitials(studentName);
+
+
+                // ==========================================
+                // STATUS
+                // ==========================================
+
+                const status =
+                    (application.status || "Shortlisted").trim();
+
+                const statusLower =
+                    status.toLowerCase();
+
+                const isSelected =
+                    statusLower === "selected" ||
+                    statusLower === "placed";
+
+                const isRejected =
+                    statusLower === "rejected";
+
+
+                // ==========================================
+                // STATUS BADGE
+                // ==========================================
+
+                let statusBadge = `
+                <span class="selected">
+                    <i class="fa-solid fa-check"></i>
+                    Shortlisted
+                </span>
+            `;
+
+
+                if (isSelected) {
+
+                    statusBadge = `
+                    <span
+                        class="selected"
+                        style="
+                            background:#dcfce7;
+                            color:#15803d;
+                            border:1px solid #86efac;
+                        ">
+
+                        <i class="fa-solid fa-circle-check"></i>
+                        Placed
+
+                    </span>
+                `;
+                } else if (isRejected) {
+
+                    statusBadge = `
+                    <span
+                        class="selected"
+                        style="
+                            background:#fee2e2;
+                            color:#dc2626;
+                            border:1px solid #fecaca;
+                        ">
+
+                        <i class="fa-solid fa-xmark"></i>
+                        Rejected
+
+                    </span>
+                `;
+                }
+
+
+                // ==========================================
+                // ACTION BUTTONS
+                // ==========================================
+
+                let actionButtons = `
+                <button
+                    class="placed-btn"
+                    onclick="markAsPlaced(${application.id})">
+
+                    <i class="fa-solid fa-check"></i>
+                    Mark as Placed
+
+                </button>
+
+                <button
+                    onclick="rejectApplication(${application.id})"
+                    title="Reject Candidate"
+                    style="
+                        padding:8px 12px;
+                        border:none;
+                        border-radius:8px;
+                        background:#fee2e2;
+                        color:#dc2626;
+                        font-family:Poppins,sans-serif;
+                        font-size:12px;
+                        font-weight:500;
+                        cursor:pointer;
+                        display:inline-flex;
+                        align-items:center;
+                        gap:5px;
+                        margin-left:6px;
+                    ">
+
+                    <i class="fa-solid fa-xmark"></i>
+                    Reject
+
+                </button>
+            `;
+
+
+                if (isSelected) {
+
+                    actionButtons = `
+                    <button
+                        class="placed-btn"
+                        disabled
+                        style="
+                            background:#dcfce7;
+                            color:#15803d;
+                            cursor:default;
+                            border:1px solid #86efac;
+                        ">
+
+                        <i class="fa-solid fa-check-double"></i>
+                        Placed
+
+                    </button>
+                `;
+                } else if (isRejected) {
+
+                    actionButtons = `
+                    <button
+                        disabled
+                        style="
+                            padding:8px 12px;
+                            border:none;
+                            border-radius:8px;
+                            background:#f1f5f9;
+                            color:#94a3b8;
+                            font-family:Poppins,sans-serif;
+                            font-size:12px;
+                            cursor:default;
+                        ">
+
+                        Rejected
+
+                    </button>
+                `;
+                }
+
+
+                // ==========================================
+                // CREATE STUDENT CARD
+                // ==========================================
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "student-card";
+
+
+                card.innerHTML = `
+
+                <div class="student-top">
+
+                    <div class="avatar">
+                        ${escapeHTML(initials)}
+                    </div>
+
+                    ${statusBadge}
+
+                </div>
+
+
+                <h3>
+                    ${escapeHTML(studentName)}
+                </h3>
+
+
+                <p class="email">
+                    ${escapeHTML(studentEmail)}
+                </p>
+
+
+                <div class="job">
+
+                    <i class="fa-solid fa-briefcase"></i>
+
+                    ${escapeHTML(jobTitle)}
+
+                </div>
+
+
+                <div class="skills">
+                    ${skillsHTML}
+                </div>
+
+
+                <div class="student-bottom">
+
+                    <div>
+
+                        <small>
+                            ATS Score
+                        </small>
+
+                        <strong>
+
+                            ${
+                                atsScore === "N/A"
+                                    ? "N/A"
+                                    : atsScore + "%"
+                            }
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="student-actions">
+
+                        <button
+                            onclick="viewStudent(
+                                ${studentId},
+                                ${application.id}
+                            )">
+
+                            <i class="fa-solid fa-user"></i>
+                            View Details
+
+                        </button>
+
+
+                        <button
+                            onclick="window.open(
+                                '${API_BASE}/api/resume/${studentId}/file',
+                                '_blank'
+                            )"
+                            title="View student resume PDF"
+                            style="
+                                background:#fdf4ff;
+                                color:#7c3aed;
+                            ">
+
+                            <i class="fa-solid fa-file-pdf"></i>
+                            Resume
+
+                        </button>
+
+
+                        ${actionButtons}
+
+                    </div>
+
+                </div>
+            `;
+
+
+                grid.appendChild(card);
+
+            });
+        }
+
+
+        // ==========================================
+        // UPDATE SUMMARY
+        // ==========================================
+
+        function updateSummary(students) {
+
+            const total =
+                students.length;
+
+
+            // Top-right count
+
+            const countElement =
+                document.querySelector(".shortlisted-count");
+
+
+            if (countElement) {
+
+                countElement.innerHTML = `
+
+                <i class="fa-solid fa-user-check"></i>
+
+                ${total}
+                Shortlisted
+
+            `;
+            }
+
+
+            // Summary numbers
+
+            const summaryNumbers =
+                document.querySelectorAll(
+                    ".summary-card h2"
+                );
+
+
+            // Total
+
+            if (summaryNumbers.length > 0) {
+
+                summaryNumbers[0].innerText =
+                    total;
+            }
+
+
+            // Count jobs
+
+            const jobCounts = {};
+
+
+            students.forEach(application => {
+
+                const title =
+                    application.job &&
+                    application.job.title ?
+                    application.job.title :
+                    "Unknown Job";
+
+
+                jobCounts[title] =
+                    (jobCounts[title] || 0) + 1;
+
+            });
+
+
+            // Software Engineer
+
+            if (summaryNumbers.length > 1) {
+
+                summaryNumbers[1].innerText =
+                    jobCounts["Software Engineer"] || 0;
+            }
+
+
+            // AI Engineer
+
+            if (summaryNumbers.length > 2) {
+
+                summaryNumbers[2].innerText =
+                    jobCounts["AI Engineer"] || 0;
+            }
+
+
+            // Java Developer
+
+            if (summaryNumbers.length > 3) {
+
+                summaryNumbers[3].innerText =
+                    jobCounts["Java Developer"] || 0;
+            }
+        }
+
+
+        // ==========================================
+        // SEARCH + FILTER
+        // ==========================================
+
+        function filterStudents() {
+
+            const search =
+                document.getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+
+            const selectedJob =
+                document.getElementById("jobFilter")
+                .value;
+
+
+            const filtered =
+                shortlistedStudents.filter(application => {
+
+                    const student =
+                        application.student || {};
+
+                    const job =
+                        application.job || {};
+
+
+                    const name =
+                        student.name || "";
+
+                    const email =
+                        student.email || "";
+
+                    const jobTitle =
+                        job.title || "";
+
+
+                    const text =
+                        (
+                            name +
+                            " " +
+                            email +
+                            " " +
+                            jobTitle
+                        ).toLowerCase();
+
+
+                    const searchMatch =
+                        text.includes(search);
+
+
+                    const jobMatch =
+                        selectedJob === "all" ||
+                        jobTitle === selectedJob;
+
+
+                    return (
+                        searchMatch &&
+                        jobMatch
+                    );
+
+                });
+
+
+            displayStudents(filtered);
+        }
+
+
+        // ==========================================
+        // VIEW STUDENT PROFILE
+        // ==========================================
+
+        async function viewStudent(
+            studentId,
+            applicationId
+        ) {
+
+            closeStudentProfile();
+
+
+            const application =
+                (
+                    applicationId ?
+                    shortlistedStudents.find(
+                        a => a.id === applicationId
+                    ) :
+                    null
+                ) ||
+                shortlistedStudents.find(
+                    a =>
+                    a.student &&
+                    a.student.id === studentId
+                ) || {};
+
+
+            let profile = {};
+
+
+            // ==========================================
+            // LOAD STUDENT PROFILE
+            // ==========================================
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/api/student-profile/${studentId}`, {
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (response.ok) {
+
+                    profile =
+                        await response.json();
+
+                } else if (response.status === 404) {
+
+                    console.info(
+                        "Student profile not found. Using available application information."
+                    );
+
+                } else if (response.status === 403) {
+
+                    console.warn(
+                        "Company is not authorized to view this student profile."
+                    );
+
+                } else {
+
+                    console.warn(
+                        "Could not retrieve profile details. Status:",
+                        response.status
+                    );
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Network error retrieving student profile:",
+                    error
+                );
+            }
+
+
+            // ==========================================
+            // DATA
+            // ==========================================
+
+            const user =
+                profile.user ||
+                application.student || {};
+
+
+            const job =
+                application.job || {};
+
+
+            const name =
+                user.name &&
+                String(user.name).trim() ?
+                user.name :
+                (
+                    application.student &&
+                    application.student.name ?
+                    application.student.name :
+                    "N/A"
+                );
+
+
+            const email =
+                user.email &&
+                String(user.email).trim() ?
+                user.email :
+                (
+                    application.student &&
+                    application.student.email ?
+                    application.student.email :
+                    "N/A"
+                );
+
+
+            const phone =
+                profile.phone &&
+                String(profile.phone).trim() ?
+                profile.phone :
+                "N/A";
+
+
+            const college =
+                profile.college &&
+                String(profile.college).trim() ?
+                profile.college :
+                "N/A";
+
+
+            const department =
+                profile.department &&
+                String(profile.department).trim() ?
+                profile.department :
+                "N/A";
+
+
+            const graduationYear =
+                profile.graduationYear &&
+                String(profile.graduationYear).trim() ?
+                profile.graduationYear :
+                "N/A";
+
+
+            const cgpa =
+                profile.cgpa &&
+                String(profile.cgpa).trim() ?
+                profile.cgpa :
+                "N/A";
+
+
+            // ==========================================
+            // SKILLS
+            // ==========================================
+
+            const rawSkills =
+                profile.skills ||
+                (
+                    job.skills ?
+                    job.skills :
+                    ""
+                );
+
+
+            const skillsArray =
+                rawSkills ?
+                String(rawSkills)
+                .split(/[,;]/)
+                .map(skill => skill.trim())
+                .filter(Boolean) : [];
+
+
+            // ==========================================
+            // ATS SCORE
+            // ==========================================
+
+            const atsScore =
+                application.atsScore !== null &&
+                application.atsScore !== undefined ?
+                application.atsScore :
+                null;
+
+
+            const atsScoreDisplay =
+                atsScore !== null ?
+                atsScore + "%" :
+                "Not Available";
+
+
+            let scoreColor =
+                "#64748b";
+
+
+            let scoreBg =
+                "#f1f5f9";
+
+
+            if (atsScore !== null) {
+
+                if (atsScore >= 80) {
+
+                    scoreColor =
+                        "#16a34a";
+
+                    scoreBg =
+                        "#dcfce7";
+
+                } else if (atsScore >= 60) {
+
+                    scoreColor =
+                        "#2563eb";
+
+                    scoreBg =
+                        "#dbeafe";
+
+                } else {
+
+                    scoreColor =
+                        "#dc2626";
+
+                    scoreBg =
+                        "#fee2e2";
+                }
+            }
+
+
+            // ==========================================
+            // APPLICATION STATUS
+            // ==========================================
+
+            const status =
+                (
+                    application.status &&
+                    String(application.status).trim()
+                ) ?
+                application.status :
+                "Shortlisted";
+
+
+            const statusLower =
+                status.toLowerCase();
+
+
+            const isSelected =
+                statusLower === "selected" ||
+                statusLower === "placed";
+
+
+            const isRejected =
+                statusLower === "rejected";
+
+
+            const jobTitle =
+                job.title &&
+                String(job.title).trim() ?
+                job.title :
+                "N/A";
+
+
+            const companyName =
+                job.companyName &&
+                String(job.companyName).trim() ?
+                job.companyName :
+                "N/A";
+
+
+            // ==========================================
+            // APPLIED DATE
+            // ==========================================
+
+            let appliedDate =
+                "N/A";
+
+
+            if (application.appliedAt) {
+
+                try {
+
+                    appliedDate =
+                        new Date(
+                            application.appliedAt
+                        ).toLocaleDateString(
+                            "en-US", {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric"
+                            }
+                        );
+
+                } catch (error) {
+
+                    appliedDate =
+                        "N/A";
+                }
+            }
+
+
+            // ==========================================
+            // INITIALS
+            // ==========================================
+
+            const initials =
+                getInitials(
+                    name !== "N/A" ?
+                    name :
+                    "ST"
+                );
+
+
+            const appId =
+                application.id || 0;
+
+
+            // ==========================================
+            // CREATE MODAL
+            // ==========================================
+
+            const modal =
+                document.createElement("div");
+
+
+            modal.id =
+                "studentProfileModal";
+
+
+            modal.className =
+                "profile-modal-overlay";
+
+
+            modal.setAttribute(
+                "role",
+                "dialog"
+            );
+
+
+            modal.setAttribute(
+                "aria-modal",
+                "true"
+            );
+
+
+            modal.setAttribute(
+                "aria-labelledby",
+                "studentModalTitle"
+            );
+
+
+            modal.innerHTML = `
+
+            <div class="profile-modal">
+
+                <button
+                    type="button"
+                    class="profile-modal-close"
+                    onclick="closeStudentProfile()"
+                    aria-label="Close modal">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+
+                <!-- HEADER -->
+
+                <div class="profile-modal-header">
+
+                    <div class="profile-modal-avatar">
+
+                        ${escapeHTML(initials)}
+
+                    </div>
+
+
+                    <div>
+
+                        <h2 id="studentModalTitle">
+
+                            ${escapeHTML(name)}
+
+                        </h2>
+
+
+                        <p>
+
+                            <i class="fa-solid fa-envelope"></i>
+
+                            ${escapeHTML(email)}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-modal-body">
+
+
+                    <!-- ==========================================
+                         1. STUDENT INFORMATION
+                    =========================================== -->
+
+                    <div class="profile-modal-section">
+
+                        <h4 class="profile-section-title">
+
+                            <i class="fa-solid fa-user-graduate"></i>
+
+                            Student Information
+
+                        </h4>
+
+
+                        <div class="profile-info-grid">
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-user"></i>
+
+                                <div>
+
+                                    <small>Name</small>
+
+                                    <strong>
+                                        ${escapeHTML(name)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-envelope"></i>
+
+                                <div>
+
+                                    <small>Email</small>
+
+                                    <strong>
+                                        ${escapeHTML(email)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-phone"></i>
+
+                                <div>
+
+                                    <small>Phone</small>
+
+                                    <strong>
+                                        ${escapeHTML(phone)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-building-columns"></i>
+
+                                <div>
+
+                                    <small>College</small>
+
+                                    <strong>
+                                        ${escapeHTML(college)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-graduation-cap"></i>
+
+                                <div>
+
+                                    <small>Department</small>
+
+                                    <strong>
+                                        ${escapeHTML(department)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-chart-line"></i>
+
+                                <div>
+
+                                    <small>CGPA</small>
+
+                                    <strong>
+                                        ${escapeHTML(cgpa)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-calendar"></i>
+
+                                <div>
+
+                                    <small>Graduation Year</small>
+
+                                    <strong>
+                                        ${escapeHTML(graduationYear)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         2. RESUME & SKILLS
+                    =========================================== -->
+
+                    <div class="profile-modal-section">
+
+                        <h4 class="profile-section-title">
+
+                            <i class="fa-solid fa-file-lines"></i>
+
+                            Resume &amp; Skills
+
+                        </h4>
+
+
+                        <div class="profile-resume-card">
+
+
+                            <div class="profile-resume-stats">
+
+
+                                <div class="profile-stat-chip">
+
+                                    <small>
+                                        ATS Score
+                                    </small>
+
+
+                                    <strong
+                                        style="
+                                            color:${scoreColor};
+                                            background:${scoreBg};
+                                            padding:3px 10px;
+                                            border-radius:6px;
+                                            display:inline-block;
+                                        ">
+
+                                        ${escapeHTML(
+                                            atsScoreDisplay
+                                        )}
+
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="profile-resume-btn-wrap">
+
+                                    <button
+                                        type="button"
+                                        class="profile-resume-btn"
+                                        onclick="window.open(
+                                            '${API_BASE}/api/resume/${studentId}/file',
+                                            '_blank'
+                                        )"
+                                        title="View student resume PDF">
+
+                                        <i class="fa-solid fa-file-pdf"></i>
+
+                                        View Resume
+
+                                    </button>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div>
+
+                                <small
+                                    style="
+                                        display:block;
+                                        color:#8a94a6;
+                                        font-size:11px;
+                                        font-weight:600;
+                                        text-transform:uppercase;
+                                        margin-bottom:8px;
+                                    ">
+
+                                    Skills
+
+                                </small>
+
+
+                                <div class="profile-skills-tags">
+
+                                    ${
+                                        skillsArray.length > 0
+
+                                            ? skillsArray
+                                                .map(
+                                                    skill =>
+                                                        `<span class="profile-skill-tag">
+                                                            ${escapeHTML(skill)}
+                                                        </span>`
+                                                )
+                                                .join("")
+
+                                            : `
+                                                <span
+                                                    style="
+                                                        color:#94a3b8;
+                                                        font-size:12px;
+                                                    ">
+
+                                                    N/A
+
+                                                </span>
+                                            `
+                                    }
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         3. APPLICATION INFORMATION
+                    =========================================== -->
+
+                    <div class="profile-modal-section">
+
+                        <h4 class="profile-section-title">
+
+                            <i class="fa-solid fa-briefcase"></i>
+
+                            Application Information
+
+                        </h4>
+
+
+                        <div class="profile-info-grid">
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-briefcase"></i>
+
+                                <div>
+
+                                    <small>Job</small>
+
+                                    <strong>
+                                        ${escapeHTML(jobTitle)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-building"></i>
+
+                                <div>
+
+                                    <small>Company</small>
+
+                                    <strong>
+                                        ${escapeHTML(companyName)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-calendar-days"></i>
+
+                                <div>
+
+                                    <small>Applied Date</small>
+
+                                    <strong>
+                                        ${escapeHTML(appliedDate)}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-info-item">
+
+                                <i class="fa-solid fa-circle-info"></i>
+
+                                <div>
+
+                                    <small>Current Status</small>
+
+                                    <strong>
+
+                                        <span
+                                            style="
+                                                display:inline-block;
+                                                padding:3px 10px;
+                                                border-radius:6px;
+                                                font-size:12px;
+                                                font-weight:600;
+
+                                                ${
+                                                    isSelected
+                                                        ? "background:#dcfce7;color:#15803d;"
+                                                        : isRejected
+                                                            ? "background:#fee2e2;color:#dc2626;"
+                                                            : "background:#eff6ff;color:#2563eb;"
+                                                }
+                                            ">
+
+                                            ${escapeHTML(status)}
+
+                                        </span>
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         4. ACTIONS
+                    =========================================== -->
+
+                    <div class="profile-modal-footer">
+
+                        <div class="profile-modal-actions">
+
+                            ${
+                                appId > 0 && !isSelected && !isRejected
+
+                                    ? `
+
+                                        <button
+                                            type="button"
+                                            class="placed-btn"
+                                            onclick="handleModalMarkPlaced(${appId})"
+                                            title="Mark Candidate as Placed">
+
+                                            <i class="fa-solid fa-check"></i>
+
+                                            Mark as Placed
+
+                                        </button>
+
+                                    `
+
+                                    : ""
+                            }
+
+
+                            ${
+                                appId > 0 && !isRejected && !isSelected
+
+                                    ? `
+
+                                        <button
+                                            type="button"
+                                            onclick="handleModalReject(${appId})"
+                                            title="Reject Candidate"
+                                            style="
+                                                padding:10px 18px;
+                                                border:none;
+                                                border-radius:10px;
+                                                background:#fee2e2;
+                                                color:#dc2626;
+                                                font-family:Poppins,sans-serif;
+                                                font-size:13px;
+                                                font-weight:600;
+                                                cursor:pointer;
+                                                display:inline-flex;
+                                                align-items:center;
+                                                gap:6px;
+                                            ">
+
+                                            <i class="fa-solid fa-xmark"></i>
+
+                                            Reject
+
+                                        </button>
+
+                                    `
+
+                                    : ""
+                            }
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="close-btn"
+                            onclick="closeStudentProfile()">
+
+                            Close
+
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        `;
+
+
+        // ==========================================
+        // CLICK OUTSIDE TO CLOSE
+        // ==========================================
+
+        modal.addEventListener(
+            "click",
+            function(event) {
+
+                if (event.target === modal) {
+
+                    closeStudentProfile();
+                }
+            }
+        );
+
+
+        document.body.appendChild(modal);
+    }
+
+
+    // ==========================================
+    // MODAL - MARK PLACED
+    // ==========================================
+
+    async function handleModalMarkPlaced(
+        applicationId
+    ) {
+
+        closeStudentProfile();
+
+        await markAsPlaced(applicationId);
+    }
+
+
+    // ==========================================
+    // MODAL - REJECT
+    // ==========================================
+
+    async function handleModalReject(
+        applicationId
+    ) {
+
+        closeStudentProfile();
+
+        await rejectApplication(applicationId);
+    }
+
+
+    // ==========================================
+    // CLOSE PROFILE MODAL
+    // ==========================================
+
+    function closeStudentProfile() {
+
+        const modal =
+            document.getElementById(
+                "studentProfileModal"
+            );
+
+
+        if (modal) {
+
+            modal.remove();
+        }
+    }
+
+
+    // ==========================================
+    // ESC KEY
+    // ==========================================
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Escape") {
+
+                closeStudentProfile();
+            }
+        }
+    );
+
+
+    // ==========================================
+    // MARK STUDENT AS PLACED / SELECTED
+    // ==========================================
+
+    async function markAsPlaced(
+        applicationId
+    ) {
+
+        const confirmPlacement =
+            confirm(
+                "Are you sure you want to select and mark this student as Placed?"
+            );
+
+
+        if (!confirmPlacement) {
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/applications/${applicationId}/status`,
+                    {
+                        method: "PUT",
+
+                        credentials: "include",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            status: "Selected"
+                        })
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                const errText =
+                    await response.text();
+
+
+                let errorMsg =
+                    errText;
+
+
+                try {
+
+                    const jsonErr =
+                        JSON.parse(errText);
+
+
+                    if (
+                        jsonErr &&
+                        jsonErr.message
+                    ) {
+
+                        errorMsg =
+                            jsonErr.message;
+                    }
+
+                    else if (
+                        jsonErr &&
+                        jsonErr.error
+                    ) {
+
+                        errorMsg =
+                            jsonErr.error;
+                    }
+
+                }
+
+                catch (e) {
+                    // Ignore JSON parsing error
+                }
+
+
+                if (response.status === 403) {
+
+                    alert(
+                        "Unauthorized: " +
+                        (
+                            errorMsg ||
+                            "Sign in as the company that posted this job."
+                        )
+                    );
+
+                }
+
+                else if (response.status === 400) {
+
+                    alert(
+                        "Invalid request: " +
+                        (
+                            errorMsg ||
+                            "Status must be Selected."
+                        )
+                    );
+
+                }
+
+                else if (response.status === 404) {
+
+                    alert(
+                        "Application not found."
+                    );
+
+                }
+
+                else {
+
+                    alert(
+                        "Failed to update status (" +
+                        response.status +
+                        "): " +
+                        (
+                            errorMsg ||
+                            response.statusText
+                        )
+                    );
+                }
+
+
+                return;
+            }
+
+
+            alert(
+                "Student has been marked as Selected (Placed) successfully! 🎉"
+            );
+
+
+            // Reload data
+
+            await loadShortlistedStudents();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Error marking student as placed:",
+                error
+            );
+
+
+            alert(
+                "Unable to connect to server. Please make sure the Spring Boot backend is running."
+            );
+        }
+    }
+
+
+    // ==========================================
+    // REJECT APPLICATION
+    // ==========================================
+
+    async function rejectApplication(
+        applicationId
+    ) {
+
+        const confirmReject =
+            confirm(
+                "Are you sure you want to reject this applicant?"
+            );
+
+
+        if (!confirmReject) {
+
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_BASE}/api/applications/${applicationId}/status`,
+                    {
+                        method: "PUT",
+
+                        credentials: "include",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            status: "Rejected"
+                        })
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                const errText =
+                    await response.text();
+
+
+                let errorMsg =
+                    errText;
+
+
+                try {
+
+                    const jsonErr =
+                        JSON.parse(errText);
+
+
+                    if (
+                        jsonErr &&
+                        jsonErr.message
+                    ) {
+
+                        errorMsg =
+                            jsonErr.message;
+                    }
+
+                    else if (
+                        jsonErr &&
+                        jsonErr.error
+                    ) {
+
+                        errorMsg =
+                            jsonErr.error;
+                    }
+
+                }
+
+                catch (e) {
+                    // Ignore JSON parsing error
+                }
+
+
+                if (response.status === 403) {
+
+                    alert(
+                        "Unauthorized: " +
+                        (
+                            errorMsg ||
+                            "Sign in as the company that posted this job."
+                        )
+                    );
+
+                }
+
+                else if (response.status === 400) {
+
+                    alert(
+                        "Invalid request: " +
+                        (
+                            errorMsg ||
+                            "Status cannot be updated."
+                        )
+                    );
+
+                }
+
+                else if (response.status === 404) {
+
+                    alert(
+                        "Application not found."
+                    );
+
+                }
+
+                else {
+
+                    alert(
+                        "Failed to reject application (" +
+                        response.status +
+                        "): " +
+                        (
+                            errorMsg ||
+                            response.statusText
+                        )
+                    );
+                }
+
+
+                return;
+            }
+
+
+            alert(
+                "Application has been marked as Rejected."
+            );
+
+
+            // Reload shortlisted students
+
+            await loadShortlistedStudents();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Error rejecting applicant:",
+                error
+            );
+
+
+            alert(
+                "Unable to connect to server. Please make sure the Spring Boot backend is running."
+            );
+        }
+    }
+
+
+    // ==========================================
+    // GET INITIALS
+    // ==========================================
+
+    function getInitials(name) {
+
+        const cleanName =
+            String(name || "")
+                .trim();
+
+
+        if (!cleanName) {
+
+            return "ST";
+        }
+
+
+        const parts =
+            cleanName.split(/\s+/);
+
+
+        if (parts.length === 1) {
+
+            return parts[0]
+                .substring(0, 2)
+                .toUpperCase();
+        }
+
+
+        return (
+            parts[0][0] +
+            parts[parts.length - 1][0]
+        ).toUpperCase();
+    }
+
+
+    // ==========================================
+    // HTML ESCAPE
+    // ==========================================
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    // ==========================================
+    // PAGE LOAD
+    // ==========================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            loadCompanyName();
+
+            loadShortlistedStudents();
+
+        }
+    );
+    /* =========================================================
+   NOTIFICATION SYSTEM
+   ========================================================= */
+
+const NOTIFICATION_API = API_BASE + "/api/notifications";
+
+async function loadNotificationCount() {
+    try {
+        const response = await fetch(
+            NOTIFICATION_API + "/unread-count",
+            {
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        const countElement =
+            document.getElementById("notificationCount");
+
+        if (!countElement) return;
+
+        const count = Number(data.count || 0);
+
+        countElement.innerText = count > 0 ? count : "";
+        countElement.setAttribute(
+            "data-hidden",
+            count > 0 ? "false" : "true"
+        );
+
+    } catch (error) {
+        console.error(
+            "Failed to load notification count:",
+            error
+        );
+    }
+}
+
+
+async function loadNotifications() {
+    try {
+        const response = await fetch(
+            NOTIFICATION_API,
+            {
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) return;
+
+        const notifications = await response.json();
+
+        renderNotifications(notifications);
+
+    } catch (error) {
+        console.error(
+            "Failed to load notifications:",
+            error
+        );
+    }
+}
+
+
+function getNotificationIcon(type) {
+
+    if (type === "APPLICATION") {
+        return "fa-user-plus";
+    }
+
+    if (type === "APPLICATION_STATUS") {
+        return "fa-circle-check";
+    }
+
+    return "fa-bell";
+}
+
+
+function formatNotificationTime(createdAt) {
+
+    if (!createdAt) return "";
+
+    const date = new Date(createdAt);
+    const now = new Date();
+
+    const diffSeconds =
+        Math.floor((now - date) / 1000);
+
+    if (diffSeconds < 60) {
+        return "Just now";
+    }
+
+    const diffMinutes =
+        Math.floor(diffSeconds / 60);
+
+    if (diffMinutes < 60) {
+        return diffMinutes + " min ago";
+    }
+
+    const diffHours =
+        Math.floor(diffMinutes / 60);
+
+    if (diffHours < 24) {
+        return diffHours + " hr ago";
+    }
+
+    const diffDays =
+        Math.floor(diffHours / 24);
+
+    if (diffDays < 7) {
+        return diffDays + " day" +
+            (diffDays > 1 ? "s" : "") +
+            " ago";
+    }
+
+    return date.toLocaleDateString();
+}
+
+
+function renderNotifications(notifications) {
+
+    const list =
+        document.getElementById("notificationList");
+
+    const summary =
+        document.getElementById("notificationSummary");
+
+    if (!list || !summary) return;
+
+    const unreadCount =
+        notifications.filter(
+            notification => !notification.read
+        ).length;
+
+    summary.innerText =
+        unreadCount + " unread";
+
+
+    if (!notifications.length) {
+
+        list.innerHTML = `
+            <div class="notification-empty">
+                <i class="fa-regular fa-bell-slash"></i>
+                <p>No notifications</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    list.innerHTML = notifications.map(notification => {
+
+        const icon =
+            getNotificationIcon(notification.type);
+
+        return `
+            <div
+                class="notification-item ${
+                    notification.read ? "" : "unread"
+                }"
+                data-id="${notification.id}"
+            >
+
+                <div class="notification-item-icon">
+                    <i class="fa-solid ${icon}"></i>
+                </div>
+
+                <div class="notification-item-content">
+
+                    <p>
+                        ${escapeHTML(notification.message)}
+                    </p>
+
+                    <small>
+                        ${formatNotificationTime(
+                            notification.createdAt
+                        )}
+                    </small>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+
+
+    document
+        .querySelectorAll(".notification-item")
+        .forEach(item => {
+
+            item.addEventListener(
+                "click",
+                function () {
+
+                    handleNotificationClick(
+                        Number(this.dataset.id)
+                    );
+
+                }
+            );
+
+        });
+}
+
+
+async function handleNotificationClick(notificationId) {
+
+    try {
+
+        await fetch(
+            NOTIFICATION_API +
+            "/" +
+            notificationId +
+            "/read",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+        await loadNotificationCount();
+
+        await loadNotifications();
+
+    } catch (error) {
+
+        console.error(
+            "Failed to mark notification as read:",
+            error
+        );
+
+    }
+
+}
+
+
+async function markAllNotificationsAsRead() {
+
+    try {
+
+        const response = await fetch(
+            NOTIFICATION_API + "/read-all",
+            {
+                method: "PUT",
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) return;
+
+        await loadNotificationCount();
+
+        await loadNotifications();
+
+    } catch (error) {
+
+        console.error(
+            "Failed to mark notifications as read:",
+            error
+        );
+
+    }
+}
+
+
+/* ================= BELL ================= */
+
+const notificationBell =
+    document.getElementById("notificationBell");
+
+const notificationPanel =
+    document.getElementById("notificationPanel");
+
+if (notificationBell && notificationPanel) {
+
+    notificationBell.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+            notificationPanel.classList.toggle("show");
+
+            if (
+                notificationPanel.classList.contains("show")
+            ) {
+                loadNotifications();
+            }
+
+        }
+    );
+}
+
+
+/* ================= MARK ALL ================= */
+
+const markAllReadBtn =
+    document.getElementById("markAllReadBtn");
+
+if (markAllReadBtn) {
+
+    markAllReadBtn.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+            markAllNotificationsAsRead();
+
+        }
+    );
+}
+
+
+/* ================= OUTSIDE CLICK ================= */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            notificationPanel &&
+            notificationBell &&
+            !notificationBell.contains(event.target)
+        ) {
+
+            notificationPanel.classList.remove("show");
+
+        }
+
+    }
+);
+
+
+/* ================= ESCAPE ================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key === "Escape" && notificationPanel) {
+
+            notificationPanel.classList.remove("show");
+
+        }
+
+    }
+);
+
+
+/* ================= INITIAL LOAD ================= */
+
+loadNotificationCount();
+loadNotifications();
+    </script>
+</body>
+
+</html>

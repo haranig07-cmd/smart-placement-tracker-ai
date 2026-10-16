@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Smart Placement Tracker AI</title>
+
+
+    <link rel="stylesheet" href="login.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
+    <!-- Google Sign-In -->
+
+    <script src="https://accounts.google.com/gsi/client" async defer>
+    </script>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- ================= LEFT SIDE ================= -->
+
+        <div class="left">
+
+            <h1>
+                Smart Placement Tracker AI
+            </h1>
+
+            <p>
+                Welcome back! Login to continue your placement journey with AI-powered resume analysis, ATS score tracking and job recommendations.
+            </p>
+
+        </div>
+
+
+        <!-- ================= RIGHT SIDE ================= -->
+
+        <div class="right">
+
+
+            <form id="loginForm">
+
+
+                <h2>Login</h2>
+
+
+                <!-- EMAIL -->
+
+                <div class="input-box">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    <input type="email" id="email" placeholder="Email" required>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="input-box">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <input type="password" id="password" placeholder="Password" required>
+
+                    <i class="fa-solid fa-eye" id="togglePassword" style="cursor:pointer;">
+                    </i>
+
+                </div>
+
+
+                <!-- ROLE -->
+
+                <select id="role" required>
+
+                    <option value="">
+                        Select Role
+                    </option>
+
+                    <option value="Student">
+                        Student
+                    </option>
+
+                    <option value="Company">
+                        Company
+                    </option>
+
+                    <option value="Placement Officer">
+                        Placement Officer
+                    </option>
+
+                </select>
+
+
+                <!-- OPTIONS -->
+
+                <div class="options">
+
+                    <label>
+
+                        <input type="checkbox">
+
+                        Remember Me
+
+                    </label>
+
+
+                    <a href="forgot-password.html">Forgot Password?</a>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button type="submit">
+                    Login
+                </button>
+
+
+                <!-- GOOGLE -->
+
+                <div class="divider">
+
+                    <span>OR</span>
+
+                </div>
+
+
+                <div id="g_id_onload" data-client_id="33547164691-qn54m0bmmtakm52huiq0i4uo9hge1bdt.apps.googleusercontent.com" data-callback="handleCredentialResponse">
+
+                </div>
+
+
+                <div class="g_id_signin" data-type="standard" data-theme="outline" data-size="large" data-shape="pill" data-text="continue_with">
+
+                </div>
+
+
+                <!-- REGISTER -->
+
+                <p class="register-link">
+
+                    Don't have an account?
+
+                    <a href="register.html">
+                        Create Account
+                    </a>
+
+                </p>
+
+
+                <!-- HOME -->
+
+                <p class="home">
+
+                    <a href="index.html">
+                        ← Back to Home
+                    </a>
+
+                </p>
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+    <script>
+        // ==========================================
+        // API BASE URL
+        // Uses the same hostname as the frontend.
+        // This keeps the login session cookie consistent.
+        // ==========================================
+
+        const API_BASE_URL =
+            "http://" + window.location.hostname + ":8080";
+
+
+        // ==========================================
+        // SHOW / HIDE PASSWORD
+        // ==========================================
+
+        const togglePassword =
+            document.getElementById("togglePassword");
+
+        const password =
+            document.getElementById("password");
+
+
+        togglePassword.addEventListener(
+            "click",
+            function() {
+
+                if (password.type === "password") {
+
+                    password.type = "text";
+
+                    togglePassword.classList.remove(
+                        "fa-eye"
+                    );
+
+                    togglePassword.classList.add(
+                        "fa-eye-slash"
+                    );
+
+                } else {
+
+                    password.type = "password";
+
+                    togglePassword.classList.remove(
+                        "fa-eye-slash"
+                    );
+
+                    togglePassword.classList.add(
+                        "fa-eye"
+                    );
+
+                }
+
+            }
+        );
+
+
+        // ==========================================
+        // NORMAL LOGIN
+        // ==========================================
+
+        document
+            .getElementById("loginForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+
+                    const email =
+                        document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                    const passwordValue =
+                        document
+                        .getElementById("password")
+                        .value
+                        .trim();
+
+
+                    const selectedRole =
+                        document
+                        .getElementById("role")
+                        .value;
+
+
+                    // Check role
+
+                    if (selectedRole === "") {
+
+                        alert(
+                            "Please select your role."
+                        );
+
+                        return;
+
+                    }
+
+
+                    // Convert frontend role to backend role
+
+                    let backendRole;
+
+
+                    if (selectedRole === "Student") {
+
+                        backendRole = "STUDENT";
+
+                    } else if (selectedRole === "Company") {
+
+                        backendRole = "COMPANY";
+
+                    } else if (
+                        selectedRole === "Placement Officer"
+                    ) {
+
+                        backendRole = "OFFICER";
+
+                    }
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                API_BASE_URL +
+                                "/api/users/login", {
+
+                                    method: "POST",
+
+                                    credentials: "include",
+
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+
+                                    body: JSON.stringify({
+
+                                        email: email,
+
+                                        password: passwordValue
+
+                                    })
+
+                                }
+                            );
+
+
+                        // Login failed
+
+                        if (!response.ok) {
+
+                            const errorMessage =
+                                await response.text();
+
+                            alert(errorMessage);
+
+                            return;
+
+                        }
+
+
+                        // Get logged-in user
+
+                        const user =
+                            await response.json();
+
+
+                        // Check selected role
+
+                        if (
+                            user.role !==
+                            backendRole
+                        ) {
+
+                            alert(
+                                "Selected role does not match your account."
+                            );
+
+                            return;
+
+                        }
+
+
+                        // ==========================================
+                        // SAVE LOGIN INFORMATION
+                        // ==========================================
+
+                        localStorage.setItem(
+                            "userId",
+                            user.id
+                        );
+
+                        localStorage.setItem(
+                            "userName",
+                            user.name
+                        );
+
+                        localStorage.setItem(
+                            "userEmail",
+                            user.email
+                        );
+
+                        localStorage.setItem(
+                            "userRole",
+                            user.role
+                        );
+
+
+                        // Save company name for company users
+
+                        if (user.role === "COMPANY") {
+
+                            localStorage.setItem(
+                                "companyName",
+                                user.companyName || ""
+                            );
+
+                        }
+
+
+                        alert(
+                            "Login Successful!"
+                        );
+
+
+                        // ==========================================
+                        // REDIRECT
+                        // ==========================================
+
+                        if (
+                            user.role === "STUDENT"
+                        ) {
+
+                            window.location.href =
+                                "student-dashboard.html";
+
+                        } else if (
+                            user.role === "COMPANY"
+                        ) {
+
+                            window.location.href =
+                                "company-dashboard.html";
+
+                        } else if (
+                            user.role === "OFFICER"
+                        ) {
+
+                            window.location.href =
+                                "officer-dashboard.html";
+
+                        } else {
+
+                            alert(
+                                "Unknown user role."
+                            );
+
+                        }
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Login error:",
+                            error
+                        );
+
+
+                        alert(
+                            "Unable to connect to the server. Please make sure the Spring Boot backend is running."
+                        );
+
+                    }
+
+                }
+            );
+
+
+        // ==========================================
+        // GOOGLE LOGIN
+        // ==========================================
+
+        async function handleCredentialResponse(response) {
+
+            const selectedRole =
+                document.getElementById("role").value;
+
+            if (selectedRole === "") {
+                alert("Please select a role first.");
+                return;
+            }
+
+            let requestedRole = "STUDENT";
+
+            if (selectedRole === "Company") {
+                requestedRole = "COMPANY";
+            } else if (selectedRole === "Student") {
+                requestedRole = "STUDENT";
+            } else {
+                alert("Please select Student or Company.");
+                return;
+            }
+
+            try {
+
+                const apiResponse = await fetch(
+                    API_BASE_URL + "/api/users/google-login", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            credential: response.credential,
+                            role: requestedRole
+                        })
+                    }
+                );
+
+                const responseText = await apiResponse.text();
+
+                let data;
+
+                try {
+                    data = JSON.parse(responseText);
+                } catch {
+                    data = {
+                        error: responseText
+                    };
+                }
+
+                if (!apiResponse.ok) {
+                    alert(data.error || "Google login failed.");
+                    return;
+                }
+
+                // Store logged-in user information
+                localStorage.setItem("userId", data.id);
+                localStorage.setItem("userName", data.name);
+                localStorage.setItem("userEmail", data.email);
+                localStorage.setItem("userRole", data.role);
+
+                if (data.companyName) {
+                    localStorage.setItem("companyName", data.companyName);
+                }
+
+                // Redirect according to actual backend role
+                if (data.role === "STUDENT") {
+                    window.location.href = "student-dashboard.html";
+
+                } else if (data.role === "COMPANY") {
+                    window.location.href = "company-dashboard.html";
+
+                } else if (data.role === "OFFICER") {
+                    window.location.href = "officer-dashboard.html";
+
+                } else {
+                    alert("Unknown account role.");
+                }
+
+            } catch (error) {
+
+                console.error("Google login error:", error);
+
+                alert(
+                    "Unable to connect to the server. " +
+                    "Please make sure the Spring Boot backend is running."
+                );
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

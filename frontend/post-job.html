@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Post Job | SPT AI</title>
+
+    <link rel="stylesheet" href="post-job.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="logout.js" defer></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo">
+            <i class="fa-solid fa-brain"></i>
+            <span>SPT <strong>AI</strong></span>
+        </div>
+
+        <div class="company-profile">
+
+            <div class="notification" id="notificationBell">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span id="notificationCount">0</span>
+
+                <div class="notification-panel" id="notificationPanel">
+
+                    <div class="notification-panel-header">
+
+                        <div>
+                            <strong>Notifications</strong>
+                            <small id="notificationSummary">0 unread</small>
+                        </div>
+
+                        <button type="button" id="markAllReadBtn">
+                Mark all as read
+            </button>
+
+                    </div>
+
+                    <div class="notification-list" id="notificationList">
+
+                        <div class="notification-empty">
+
+                            <i class="fa-regular fa-bell-slash"></i>
+
+                            <p>
+                                No notifications
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="profile-icon">
+                <i class="fa-solid fa-building"></i>
+            </div>
+
+            <div class="profile-text">
+                <strong id="companyNameDisplay">
+    Company
+</strong>
+                <small>Recruiter</small>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="navbar">
+
+        <a href="company-dashboard.html">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+
+        <a href="post-job.html" class="active">
+            <i class="fa-solid fa-plus"></i> Post Job
+        </a>
+
+        <a href="applications.html">
+            <i class="fa-solid fa-users"></i> Applications
+        </a>
+
+        <a href="shortlisted.html">
+            <i class="fa-solid fa-user-check"></i> Shortlisted
+        </a>
+
+        <a href="index.html" data-logout>
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main>
+
+        <div class="page-title">
+
+            <div>
+                <h1 id="pageHeading">Post a New Job</h1>
+                <p id="pageSubheading">Create a job opening and find the right candidates.</p>
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <section class="form-card">
+
+            <div class="form-heading">
+
+                <div class="heading-icon">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+
+                <div>
+                    <h2>Job Details</h2>
+                    <p>Enter the details of the job opening.</p>
+                </div>
+
+            </div>
+
+
+            <form id="jobForm">
+
+
+                <!-- JOB TITLE -->
+
+                <div class="form-group">
+
+                    <label for="jobTitle">
+                        Job Title
+                    </label>
+
+                    <input type="text" id="jobTitle" placeholder="e.g. Software Engineer" required>
+
+                </div>
+
+
+                <!-- COMPANY -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="companyName">
+                            Company Name
+                        </label>
+
+                        <input type="text" id="companyName" placeholder="Enter company name" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="location">
+                            Location
+                        </label>
+
+                        <input type="text" id="location" placeholder="e.g. Bangalore" required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- JOB TYPE -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="jobType">
+                            Job Type
+                        </label>
+
+                        <select id="jobType" required>
+
+                            <option value="">Select Job Type</option>
+
+                            <option value="Full Time">
+                                Full Time
+                            </option>
+
+                            <option value="Part Time">
+                                Part Time
+                            </option>
+
+                            <option value="Internship">
+                                Internship
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="experience">
+                            Experience
+                        </label>
+
+                        <select id="experience" required>
+
+                            <option value="">
+                                Select Experience
+                            </option>
+
+                            <option value="Fresher">
+                                Fresher
+                            </option>
+
+                            <option value="0-2 Years">
+                                0 - 2 Years
+                            </option>
+
+                            <option value="2-5 Years">
+                                2 - 5 Years
+                            </option>
+
+                            <option value="5+ Years">
+                                5+ Years
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SALARY -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="salary">
+                            Salary Package
+                        </label>
+
+                        <input type="text" id="salary" placeholder="e.g. 6 - 10 LPA" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="deadline">
+                            Application Deadline
+                        </label>
+
+                        <input type="date" id="deadline" required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SKILLS -->
+
+                <div class="form-group">
+
+                    <label for="skills">
+                        Required Skills
+                    </label>
+
+                    <input type="text" id="skills" placeholder="e.g. Java, Python, SQL, React" required>
+
+                    <small>
+                        Separate multiple skills using commas.
+                    </small>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Job Description
+                    </label>
+
+                    <textarea id="description" rows="6" placeholder="Describe the job responsibilities and requirements..." required></textarea>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="form-actions">
+
+                    <a href="company-dashboard.html" class="cancel-btn">
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Post Job
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 SPT AI. Smart Placement Tracking System.
+        </p>
+
+        <div>
+            <a href="#">Privacy</a>
+            <a href="#">Help</a>
+        </div>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+        const API_BASE =
+            "http://" + window.location.hostname + ":8080";
+        // Check for edit mode parameters
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const editJobId =
+            urlParams.get("id");
+
+        const isEditMode =
+            Boolean(editJobId);
+
+        const activeCompany =
+            localStorage.getItem("companyName") ||
+            localStorage.getItem("userName");
+
+        if (activeCompany) {
+            document.getElementById(
+                "companyNameDisplay"
+            ).innerText = activeCompany;
+        }
+
+        // Initialize Edit Mode UI
+        if (isEditMode) {
+            document.title =
+                "Edit Job | SPT AI";
+
+            const heading =
+                document.getElementById("pageHeading");
+            if (heading) {
+                heading.innerText = "Edit Job";
+            }
+
+            const subheading =
+                document.getElementById("pageSubheading");
+            if (subheading) {
+                subheading.innerText = "Update your job opening details.";
+            }
+
+            const submitBtn =
+                document.getElementById("submitBtn");
+            if (submitBtn) {
+                submitBtn.innerHTML =
+                    '<i class="fa-solid fa-check"></i> Update Job';
+            }
+
+            loadJobForEditing(editJobId);
+        } else {
+            // Default: pre-fill company name if available
+            if (activeCompany) {
+                const companyInput =
+                    document.getElementById("companyName");
+                if (companyInput && !companyInput.value) {
+                    companyInput.value = activeCompany;
+                }
+            }
+        }
+
+        // =====================================================
+        // LOAD JOB FOR EDITING
+        // =====================================================
+        async function loadJobForEditing(jobId) {
+            try {
+                const response =
+                    await fetch(`${API_BASE}/api/jobs/${jobId}`);
+
+                if (!response.ok) {
+                    alert("Job not found or unable to load details.");
+                    window.location.href = "company-dashboard.html";
+                    return;
+                }
+
+                const job =
+                    await response.json();
+
+                // Ownership verification
+                if (activeCompany && job.companyName &&
+                    job.companyName.trim().toLowerCase() !== activeCompany.trim().toLowerCase()) {
+                    alert("Access Denied: You can only edit jobs posted by your own company.");
+                    window.location.href = "company-dashboard.html";
+                    return;
+                }
+
+                // Pre-fill form fields
+                document.getElementById("jobTitle").value =
+                    job.title || "";
+
+                const companyInput =
+                    document.getElementById("companyName");
+                companyInput.value =
+                    job.companyName || activeCompany || "";
+                companyInput.readOnly = true;
+                companyInput.style.backgroundColor = "#f1f5f9";
+                companyInput.style.cursor = "not-allowed";
+
+                document.getElementById("location").value =
+                    job.location || "";
+
+                if (job.jobType) {
+                    document.getElementById("jobType").value =
+                        job.jobType;
+                }
+
+                if (job.experience) {
+                    document.getElementById("experience").value =
+                        job.experience;
+                }
+
+                document.getElementById("salary").value =
+                    job.salary || "";
+
+                document.getElementById("deadline").value =
+                    job.deadline || "";
+
+                document.getElementById("skills").value =
+                    job.skills || "";
+
+                document.getElementById("description").value =
+                    job.description || "";
+
+            } catch (error) {
+                console.error("Error loading job for editing:", error);
+                alert("Failed to load job for editing. Please ensure the backend is running.");
+                window.location.href = "company-dashboard.html";
+            }
+        }
+
+        // =====================================================
+        // FORM SUBMIT HANDLER
+        // =====================================================
+        document.getElementById("jobForm").addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            // Get values from form
+            const title =
+                document.getElementById("jobTitle").value.trim();
+
+            const companyName =
+                document.getElementById("companyName").value.trim();
+
+            if (!isEditMode) {
+                localStorage.setItem("companyName", companyName);
+            }
+
+            const location =
+                document.getElementById("location").value.trim();
+
+            const jobType =
+                document.getElementById("jobType").value;
+
+            const experience =
+                document.getElementById("experience").value;
+
+            const salary =
+                document.getElementById("salary").value.trim();
+
+            const deadline =
+                document.getElementById("deadline").value;
+
+            const skills =
+                document.getElementById("skills").value.trim();
+
+            const description =
+                document.getElementById("description").value.trim();
+
+
+            // Create job object
+            const jobData = {
+                title: title,
+                companyName: companyName,
+                location: location,
+                jobType: jobType,
+                experience: experience,
+                salary: salary,
+                deadline: deadline,
+                skills: skills,
+                description: description
+            };
+
+
+            try {
+                let url = `${API_BASE}/api/jobs`;
+                let method = "POST";
+
+                if (isEditMode) {
+                    url = `${API_BASE}/api/jobs/${editJobId}`;
+                    method = "PUT";
+                }
+
+                // Send job to Spring Boot
+                const response = await fetch(url, {
+                    method: method,
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(jobData)
+                });
+
+
+                // Check response
+                if (!response.ok) {
+                    const errorMessage =
+                        await response.text();
+
+                    alert(
+                        (isEditMode ? "Failed to update job.\n\n" : "Failed to post job.\n\n") +
+                        errorMessage
+                    );
+
+                    return;
+                }
+
+
+                // Get saved/updated job
+                const savedJob =
+                    await response.json();
+
+                console.log(
+                    isEditMode ? "Job updated successfully:" : "Job saved successfully:",
+                    savedJob
+                );
+
+                alert(
+                    (isEditMode ? "Job Updated Successfully! 🎉\n\n" : "Job Posted Successfully! 🎉\n\n") +
+                    savedJob.title
+                );
+
+                // Clear form
+                document.getElementById("jobForm").reset();
+
+                // Go to company dashboard
+                window.location.href =
+                    "company-dashboard.html";
+
+            } catch (error) {
+                console.error(
+                    isEditMode ? "Error updating job:" : "Error posting job:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server.\n\n" +
+                    "Please make sure the Spring Boot backend is running."
+                );
+            }
+
+        });
+        // =====================================================
+        // NOTIFICATION SYSTEM
+        // =====================================================
+
+        const NOTIFICATION_API =
+            API_BASE + "/api/notifications";
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+
+        // =====================================================
+        // LOAD UNREAD NOTIFICATION COUNT
+        // =====================================================
+
+        async function loadNotificationCount() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${NOTIFICATION_API}/unread-count`, {
+                            credentials: "include"
+                        }
+                    );
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const data =
+                    await response.json();
+
+                const count =
+                    Number(data.count || 0);
+
+                const countElement =
+                    document.getElementById(
+                        "notificationCount"
+                    );
+
+                countElement.innerText =
+                    count > 99 ? "99+" : count;
+
+                countElement.style.display =
+                    count > 0 ? "flex" : "none";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Notification count error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // LOAD NOTIFICATIONS
+        // =====================================================
+
+        async function loadNotifications() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        NOTIFICATION_API, {
+                            credentials: "include"
+                        }
+                    );
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const notifications =
+                    await response.json();
+
+                renderNotifications(
+                    notifications
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Notification loading error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // RENDER NOTIFICATIONS
+        // =====================================================
+
+        function renderNotifications(
+            notifications
+        ) {
+
+            const list =
+                document.getElementById(
+                    "notificationList"
+                );
+
+            const summary =
+                document.getElementById(
+                    "notificationSummary"
+                );
+
+
+            if (!notifications ||
+                notifications.length === 0) {
+
+                summary.innerText =
+                    "0 unread";
+
+                list.innerHTML = `
+
+            <div class="notification-empty">
+
+                <i class="fa-regular fa-bell-slash"></i>
+
+                <p>
+                    No notifications
+                </p>
+
+            </div>
+
+        `;
+
+                return;
+
+            }
+
+
+            const unreadCount =
+                notifications.filter(
+                    notification =>
+                    !notification.read
+                ).length;
+
+
+            summary.innerText =
+                `${unreadCount} unread`;
+
+
+            list.innerHTML =
+                notifications
+                .map(
+                    notification => {
+
+                        const message =
+                            escapeHtml(
+                                notification.message ||
+                                "New notification"
+                            );
+
+                        const time =
+                            formatNotificationTime(
+                                notification.createdAt
+                            );
+
+                        const icon =
+                            getNotificationIcon(
+                                notification.type
+                            );
+
+
+                        return `
+
+                        <div
+                            class="notification-item ${notification.read ? "" : "unread"}"
+                            data-id="${notification.id}"
+                        >
+
+                            <div class="notification-item-icon">
+
+                                <i class="${icon}"></i>
+
+                            </div>
+
+                            <div class="notification-item-content">
+
+                                <p>
+                                    ${message}
+                                </p>
+
+                                <small>
+                                    ${time}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                    }
+                )
+                .join("");
+
+
+            // =================================================
+            // NOTIFICATION CLICK
+            // =================================================
+
+            document
+                .querySelectorAll(
+                    ".notification-item"
+                )
+                .forEach(
+                    item => {
+
+                        item.addEventListener(
+                            "click",
+                            function() {
+
+                                handleNotificationClick(
+                                    this.dataset.id
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+
+
+        // =====================================================
+        // NOTIFICATION ICON
+        // =====================================================
+
+        function getNotificationIcon(type) {
+
+            if (
+                type === "APPLICATION"
+            ) {
+
+                return "fa-solid fa-user-plus";
+
+            }
+
+            if (
+                type === "APPLICATION_STATUS"
+            ) {
+
+                return "fa-solid fa-circle-check";
+
+            }
+
+            return "fa-solid fa-bell";
+
+        }
+
+
+        // =====================================================
+        // CLICK NOTIFICATION
+        // =====================================================
+
+        async function handleNotificationClick(
+            notificationId
+        ) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${NOTIFICATION_API}/${notificationId}/read`, {
+                            method: "PUT",
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (response.ok) {
+
+                    await loadNotificationCount();
+
+                    await loadNotifications();
+
+                }
+
+
+                window.location.href =
+                    "applications.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Notification click error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // MARK ALL AS READ
+        // =====================================================
+
+        async function markAllNotificationsAsRead() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${NOTIFICATION_API}/read-all`, {
+                            method: "PUT",
+                            credentials: "include"
+                        }
+                    );
+
+
+                if (!response.ok) {
+                    return;
+                }
+
+
+                await loadNotificationCount();
+
+                await loadNotifications();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Mark all notifications error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================================
+        // FORMAT NOTIFICATION TIME
+        // =====================================================
+
+        function formatNotificationTime(
+            createdAt
+        ) {
+
+            if (!createdAt) {
+                return "";
+            }
+
+
+            const notificationDate =
+                new Date(createdAt);
+
+            const now =
+                new Date();
+
+
+            const difference =
+                Math.floor(
+                    (now - notificationDate) / 1000
+                );
+
+
+            if (difference < 60) {
+                return "Just now";
+            }
+
+
+            const minutes =
+                Math.floor(
+                    difference / 60
+                );
+
+
+            if (minutes < 60) {
+
+                return minutes === 1 ?
+                    "1 minute ago" :
+                    `${minutes} minutes ago`;
+
+            }
+
+
+            const hours =
+                Math.floor(
+                    minutes / 60
+                );
+
+
+            if (hours < 24) {
+
+                return hours === 1 ?
+                    "1 hour ago" :
+                    `${hours} hours ago`;
+
+            }
+
+
+            const days =
+                Math.floor(
+                    hours / 24
+                );
+
+
+            if (days < 7) {
+
+                return days === 1 ?
+                    "Yesterday" :
+                    `${days} days ago`;
+
+            }
+
+
+            return notificationDate.toLocaleDateString();
+
+        }
+
+
+        // =====================================================
+        // NOTIFICATION BELL CLICK
+        // =====================================================
+
+        document
+            .getElementById("notificationBell")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+
+                    const panel =
+                        document.getElementById(
+                            "notificationPanel"
+                        );
+
+
+                    const isOpen =
+                        panel.style.display === "block";
+
+
+                    panel.style.display =
+                        isOpen ?
+                        "none" :
+                        "block";
+
+
+                    if (!isOpen) {
+
+                        loadNotifications();
+
+                    }
+
+                }
+            );
+
+
+        // =====================================================
+        // MARK ALL BUTTON
+        // =====================================================
+
+        document
+            .getElementById("markAllReadBtn")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+                    markAllNotificationsAsRead();
+
+                }
+            );
+
+
+        // =====================================================
+        // CLOSE WHEN CLICKING OUTSIDE
+        // =====================================================
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const bell =
+                    document.getElementById(
+                        "notificationBell"
+                    );
+
+                const panel =
+                    document.getElementById(
+                        "notificationPanel"
+                    );
+
+
+                if (!bell.contains(event.target)) {
+
+                    panel.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // ESCAPE KEY
+        // =====================================================
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    document.getElementById(
+                            "notificationPanel"
+                        ).style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // INITIAL NOTIFICATION LOAD
+        // =====================================================
+
+        loadNotificationCount();
+
+        loadNotifications();
+    </script>
+
+</body>
+
+</html>
