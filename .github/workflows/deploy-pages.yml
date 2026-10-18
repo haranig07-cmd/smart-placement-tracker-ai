@@ -30,9 +30,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure GitHub Pages
+           - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-
+        with:
+          enablement: true
       - name: Upload frontend files
         uses: actions/upload-pages-artifact@v3
         with:
