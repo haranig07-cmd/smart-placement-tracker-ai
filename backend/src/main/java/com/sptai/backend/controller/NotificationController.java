@@ -17,12 +17,12 @@ import com.sptai.backend.service.UserService;
 @RestController
 @RequestMapping("/api/notifications")
 @CrossOrigin(
-        originPatterns = {
-                "http://localhost:*",
-                "http://127.0.0.1:*",
-                "null"
-        },
-        allowCredentials = "true"
+    originPatterns = {
+        "http://localhost:*",
+        "http://127.0.0.1:*",
+        "https://haranig07-cmd.github.io"
+    },
+    allowCredentials = "true"
 )
 public class NotificationController {
 
