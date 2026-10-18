@@ -6,9 +6,7 @@
         "userName",
         "userEmail"
     ];
-
-    const API_BASE =
-        "http://" + window.location.hostname + ":8080";
+    const API_BASE = "https://spt-ai-backend.onrender.com";
 
     document.addEventListener("click", async function(event) {
         const target = event.target instanceof Element ?

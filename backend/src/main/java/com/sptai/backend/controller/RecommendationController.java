@@ -24,14 +24,16 @@ import com.sptai.backend.service.ResumeAnalysisService;
 
 @RestController
 @RequestMapping("/api/recommendations")
+
 @CrossOrigin(
     originPatterns = {
         "http://localhost:*",
         "http://127.0.0.1:*",
-        "null"
+        "https://haranig07-cmd.github.io"
     },
     allowCredentials = "true"
 )
+
 public class RecommendationController {
 
     private final JobRepository jobRepository;

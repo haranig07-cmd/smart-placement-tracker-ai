@@ -18,7 +18,16 @@ import com.sptai.backend.service.OfficerService;
 
 @RestController
 @RequestMapping("/api/officer")
-@CrossOrigin(originPatterns = {"http://localhost:*", "http://127.0.0.1:*", "null"}, allowCredentials = "true")
+
+@CrossOrigin(
+    originPatterns = {
+        "http://localhost:*",
+        "http://127.0.0.1:*",
+        "https://haranig07-cmd.github.io"
+    },
+    allowCredentials = "true"
+)
+
 public class OfficerController {
 
     private final OfficerService officerService;

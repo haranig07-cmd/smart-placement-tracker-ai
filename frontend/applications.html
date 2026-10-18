@@ -335,9 +335,7 @@
 
         let allApplications = [];
 
-        const API_BASE =
-            "http://" + window.location.hostname + ":8080";
-
+        const API_BASE = "https://spt-ai-backend.onrender.com";
         const companyName =
             localStorage.getItem("companyName");
 
@@ -577,14 +575,12 @@
 
                         const matchedSkills =
                             Array.isArray(application.matchedSkills) ?
-                            application.matchedSkills :
-                            [];
+                            application.matchedSkills : [];
 
 
                         const missingSkills =
                             Array.isArray(application.missingSkills) ?
-                            application.missingSkills :
-                            [];
+                            application.missingSkills : [];
 
 
                         const status =

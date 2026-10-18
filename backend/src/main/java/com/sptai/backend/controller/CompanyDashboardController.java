@@ -24,7 +24,16 @@ import com.sptai.backend.service.UserService;
 
 @RestController
 @RequestMapping("/api/company/dashboard")
-@CrossOrigin(originPatterns = {"http://localhost:*", "http://127.0.0.1:*", "null"}, allowCredentials = "true")
+
+@CrossOrigin(
+    originPatterns = {
+        "http://localhost:*",
+        "http://127.0.0.1:*",
+        "https://haranig07-cmd.github.io"
+    },
+    allowCredentials = "true"
+)
+
 public class CompanyDashboardController {
 
     private final JobRepository jobRepository;
