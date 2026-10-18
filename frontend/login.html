@@ -190,8 +190,7 @@
         // This keeps the login session cookie consistent.
         // ==========================================
 
-        const API_BASE_URL =
-            "http://" + window.location.hostname + ":8080";
+        const API_BASE_URL = "https://spt-ai-backend.onrender.com";
 
 
         // ==========================================
@@ -310,28 +309,25 @@
                     try {
 
                         const response =
-                            await fetch(
-                                API_BASE_URL +
-                                "/api/users/login", {
+                            await fetch(`${API_BASE_URL}/api/users/login`, {
 
-                                    method: "POST",
+                                method: "POST",
 
-                                    credentials: "include",
+                                credentials: "include",
 
-                                    headers: {
-                                        "Content-Type": "application/json"
-                                    },
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
 
-                                    body: JSON.stringify({
+                                body: JSON.stringify({
 
-                                        email: email,
+                                    email: email,
 
-                                        password: passwordValue
+                                    password: passwordValue
 
-                                    })
+                                })
 
-                                }
-                            );
+                            });
 
 
                         // Login failed
