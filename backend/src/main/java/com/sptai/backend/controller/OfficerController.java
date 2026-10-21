@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.sptai.backend.OfficerAccessPolicy;
 import com.sptai.backend.entity.User;
 import com.sptai.backend.service.OfficerService;
@@ -37,7 +39,8 @@ public class OfficerController {
     private final OfficerService officerService;
     private final UserService userService;
     private final OfficerAccessPolicy officerAccessPolicy;
-
+    private final BCryptPasswordEncoder passwordEncoder =
+        new BCryptPasswordEncoder();
     public OfficerController(
             OfficerService officerService,
             UserService userService,
@@ -134,7 +137,45 @@ public class OfficerController {
 
         return ResponseEntity.ok(officerService.getReports());
     }
+    // SET OR UPDATE OFFICER PASSWORD
+@PostMapping("/set-password")
+public ResponseEntity<?> setPassword(
+        @RequestBody Map<String, String> body,
+        HttpServletRequest request) {
 
+    if (!hasOfficerAccess(request)) {
+        return officerAccessRequired();
+    }
+
+    HttpSession session = request.getSession(false);
+    Long userId = Long.valueOf(
+            session.getAttribute("userId").toString());
+
+    String password = body.get("password");
+
+    if (password == null || password.length() < 12) {
+        return ResponseEntity.badRequest()
+                .body(Map.of(
+                    "error",
+                    "Password must contain at least 12 characters."
+                ));
+    }
+
+    Optional<User> userOptional = userService.findById(userId);
+
+    if (userOptional.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "Officer account not found."));
+    }
+
+    User user = userOptional.get();
+    user.setPassword(passwordEncoder.encode(password));
+    userService.saveUser(user);
+
+    return ResponseEntity.ok(
+            Map.of("message",
+                   "Password set successfully. You can now use email and password login."));
+}
     // VERIFY THE SESSION AND THE REAL DATABASE ACCOUNT
     private boolean hasOfficerAccess(HttpServletRequest request) {
 

@@ -474,16 +474,20 @@
                 return;
             }
 
+
             let requestedRole = "STUDENT";
 
             if (selectedRole === "Company") {
                 requestedRole = "COMPANY";
             } else if (selectedRole === "Student") {
                 requestedRole = "STUDENT";
+            } else if (selectedRole === "Placement Officer") {
+                requestedRole = "OFFICER";
             } else {
-                alert("Please select Student or Company.");
+                alert("Please select a valid role.");
                 return;
             }
+
 
             try {
 

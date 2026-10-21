@@ -472,3 +472,69 @@ table tbody tr:last-child td {
         opacity: 1;
     }
 }
+
+
+/* Officer Password Setup */
+
+.password-setup {
+    background: #ffffff;
+    padding: 25px;
+    margin: 25px 0;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    max-width: 650px;
+}
+
+.password-setup h2 {
+    color: #4338ca;
+    margin-bottom: 10px;
+}
+
+.password-setup>p {
+    color: #64748b;
+    margin-bottom: 18px;
+}
+
+#officerPasswordForm {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+#officerPasswordForm input {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+#officerPasswordForm input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+#officerPasswordForm button {
+    padding: 13px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#officerPasswordForm button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.25);
+}
+
+#passwordMessage {
+    font-size: 14px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}

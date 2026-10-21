@@ -29,7 +29,9 @@ public class UserService {
 
     return userRepository.save(user);
 }
-
+public User saveUser(User user) {
+    return userRepository.save(user);
+}
     public boolean verifyPassword(User user, String rawPassword) {
 
         if (user == null || user.getPassword() == null || rawPassword == null) {
