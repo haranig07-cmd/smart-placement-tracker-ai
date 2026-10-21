@@ -221,13 +221,16 @@ public ResponseEntity<?> forgotPassword(
 
         try {
             mailSender.send(message);
-        } catch (Exception ex) {
-            // Do not log the reset token or reset link.
-            System.err.println("Password reset email could not be sent.");
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("error",
-                            "Unable to send the reset email right now. Please try again later."));
-        }
+        }  catch (Exception ex) {
+    // Log the error details, never the reset token or reset link.
+    System.err.println("Password reset email failed: "
+            + ex.getClass().getSimpleName()
+            + " - " + ex.getMessage());
+
+    return ResponseEntity.internalServerError()
+            .body(Map.of("error",
+                    "Unable to send the reset email right now. Please try again later."));
+}
     }
 
     // Keep the response the same whether or not the account exists.
