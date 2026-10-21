@@ -21,6 +21,8 @@ import com.sptai.backend.service.PasswordResetService;
 import com.sptai.backend.entity.PasswordResetToken;
 import com.sptai.backend.repository.PasswordResetTokenRepository;
 import java.time.LocalDateTime;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import com.sptai.backend.entity.StudentProfile;
 import com.sptai.backend.entity.User;
@@ -43,19 +45,24 @@ public class UserController {
 private final StudentProfileService studentProfileService;
 private final PasswordResetService passwordResetService;
 private final PasswordResetTokenRepository passwordResetTokenRepository;
+private final JavaMailSender mailSender;
 
     
+
 public UserController(
         UserService userService,
         StudentProfileService studentProfileService,
         PasswordResetService passwordResetService,
-        PasswordResetTokenRepository passwordResetTokenRepository) {
+        PasswordResetTokenRepository passwordResetTokenRepository,
+        JavaMailSender mailSender) {
 
     this.userService = userService;
     this.studentProfileService = studentProfileService;
     this.passwordResetService = passwordResetService;
     this.passwordResetTokenRepository = passwordResetTokenRepository;
+    this.mailSender = mailSender;
 }
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
@@ -179,6 +186,7 @@ public ResponseEntity<?> login(
     return ResponseEntity.ok(response);
 }
 
+
 @PostMapping("/forgot-password")
 public ResponseEntity<?> forgotPassword(
         @RequestBody Map<String, String> request) {
@@ -190,21 +198,42 @@ public ResponseEntity<?> forgotPassword(
                 .body(Map.of("error", "Email is required"));
     }
 
-    String token = passwordResetService.createResetToken(
-            email.trim().toLowerCase());
+    String normalizedEmail = email.trim().toLowerCase();
+
+    String token = passwordResetService.createResetToken(normalizedEmail);
 
     if (token != null) {
         String resetLink =
-    "http://127.0.0.1:5500/frontend/reset-password.html?token=" + token;
+                "https://haranig07-cmd.github.io/smart-placement-tracker-ai/reset-password.html?token="
+                + token;
 
-        // LOCAL DEVELOPMENT ONLY — never log reset tokens in production.
-        System.out.println("Password reset link: " + resetLink);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(normalizedEmail);
+        message.setSubject("Reset your Smart Placement Tracker AI password");
+        message.setText(
+                "Hello,\n\n"
+                + "We received a request to reset your SPT-AI password.\n\n"
+                + "Open this link to choose a new password:\n"
+                + resetLink
+                + "\n\nIf you did not request this, you can ignore this email."
+                + "\n\nFor your security, do not share this link with anyone."
+        );
+
+        try {
+            mailSender.send(message);
+        } catch (Exception ex) {
+            // Do not log the reset token or reset link.
+            System.err.println("Password reset email could not be sent.");
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error",
+                            "Unable to send the reset email right now. Please try again later."));
+        }
     }
 
-    // Same response whether the email exists or not.
+    // Keep the response the same whether or not the account exists.
     return ResponseEntity.ok(
             Map.of("message",
-                    "If an account exists with that email, a reset link has been generated. For local testing, check the backend terminal."));
+                    "If an account exists with that email, a password reset email will be sent."));
 }
     @PostMapping("/change-password")
 public ResponseEntity<?> changePassword(

@@ -63,15 +63,16 @@
     </dependency>
 
     <!-- PDF Text Extraction -->
+     
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
+
     <dependency>
         <groupId>org.apache.pdfbox</groupId>
         <artifactId>pdfbox</artifactId>
         <version>3.0.6</version>
-    </dependency>
-        <!-- Email support for Forgot Password -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-mail</artifactId>
     </dependency>
     <!-- DevTools -->
     <dependency>
