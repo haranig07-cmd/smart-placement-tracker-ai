@@ -859,38 +859,39 @@ User company = createUser("COMPANY", "Application Test Company");
 			.andExpect(jsonPath("$.companyName").value("Feature Test Company"));
 	}
 
-	@Test
-	@Transactional
-	void officerRegistrationIsRejected() throws Exception {
-		String email = registrationEmail("officer");
+	
+@Test
+@Transactional
+void unauthorizedOfficerRegistrationIsRejected() throws Exception {
+    String email = registrationEmail("officer");
 
-		mockMvc.perform(post("/api/users/register")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(registrationRequest(email, "OFFICER", "")))
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.error").value(
-					"Officer accounts cannot be created through public registration"));
+    mockMvc.perform(post("/api/users/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(registrationRequest(email, "OFFICER", "")))
+        .andExpect(status().isForbidden());
 
-		Assertions.assertTrue(userService.findByEmail(email).isEmpty());
-	}
+    Assertions.assertTrue(userService.findByEmail(email).isEmpty());
+}
 
-	@Test
-	@Transactional
-	void duplicateEmailRegistrationBehaviorIsPreserved() throws Exception {
-		String email = registrationEmail("duplicate");
-		String request = registrationRequest(email, "STUDENT", "");
+	
+@Test
+@Transactional
+void duplicateEmailRegistrationBehaviorIsPreserved() throws Exception {
+    String email = registrationEmail("duplicate");
+    String request = registrationRequest(email, "STUDENT", "");
 
-		mockMvc.perform(post("/api/users/register")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(request))
-			.andExpect(status().isOk());
+    mockMvc.perform(post("/api/users/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(request))
+        .andExpect(status().isOk());
 
-		mockMvc.perform(post("/api/users/register")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(request))
-			.andExpect(status().isBadRequest())
-			.andExpect(content().string("Email already registered"));
-	}
+    mockMvc.perform(post("/api/users/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(request))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.error").value("Email already registered"));
+}
+
 
 	@Test
 	@Transactional
@@ -1127,8 +1128,12 @@ resumeRepository.saveAndFlush(studentResume);
 	private User createUser(String role, String companyName) {
 		User user = new User();
 		user.setName("Feature Test " + role);
-		user.setEmail("feature-test-" + role.toLowerCase() + "-" +
-				System.nanoTime() + "@example.test");
+		if ("OFFICER".equalsIgnoreCase(role)) {
+    user.setEmail("haranig650@gmail.com");
+} else {
+    user.setEmail("feature-test-" + role.toLowerCase() + "-" +
+            System.nanoTime() + "@example.test");
+}
 		// Set plaintext here; UserService.registerUser will BCrypt-hash it
 		user.setPassword("Test@12345");
 		user.setRole(role);

@@ -28,6 +28,7 @@ import com.sptai.backend.entity.StudentProfile;
 import com.sptai.backend.entity.User;
 import com.sptai.backend.service.StudentProfileService;
 import com.sptai.backend.service.UserService;
+import com.sptai.backend.OfficerAccessPolicy;
 
 @RestController
 @RequestMapping("/api/users")
@@ -46,94 +47,132 @@ private final StudentProfileService studentProfileService;
 private final PasswordResetService passwordResetService;
 private final PasswordResetTokenRepository passwordResetTokenRepository;
 private final JavaMailSender mailSender;
+private final OfficerAccessPolicy officerAccessPolicy;
 
-    
 
 public UserController(
         UserService userService,
         StudentProfileService studentProfileService,
         PasswordResetService passwordResetService,
         PasswordResetTokenRepository passwordResetTokenRepository,
-        JavaMailSender mailSender) {
+        JavaMailSender mailSender,
+        OfficerAccessPolicy officerAccessPolicy) {
 
     this.userService = userService;
     this.studentProfileService = studentProfileService;
     this.passwordResetService = passwordResetService;
     this.passwordResetTokenRepository = passwordResetTokenRepository;
     this.mailSender = mailSender;
+    this.officerAccessPolicy = officerAccessPolicy;
 }
 
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
 
-        if ("OFFICER".equalsIgnoreCase(user.getRole())) {
-            return officerRegistrationNotAllowed();
-        }
+@PostMapping("/register")
+public ResponseEntity<?> register(@RequestBody User user) {
 
-        if (!"STUDENT".equalsIgnoreCase(user.getRole()) &&
-                !"COMPANY".equalsIgnoreCase(user.getRole())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(Map.of("error", "Only STUDENT and COMPANY accounts can be registered"));
-        }
-        // Password security validation
-String password = user.getPassword();
+    String role = user.getRole() == null
+            ? ""
+            : user.getRole().trim().toUpperCase();
 
-if (password == null ||
-        password.length() < 8 ||
-        !password.matches(".*[A-Z].*") ||
-        !password.matches(".*[a-z].*") ||
-        !password.matches(".*\\d.*") ||
-        !password.matches(".*[^a-zA-Z0-9].*")) {
+    if (!role.equals("STUDENT")
+            && !role.equals("COMPANY")
+            && !role.equals("OFFICER")) {
+        return ResponseEntity.badRequest()
+                .body(Map.of("error",
+                        "Role must be STUDENT, COMPANY, or OFFICER"));
+    }
 
-    return ResponseEntity
-            .badRequest()
+    String password = user.getPassword();
+
+    if (password == null
+            || password.length() < 8
+            || !password.matches(".*[A-Z].*")
+            || !password.matches(".*[a-z].*")
+            || !password.matches(".*\\d.*")
+            || !password.matches(".*[^a-zA-Z0-9].*")) {
+        return ResponseEntity.badRequest()
+                .body(Map.of("error",
+                        "Password must be at least 8 characters and contain uppercase, lowercase, number, and special character"));
+    }
+
+    if (user.getEmail() == null || user.getEmail().isBlank()) {
+        return ResponseEntity.badRequest()
+                .body(Map.of("error", "Email is required"));
+    }
+    
+String normalizedEmail = user.getEmail().trim().toLowerCase(java.util.Locale.ROOT);
+if ("OFFICER".equals(role)) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN)
             .body(Map.of(
                     "error",
-                    "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+                    "Placement Officer accounts must be verified through Google sign-in."
             ));
 }
-
-        // Check whether email already exists
-        Optional<User> existingUser =
-                userService.findByEmail(user.getEmail());
-
-        if (existingUser.isPresent()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Email already registered");
-        }
-
-        // Save the new user
-        // Set account status based on role
-if ("COMPANY".equalsIgnoreCase(user.getRole())) {
-    user.setAccountStatus("PENDING_VERIFICATION");
-} else {
-    user.setAccountStatus("ACTIVE");
+if ("OFFICER".equals(role)
+        && !officerAccessPolicy.isAuthorized(normalizedEmail)) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body(Map.of("error",
+                    "This email is not authorized for Placement Officer access."));
 }
 
-// Save the new user
-User savedUser = userService.registerUser(user);
+user.setEmail(normalizedEmail);
 
-        // Automatically create a student profile
-        if ("STUDENT".equalsIgnoreCase(savedUser.getRole())) {
+    Optional<User> existingUser =
+            userService.findByEmail(user.getEmail().trim());
 
-            StudentProfile profile = new StudentProfile();
-
-            profile.setUser(savedUser);
-            profile.setPhone("");
-            profile.setDepartment("");
-            profile.setCollege("");
-            profile.setCgpa("");
-            profile.setSkills("");
-            profile.setGraduationYear("");
-
-            studentProfileService.saveProfile(profile);
-        }
-
-        return ResponseEntity.ok(savedUser);
+    if (existingUser.isPresent()) {
+        return ResponseEntity.badRequest()
+                .body(Map.of("error", "Email already registered"));
     }
+
+    
+user.setRole(role);
+
+if (role.equals("STUDENT") || role.equals("OFFICER")) {
+    user.setAccountStatus("ACTIVE");
+} else {
+    // Preserve company verification.
+    user.setAccountStatus("PENDING_VERIFICATION");
+}
+
+
+    User savedUser = userService.registerUser(user);
+
+    if (role.equals("STUDENT")) {
+        StudentProfile profile = new StudentProfile();
+        profile.setUser(savedUser);
+        profile.setPhone("");
+        profile.setDepartment("");
+        profile.setCollege("");
+        profile.setCgpa("");
+        profile.setSkills("");
+        profile.setGraduationYear("");
+
+        studentProfileService.saveProfile(profile);
+    }
+
+   
+Map<String, Object> response = new HashMap<>();
+
+
+response.put("message", role.equals("OFFICER")
+        ? "Placement Officer registration successful."
+        : role.equals("COMPANY")
+            ? "Registration submitted. Company verification is required before login."
+            : "Registration successful.");
+
+
+response.put("id", savedUser.getId());
+response.put("name", savedUser.getName());
+response.put("email", savedUser.getEmail());
+response.put("role", savedUser.getRole());
+response.put("companyName", savedUser.getCompanyName());
+response.put("accountStatus", savedUser.getAccountStatus());
+
+return ResponseEntity.ok(response);
+
+}
 
     @Value("${google.client.id:33547164691-qn54m0bmmtakm52huiq0i4uo9hge1bdt.apps.googleusercontent.com}")
     private String googleClientId;
@@ -155,6 +194,13 @@ public ResponseEntity<?> login(
     }
 
     User user = existingUser.get();
+    if ("OFFICER".equalsIgnoreCase(user.getRole())
+        && !officerAccessPolicy.isAuthorized(user.getEmail())) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body("This email is not authorized for Placement Officer access.");
+}
+
+
 
     if (!"ACTIVE".equalsIgnoreCase(user.getAccountStatus())) {
         return ResponseEntity
@@ -174,6 +220,7 @@ public ResponseEntity<?> login(
     session.setAttribute("userId", user.getId());
     session.setAttribute("userRole", user.getRole());
     session.setAttribute("companyName", user.getCompanyName());
+    session.setAttribute("userEmail", user.getEmail());
 
     Map<String, Object> response = new HashMap<>();
 
@@ -455,7 +502,9 @@ public ResponseEntity<?> googleLogin(
                     .body("Invalid Google ID token.");
         }
 
-        String email = (String) tokenInfo.get("email");
+        String email = ((String) tokenInfo.get("email"))
+        .trim()
+        .toLowerCase(java.util.Locale.ROOT);
         String name = (String) tokenInfo.getOrDefault("name", "Google User");
         String emailVerified =
                 String.valueOf(tokenInfo.get("email_verified"));
@@ -464,13 +513,40 @@ public ResponseEntity<?> googleLogin(
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Google email is not verified.");
         }
+        
+if ("OFFICER".equalsIgnoreCase(requestedRole)
+        && !officerAccessPolicy.isAuthorized(email)) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body("This email is not authorized for Placement Officer access.");
+}
 
-        Optional<User> existingUser = userService.findByEmail(email);
+
+        String loginEmail = email.trim().toLowerCase(java.util.Locale.ROOT);
+
+Optional<User> existingUser =
+        userService.findByEmail(loginEmail);
         User user;
 
         if (existingUser.isPresent()) {
 
-            user = existingUser.get();
+    user = existingUser.get();
+
+    // Do not allow an existing account to become an officer
+    // merely by selecting OFFICER on the login page.
+    if ("OFFICER".equalsIgnoreCase(requestedRole)
+            && !"OFFICER".equalsIgnoreCase(user.getRole())) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("This account is not registered as a Placement Officer.");
+    }
+
+    // Every officer account must use an authorized email.
+    if ("OFFICER".equalsIgnoreCase(user.getRole())
+            && !officerAccessPolicy.isAuthorized(user.getEmail())) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("This email is not authorized for Placement Officer access.");
+    }
+
+    // Block Google login for accounts that are not active
 
             // Block Google login for accounts that are not active
             if (!"ACTIVE".equalsIgnoreCase(user.getAccountStatus())) {
@@ -481,20 +557,17 @@ public ResponseEntity<?> googleLogin(
 
         } else {
 
-            // Officer registration is completely blocked
-            if ("OFFICER".equalsIgnoreCase(requestedRole)) {
-                return officerRegistrationNotAllowed();
-            }
 
-            // Determine valid role
-            String role = "STUDENT";
+           String role = "STUDENT";
 
-            if ("COMPANY".equalsIgnoreCase(requestedRole)) {
-                role = "COMPANY";
-            }
+if ("COMPANY".equalsIgnoreCase(requestedRole)) {
+    role = "COMPANY";
+} else if ("OFFICER".equalsIgnoreCase(requestedRole)) {
+    role = "OFFICER";
+}
 
             user = new User();
-            user.setEmail(email);
+            user.setEmail(loginEmail);
             user.setName(name);
             user.setRole(role);
             user.setPassword(UUID.randomUUID().toString());
@@ -546,6 +619,7 @@ public ResponseEntity<?> googleLogin(
         session.setAttribute("userId", user.getId());
         session.setAttribute("userRole", user.getRole());
         session.setAttribute("companyName", user.getCompanyName());
+        session.setAttribute("userEmail", user.getEmail());
 
         Map<String, Object> response = new HashMap<>();
         response.put("id", user.getId());
@@ -562,12 +636,4 @@ public ResponseEntity<?> googleLogin(
                 .body("Google token verification failed.");
     }
 }
-
-    private ResponseEntity<Map<String, String>> officerRegistrationNotAllowed() {
-        return ResponseEntity
-                .badRequest()
-                .body(Map.of(
-                        "error",
-                        "Officer accounts cannot be created through public registration"));
-    }
 }

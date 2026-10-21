@@ -1,7 +1,9 @@
+
 package com.sptai.backend.controller;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -14,11 +16,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.sptai.backend.OfficerAccessPolicy;
+import com.sptai.backend.entity.User;
 import com.sptai.backend.service.OfficerService;
+import com.sptai.backend.service.UserService;
 
 @RestController
 @RequestMapping("/api/officer")
-
 @CrossOrigin(
     originPatterns = {
         "http://localhost:*",
@@ -27,103 +32,86 @@ import com.sptai.backend.service.OfficerService;
     },
     allowCredentials = "true"
 )
-
 public class OfficerController {
 
     private final OfficerService officerService;
+    private final UserService userService;
+    private final OfficerAccessPolicy officerAccessPolicy;
 
-    public OfficerController(OfficerService officerService) {
+    public OfficerController(
+            OfficerService officerService,
+            UserService userService,
+            OfficerAccessPolicy officerAccessPolicy) {
+
         this.officerService = officerService;
+        this.userService = userService;
+        this.officerAccessPolicy = officerAccessPolicy;
     }
 
-    // -----------------------------------------
     // OFFICER DASHBOARD
-    // -----------------------------------------
-
     @GetMapping("/dashboard")
     public ResponseEntity<?> getDashboard(HttpServletRequest request) {
-
         if (!hasOfficerAccess(request)) {
             return officerAccessRequired();
         }
 
-        return ResponseEntity.ok(
-                officerService.getDashboardStats()
-        );
+        return ResponseEntity.ok(officerService.getDashboardStats());
     }
 
-    // -----------------------------------------
     // STUDENTS
-    // -----------------------------------------
-
     @GetMapping("/students")
     public ResponseEntity<?> getStudents(HttpServletRequest request) {
-
         if (!hasOfficerAccess(request)) {
             return officerAccessRequired();
         }
 
-        return ResponseEntity.ok(
-                officerService.getStudents()
-        );
+        return ResponseEntity.ok(officerService.getStudents());
     }
 
-    // -----------------------------------------
     // COMPANIES
-    // -----------------------------------------
-
     @GetMapping("/companies")
     public ResponseEntity<?> getCompanies(HttpServletRequest request) {
+        if (!hasOfficerAccess(request)) {
+            return officerAccessRequired();
+        }
+
+        return ResponseEntity.ok(officerService.getCompanies());
+    }
+
+    @GetMapping("/companies/pending")
+    public ResponseEntity<?> getPendingCompanies(
+            HttpServletRequest request) {
 
         if (!hasOfficerAccess(request)) {
             return officerAccessRequired();
         }
 
-        return ResponseEntity.ok(
-                officerService.getCompanies()
-        );
-    }
-    @GetMapping("/companies/pending")
-public ResponseEntity<?> getPendingCompanies(HttpServletRequest request) {
-
-    if (!hasOfficerAccess(request)) {
-        return officerAccessRequired();
+        return ResponseEntity.ok(officerService.getPendingCompanies());
     }
 
-    return ResponseEntity.ok(officerService.getPendingCompanies());
-}
-@PutMapping("/companies/{id}/approve")
-public ResponseEntity<?> approveCompany(
-        @PathVariable Long id,
-        HttpServletRequest request) {
+    @PutMapping("/companies/{id}/approve")
+    public ResponseEntity<?> approveCompany(
+            @PathVariable Long id,
+            HttpServletRequest request) {
 
-    if (!hasOfficerAccess(request)) {
-        return officerAccessRequired();
+        if (!hasOfficerAccess(request)) {
+            return officerAccessRequired();
+        }
+
+        return officerService.approveCompany(id);
     }
 
-    return officerService.approveCompany(id);
-}
-
-    // -----------------------------------------
     // RECRUITMENT DRIVES
-    // -----------------------------------------
-
     @GetMapping("/drives")
     public ResponseEntity<?> getDrives(HttpServletRequest request) {
-
         if (!hasOfficerAccess(request)) {
             return officerAccessRequired();
         }
 
-        return ResponseEntity.ok(
-                officerService.getDrives()
-        );
+        return ResponseEntity.ok(officerService.getDrives());
     }
 
-    // -----------------------------------------
-    // DRIVE ELIGIBLE STUDENTS
-    // -----------------------------------------
-
+    // ELIGIBLE STUDENTS
     @GetMapping("/drives/{id}/eligible-students")
     public ResponseEntity<?> getEligibleStudentsForDrive(
             @PathVariable Long id,
@@ -134,36 +122,75 @@ public ResponseEntity<?> approveCompany(
         }
 
         return ResponseEntity.ok(
-                officerService.getEligibleStudentsForDrive(id)
-        );
+                officerService.getEligibleStudentsForDrive(id));
     }
 
-    // -----------------------------------------
     // REPORTS
-    // -----------------------------------------
-
     @GetMapping("/reports")
     public ResponseEntity<?> getReports(HttpServletRequest request) {
-
         if (!hasOfficerAccess(request)) {
             return officerAccessRequired();
         }
 
-        return ResponseEntity.ok(
-                officerService.getReports()
-        );
+        return ResponseEntity.ok(officerService.getReports());
     }
 
+    // VERIFY THE SESSION AND THE REAL DATABASE ACCOUNT
     private boolean hasOfficerAccess(HttpServletRequest request) {
+
         HttpSession session = request.getSession(false);
 
-        return session != null &&
-                Objects.equals("OFFICER", session.getAttribute("userRole"));
+        if (session == null) {
+            return false;
+        }
+
+        Object userIdAttribute = session.getAttribute("userId");
+        Object sessionRole = session.getAttribute("userRole");
+        Object sessionEmail = session.getAttribute("userEmail");
+
+        if (userIdAttribute == null
+                || sessionEmail == null
+                || !"OFFICER".equalsIgnoreCase(
+                        String.valueOf(sessionRole))) {
+            return false;
+        }
+
+        try {
+            Long userId = Long.valueOf(userIdAttribute.toString());
+
+            Optional<User> userOptional = userService.findById(userId);
+
+            if (userOptional.isEmpty()) {
+                return false;
+            }
+
+            User user = userOptional.get();
+
+            // Verify the actual database role.
+            if (!"OFFICER".equalsIgnoreCase(user.getRole())) {
+                return false;
+            }
+
+            // Verify the actual database email is allowlisted.
+            if (!officerAccessPolicy.isAuthorized(user.getEmail())) {
+                return false;
+            }
+
+            // Verify the session email matches the database account.
+            return Objects.equals(
+                    user.getEmail().trim().toLowerCase(
+                            java.util.Locale.ROOT),
+                    sessionEmail.toString().trim().toLowerCase(
+                            java.util.Locale.ROOT));
+
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 
     private ResponseEntity<Map<String, String>> officerAccessRequired() {
-        return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body(Map.of("error", "Officer access required"));
-    }
+    return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .body(Map.of("error", "Officer access required"));
+}
 }
